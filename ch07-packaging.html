@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIinfra Map · CH07 · 先进封装</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.chapter-tag{background:var(--accent)}
+.hero-title em{color:var(--accent)}
+.flow-node:hover{border-color:var(--accent)}
+.insight{background:var(--accent-light);border:1px solid rgba(0,0,0,.15)}
+.insight strong{color:var(--accent)}
+</style>
+</head>
+<body class="dark">
+<div class="wrap">
+<header class="site-header">
+    <div class="logo">AIinfra <span>/</span> Map</div>
+        <nav class="header-nav" id="mainNav"></nav>
+    <div class="header-right">
+      <div class="header-meta"><span><span class="dot"></span>数据截至 2026.05 · 共17章</span></div>
+      <div class="theme-switcher" id="themeSwitcher">
+        <button class="theme-btn" data-theme="light" title="浅色主题"><span class="dot-inner light"></span><span>浅色</span></button>
+        <button class="theme-btn" data-theme="dark" title="深色主题"><span class="dot-inner dark"></span><span>深色</span></button>
+      </div>
+      <button class="nav-collapse-btn" id="navCollapseBtn" title="收起导航" aria-label="收起导航"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 8L6 4L10 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="mobile-hamburger" id="mobileHamburger" aria-label="打开菜单"><svg width="18" height="14" viewBox="0 0 18 14" fill="none"><rect y="1" width="18" height="2" rx="1" fill="currentColor"/><rect y="6" width="18" height="2" rx="1" fill="currentColor"/><rect y="11" width="18" height="2" rx="1" fill="currentColor"/></svg></button>
+    </div>
+  </header>
+<!-- Mobile Nav -->
+  <div id="mobileNavMount"></div>
+<section class="hero">
+    <div class="hero-eyebrow"><span class="chapter-tag">CH07 · 先进封装</span></div>
+    <h1 class="hero-title">先进封装技术<br><em>CoWoS/2.5D/3D/OSAT全解析</em></h1>
+    <p class="hero-subtitle">延续摩尔定律的最后路径 · TSMC CoWoS垄断 · OSAT竞争格局</p>
+    <div class="hero-metrics">
+      <div class="metric"><span class="metric-value accent">130K</span><span class="metric-label">CoWoS目标产能 WPM 2026</span></div>
+      <div class="metric"><span class="metric-value gold">4x</span><span class="metric-label">CoWoS产能增长目标</span></div>
+      <div class="metric"><span class="metric-value green">>50%/年</span><span class="metric-label">封装产能CAGR 2022-2026</span></div>
+      <div class="metric"><span class="metric-value">~$40B</span><span class="metric-label">OSAT全球市场规模</span></div>
+      <div class="metric"><span class="metric-value purple">~9μm</span><span class="metric-label">SoIC混合键合间距</span></div>
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">先进封装供应链传导路径</h2>
+      <span class="section-sub">从芯片到系统级封装的完整链路</span>
+    </div>
+    <div class="flow-diagram">
+      <div class="flow-node">
+        <div class="flow-node-icon">⚙️</div>
+        <div class="flow-node-title">逻辑芯片die</div>
+        <div class="flow-node-sub">GPU/ASIC/NPU</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🔬</div>
+        <div class="flow-node-title">CoWoS 2.5D封装</div>
+        <div class="flow-node-sub">硅中介层互连</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">💾</div>
+        <div class="flow-node-title">HBM集成</div>
+        <div class="flow-node-sub">TSV堆叠封装</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🔗</div>
+        <div class="flow-node-title">SoIC 3D封装</div>
+        <div class="flow-node-sub">混合键合</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">📦</div>
+        <div class="flow-node-title">SiP模组</div>
+        <div class="flow-node-sub">Chip Package</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🖥️</div>
+        <div class="flow-node-title">AI系统</div>
+        <div class="flow-node-sub">服务器/集群</div>
+    </div>
+  </div>
+  </section>
+
+  <section class="section" id="sec-cowos">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">CoWoS技术栈 — TSMC的2.5D封装垄断</h2>
+      <span class="section-sub">AI算力扩张的核心瓶颈 · 产能扩张4倍目标</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-light);">🔬</div>
+        <div class="sector-title-group">
+          <div class="sector-title">CoWoS — Chip-on-Wafer-on-Substrate</div>
+          <div class="sector-desc">TSMC的2.5D封装技术，将芯片并排放置在硅中介层上，是AI GPU/ASIC封装的主流方案，也是当前AI算力扩张的核心瓶颈。</div>
+        </div>
+        <span class="sector-badge badge-blue">先进封装</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text">CoWoS是TSMC的2.5.5D封装技术，将多颗芯片（逻辑die+HBM+SoC）并排放置在<strong>硅中介层（Silicon Interposer）</strong>上，通过密集铜互连实现高带宽低延迟。HBM与逻辑芯片的距离通过CoWoS缩至50μm以内，信号完整性远优于传统封装（传统封装芯片间距>100μm）。</p>
+            <p class="concept-text">CoWoS分为三类：<strong>CoWoS-S</strong>（硅中介层，带宽最高，用于H100/H200/B200）、<strong>CoWoS-L</strong>（LSI Local Silicon Interconnect，带宽接近S但成本较低）、<strong>CoWoS-R</strong>（RDL中介层，成本最低）。</p>
+            <p class="concept-text"><strong>TSMC CoWoS 产能是当前 AI 算力扩张的核心瓶颈</strong>。台积电 CoWoS 封装月产能正从 2025 年底的约 7.5 万片（WPM）大幅扩产至 2026 年的 13 万片以上。其中仅 NVIDIA 一家就已经锁定了 2025 年约 37 万片的年化产能（占总产能超 50%）。由于 Blackwell/Rubin 等架构对封装面积与技术要求的倍增，先进封装预计将持续供不应求至 2027 年。</p>
+            <div class="sources">CoWoS封装最小线宽<0.5μm；硅中介层面积最大约2500mm²（B200双die封装）；新建CoWoS产能需12-18个月</div>
+          </div>
+          <div class="col">
+            <h4>关键数据</h4>
+            <div class="stats-grid">
+              <div class="cstat"><div class="cstat-lbl">CoWoS产能 2024年底</div><div class="cstat-val">~40K WPM</div></div>
+              <div class="cstat"><div class="cstat-lbl">CoWoS产能目标 2026年底</div><div class="cstat-val up">130K WPM</div></div>
+              <div class="cstat"><div class="cstat-lbl">产能增长倍数</div><div class="cstat-val gold">4倍</div></div>
+              <div class="cstat"><div class="cstat-lbl">CoWoS-S最小线宽</div><div class="cstat-val">~0.5μm</div></div>
+              <div class="cstat"><div class="cstat-lbl">芯片间互连距离</div><div class="cstat-val"><50μm</div></div>
+              <div class="cstat"><div class="cstat-lbl">新建产能周期</div><div class="cstat-val">12-18个月</div>
+    </div>
+  </div>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">TSM</span>
+              <span class="stock-name">TSMC</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">CoWoS垄断+SoIC</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">ASX</span>
+              <span class="stock-name">ASE（日月光投控）</span>
+              <span class="stock-exch exch-tw">台股</span>
+              <span class="stock-note">最大OSAT封装</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">AMKR</span>
+              <span class="stock-name">Amkor</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">CoWoS-S次级</span>
+            </div>
+    </div>
+  </div>
+        <div class="risks-box">
+          <div class="risks-title">风险提示</div>
+          <div class="risk-item">CoWoS扩张资本开支巨大（每条产线数十亿美元）</div>
+          <div class="risk-item">Samsung X-Cube和Intel EMIB可能分流部分需求</div>
+          <div class="risk-item">台海地缘政治风险是TSMC CoWoS的潜在最大风险</div>
+          <div class="risk-item">新建CoWoS产能需12-18个月，供给弹性有限</div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <section class="section" id="sec-25d-3d">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">2.5D/3D封装路线图 — Chiplet时代的到来</h2>
+      <span class="section-sub">SoIC混合键合 · Intel/Samsung差异化路线 · UCle标准</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-teal-light);">🔗</div>
+        <div class="sector-title-group">
+          <div class="sector-title">2.5D/3D封装技术演进路线</div>
+          <div class="sector-desc">从传统封装到Chiplet互联的技术演进，不同厂商路线分化。</div>
+        </div>
+        <span class="sector-badge badge-teal">先进封装</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text">先进封装是延续摩尔定律的主要路径。<strong>2.5D封装</strong>（CoWoS）将芯片并排放置在中介层上；<strong>3D封装</strong>（SoIC）将芯片垂直堆叠，通过<strong>混合键合（Hybrid Bonding）</strong>实现die-to-die互连，间距<9μm，互连密度比CoWoS高1个数量级以上。</p>
+            <p class="concept-text"><strong>TSMC SoIC</strong>使用铜-铜混合键合技术，die-to-die间距<9μm，是目前最先进的3D封装方案，适用于HBM4与逻辑芯片的垂直堆叠。Intel <strong>Foveros</strong>（3D堆叠）和<strong>EMIB</strong>（嵌入式多芯片互联桥）是差异化路线，EMIB在封装中嵌入一块硅桥实现高密度互连，成本低于全硅中介层。Samsung <strong>X-Cube</strong>（3D V-Cache）和HBM3e集成有自己的封装生态。</p>
+            <p class="concept-text"><strong>UCle（Universal Chiplet Interconnect Express）</strong>标准由Intel发起，AMD、TSMC、三星等加入，旨在建立不同厂商Chiplet之间的互联标准，降低多源芯片集成的难度。UCle 2.0正在推进中。</p>
+          </div>
+          <div class="col">
+            <h4>技术路线对比</h4>
+            <table class="compare-table">
+              <thead>
+                <tr><th>封装类型</th><th>厂商</th><th>互连密度</th><th>主要应用</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>CoWoS-S</strong></td><td>TSMC</td><td>高<span class="tag tag-blue">2.5D</span></td><td>B200/H100</td></tr>
+                <tr><td><strong>CoWoS-L</strong></td><td>TSMC</td><td>高-中<span class="tag tag-blue">2.5D</span></td><td>成本优化型</td></tr>
+                <tr><td><strong>SoIC</strong></td><td>TSMC</td><td>极高<span class="tag tag-teal">3D</span></td><td>HBM4垂直堆叠</td></tr>
+                <tr><td><strong>Foveros</strong></td><td>Intel</td><td>高<span class="tag tag-teal">3D</span></td><td>Ponte Vecchio</td></tr>
+                <tr><td><strong>EMIB</strong></td><td>Intel</td><td>中高<span class="tag tag-gold">2.5D</span></td><td>Sapphire Rapids</td></tr>
+                <tr><td><strong>X-Cube</strong></td><td>Samsung</td><td>中高<span class="tag tag-teal">3D</span></td><td>HBM集成</td></tr>
+              </tbody>
+            </table>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">TSM</span>
+              <span class="stock-name">TSMC</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">SoIC+CoWoS</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">600584.SH</span>
+              <span class="stock-name">长电科技</span>
+              <span class="stock-exch exch-cn">A股</span>
+              <span class="stock-note">OSAT中国龙头</span>
+            </div>
+    </div>
+  </div>
+        <div class="risks-box">
+          <div class="risks-title">风险提示</div>
+          <div class="risk-item">封装技术路线分化（2.5D vs 3D vs Chiplet），押注错误路线有风险</div>
+          <div class="risk-item">UCle标准推进速度低于预期</div>
+          <div class="risk-item">中国封装厂商（长电科技等）追赶，但高端封装仍有差距</div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <section class="section" id="sec-osat">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">OSAT封装格局 — 专业封装测试服务商</h2>
+      <span class="section-sub">ASE垄断 · Amkor专精 · JCET追赶</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-green-light);">🏭</div>
+        <div class="sector-title-group">
+          <div class="sector-title">OSAT — Outsourced Semiconductor Assembly and Test</div>
+          <div class="sector-desc">OSAT负责半导体封装和测试，相比IDM自建封装更高效，是半导体产业链的重要外包环节。</div>
+        </div>
+        <span class="sector-badge badge-green">先进封装</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text"><strong>OSAT（专业封装测试）</strong>负责半导体封装和测试。相比IDM（Integrated Device Manufacturer）自建封装，OSAT的核心价值在于成本效率（规模效应）和弹性产能。</p>
+            <p class="concept-text"><strong>ASE（日月光投控）</strong>是全球最大OSAT，市值约$15B+（台股），封装测试业务全球第一，同时在先进封装上有CoWoS-S次级供应商资格（不直接做CoWoS但做部分封装工序）。</p>
+            <p class="concept-text"><strong>Amkor（安靠技术）</strong>是美国最大的OSAT，专注先进封装，有CoWoS-S次级封装资格，在汽车和工业半导体封装上有优势。</p>
+            <p class="concept-text"><strong>长电科技（JCET）</strong>是中国大陆最大OSAT，在先进封装上持续追赶（有Fan-out、2.5D封装能力）。华天科技、通富微电是中国次级OSAT厂商。</p>
+            <p class="concept-text"><strong>AI时代的OSAT机遇：</strong>非CoWoS芯片（网络IC、功率IC、FPGA、存储控制器）的封装需求增加；Chiplet普及带来多芯片封装需求增长；封装+测试占芯片成本约20-30%。</p>
+          </div>
+          <div class="col">
+            <h4>关键数据</h4>
+            <div class="stats-grid">
+              <div class="cstat"><div class="cstat-lbl">OSAT全球市场规模</div><div class="cstat-val green">~$40B</div></div>
+              <div class="cstat"><div class="cstat-lbl">ASE市值（台股）</div><div class="cstat-val">~$15B+</div></div>
+              <div class="cstat"><div class="cstat-lbl">封装+测试占芯片成本</div><div class="cstat-val">20-30%</div></div>
+              <div class="cstat"><div class="cstat-lbl">长电科技市占</div><div class="cstat-val">中国OSAT第一</div>
+    </div>
+  </div>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">ASX</span>
+              <span class="stock-name">ASE（日月光投控）</span>
+              <span class="stock-exch exch-tw">台股</span>
+              <span class="stock-note">全球OSAT龙头</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">AMKR</span>
+              <span class="stock-name">Amkor（安靠）</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">先进封装专精</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">600584.SH</span>
+              <span class="stock-name">长电科技</span>
+              <span class="stock-exch exch-cn">A股</span>
+              <span class="stock-note">中国OSAT龙头</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">002185.SZ</span>
+              <span class="stock-name">华天科技</span>
+              <span class="stock-exch exch-cn">A股</span>
+              <span class="stock-note">中国OSAT</span>
+            </div>
+    </div>
+  </div>
+        <div class="risks-box">
+          <div class="risks-title">风险提示</div>
+          <div class="risk-item">OSAT利润率低（封装代工属性），毛利率约15-20%</div>
+          <div class="risk-item">先进封装产能（CoWoS）仍由TSMC垄断，OSAT角色受限</div>
+          <div class="risk-item">中国OSAT在高端封装上与台湾/美国仍有差距</div>
+          <div class="risk-item">封装设备（蚀刻机、电镀设备）进口依赖，扩产受设备交付制约</div>
+    </div>
+  </div>
+    </div>
+
+    <div class="sector" style="margin-top:18px;">
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>投资逻辑</h4>
+            <p class="concept-text"><strong>1. CoWoS是AI算力扩张核心瓶颈：</strong>产能扩张速度直接决定GPU出货量，TSMC是CoWoS唯一供应商，享有高度定价权。</p>
+            <p class="concept-text"><strong>2. TSMC SoIC是下一代封装主流：</strong>混合键合技术（<9μm间距）是HBM4与逻辑芯片3D集成的关键技术，TSMC再次领先。</p>
+            <p class="concept-text"><strong>3. OSAT受益于Chiplet普及：</strong>UCle标准推进使多源Chiplet集成成为主流，OSAT封装需求增长。</p>
+            <p class="concept-text"><strong>4. 封装产能扩张周期长（12-18个月），短期供需紧张持续，景气度延续到2027年。</strong></p>
+          </div>
+          <div class="col">
+            <h4>关键风险</h4>
+            <p class="concept-text"><strong>1. CoWoS扩张资本开支巨大：</strong>TSMC年度资本开支已超$300B，CoWoS扩产是其中重要部分，但供给弹性有限。</p>
+            <p class="concept-text"><strong>2. 台海地缘政治风险：</strong>TSMC封装产能在台湾，地缘风险是系统性风险。</p>
+            <p class="concept-text"><strong>3. 技术路线风险：</strong>2.5D vs 3D vs Chiplet路线分化，押注错误技术可能导致资本损失。</p>
+            <p class="concept-text"><strong>4. AI需求周期性风险：</strong>若AI CapEx削减，封装产能可能出现过剩。</p>
+          </div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <section class="section" id="sec-glass-substrate">
+    <div class="section-header">
+      <span class="section-num">04.5</span>
+      <h2 class="section-title">玻璃基板（Glass Substrates）先进封装新趋势</h2>
+      <span class="section-sub">2026年最新技术突破 · 材料级革命</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-light);">&#x1F48E;</div>
+        <div class="sector-title-group">
+          <div class="sector-title">玻璃基板 — 突破有机基板物理极限</div>
+          <div class="sector-desc">随着 AI 芯片面积逼近极限，英特尔、台积电、三星加速引入玻璃材料替代传统有机封装基板。</div>
+        </div>
+        <span class="sector-badge badge-blue">先进封装</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>技术特征与优势</h4>
+            <p class="concept-text"><strong>突破面积与电性能极限</strong>：传统封装使用有机材料基板（如 ABF 载板），在芯片尺寸增大、布线层数增多时，极易发生弯曲翘曲。玻璃基板具有极高的<strong>机械平整度</strong>（热膨胀系数与硅片极其接近）和<strong>超强电介质性能</strong>，可减少 50% 的信号扭曲，布线密度可提高 10 倍，能承载更庞大、功耗更高的芯片模块。</p>
+            <p class="concept-text"><strong>时程表与巨头动作</strong>：
+              <br>① <strong>英特尔</strong>：行业先驱，宣布已开发出先进的玻璃基板封装样品，计划于 2026-2028 年在其高端客户端和服务器芯片中商业量产。
+              <br>② <strong>台积电</strong>：宣布已组建专项技术同盟开发玻璃基板封装，目标在下一代高性能计算（HPC）和 AI 芯片中导入。
+              <br>③ <strong>三星</strong>：三星电机（SEMCO）宣布已建成玻璃基板中试线，目标 2026 年实现商业量产。
+            </p>
+          </div>
+          <div class="col">
+            <h4>投资机会与产业链标的</h4>
+            <p class="concept-text"><strong>设备与材料厂商率先受益</strong>：
+              <br>① <strong>激光打孔设备（TGV）</strong>：玻璃打孔（Through Glass Via）是玻璃基板制造的关键，对精密度（微米级）要求极高，核心设备供应商（如 LPKF、大族激光、帝尔激光）迎来增量需求。
+              <br>② <strong>精细基材与载板厂</strong>：日本 <strong>DNP（大日本印刷）</strong>、<strong>Ibiden（斐斐得）</strong>、台湾 <strong>欣兴电子（Unimicron）</strong> 在玻璃基板开发上跑在最前列。
+              <br>③ <strong>表面加工与沉积设备</strong>：由于玻璃材质不导电，金属化沉积（PVD/CVD）难度加大，给应用材料（AMAT）、Lam Research（LRCX）等高端半导体设备商带来新的增量空间。
+            </p>
+            <table class="compare-table">
+              <thead><tr><th>参数/指标</th><th>玻璃基板</th><th>传统有机基板</th></tr></thead>
+              <tbody>
+                <tr><td><strong>布线密度</strong></td><td style="color:var(--accent-green);">提升 10 倍</td><td>已达物理极限</td></tr>
+                <tr><td><strong>热变形/翘曲</strong></td><td style="color:var(--accent-green);">极低（与硅接近）</td><td>在高功率下易翘曲</td></tr>
+                <tr><td><strong>光学互连适配</strong></td><td style="color:var(--accent-green);">极佳（支持CPO直接集成）</td><td>较差</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">投资要点</h2>
+      <span class="section-sub">本章核心投资逻辑 · 仅供参考</span>
+    </div>
+    <div class="inv-card" id="inv-card" style="margin-top:0">
+      <div class="inv-card-body">
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">核心驱动因素</div>
+            <div class="inv-col-val">CoWoS/SoIC等2.5D/3D封装突破物理极限；HBM与核心Die的高带宽互连需求；AI芯片面积增大成品率瓶颈</div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">关键风险</div>
+            <div class="inv-col-val">先进封装设备交付周期过长；良率爬坡缓慢制约整机出货；设备与材料成本高企</div>
+          </div>
+        </div>
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">受益方向</div>
+            <div class="inv-tickers"><span>TSM（CoWoS垄断）</span><span>ASE（封测龙头）</span><span>ASX（先进测试）</span></div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">风险暴露</div>
+            <div class="inv-col-val">晶圆厂与封装厂分工模糊带来的竞争；封装层材料受热膨胀产生缺陷的质量风险；对单一厂商的产能依赖</div>
+          </div>
+        </div>
+        <div class="inv-catalyst">
+          <div class="inv-col-label">近期催化剂</div>
+          <div class="inv-col-val">台积电CoWoS月度产能倍增进度；先进封装新厂（如台积电铜锣厂/嘉义厂）投产节点</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">章节导航</h2>
+    </div>
+    <div class="prev-next-nav">
+      <a class="pn-btn pn-prev" href="ch06-memory.html">
+        <span class="pn-label">&larr; 上一章</span>
+        <span class="pn-title">存储芯片</span>
+      </a>
+      <a class="pn-btn pn-next" href="ch08-optical.html">
+        <span class="pn-label">下一章 &rarr;</span>
+        <span class="pn-title">光模块与互联</span>
+      </a>
+    </div>
+    <div class="insight" style="margin-bottom:8px;"><strong>章节导航：</strong>共17章完整产业链 · <a href="index.html">返回总览</a></div>
+  </section>
+
+  <div class="footer">
+    <div class="footer-text">数据来源（实时搜索，2026年5月）：NVIDIA官方 &middot; AMD官方 &middot; Intel官方 &middot; Goldman Sachs Research &middot; Counterpoint Research &middot; TrendForce &middot; SemiAnalysis &middot; 各公司财报及公告<br><br>⚠ 本报告数据基于公开信息整理，不构成投资建议。所有投资标的请自行判断风险。数据可能有误差，欢迎反馈指正。</div>
+  </div>
+
+</div>
+
+<script src="theme-toggle.js"></script>
+<script src="nav.js"></script>
+
+</body>
+</html>

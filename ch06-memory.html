@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIinfra Map · CH06 · 存储芯片</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.chapter-tag{background:var(--accent-purple)}
+.hero-title em{color:var(--accent-purple)}
+.flow-node:hover{border-color:var(--accent-purple)}
+.insight{background:var(--accent-purple-light);border:1px solid rgba(0,0,0,.15)}
+.insight strong{color:var(--accent-purple)}
+</style>
+</head>
+<body class="dark">
+<div class="wrap">
+<header class="site-header">
+    <div class="logo">AIinfra <span>/</span> Map</div>
+        <nav class="header-nav" id="mainNav"></nav>
+    <div class="header-right">
+      <div class="header-meta"><span><span class="dot"></span>数据截至 2026.05 · 共17章</span></div>
+      <div class="theme-switcher" id="themeSwitcher">
+        <button class="theme-btn" data-theme="light" title="浅色主题"><span class="dot-inner light"></span><span>浅色</span></button>
+        <button class="theme-btn" data-theme="dark" title="深色主题"><span class="dot-inner dark"></span><span>深色</span></button>
+      </div>
+      <button class="nav-collapse-btn" id="navCollapseBtn" title="收起导航" aria-label="收起导航"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 8L6 4L10 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="mobile-hamburger" id="mobileHamburger" aria-label="打开菜单"><svg width="18" height="14" viewBox="0 0 18 14" fill="none"><rect y="1" width="18" height="2" rx="1" fill="currentColor"/><rect y="6" width="18" height="2" rx="1" fill="currentColor"/><rect y="11" width="18" height="2" rx="1" fill="currentColor"/></svg></button>
+    </div>
+  </header>
+<!-- Mobile Nav -->
+  <div id="mobileNavMount"></div>
+<section class="hero">
+    <div class="hero-eyebrow"><span class="chapter-tag">CH06 · 存储</span></div>
+    <h1 class="hero-title">AI存储芯片<br><em>HBM/NAND/DRAM全解析</em></h1>
+    <p class="hero-subtitle">HBM是GPU的黄金搭档 · NAND驱动AI存储需求 · DDR5加速渗透</p>
+    <div class="hero-metrics">
+      <div class="metric"><span class="metric-value purple">$35B</span><span class="metric-label">HBM市场规模2025</span></div>
+      <div class="metric"><span class="metric-value green">62%</span><span class="metric-label">SK hynix HBM市占</span></div>
+      <div class="metric"><span class="metric-value gold">22 TB/s</span><span class="metric-label">HBM4目标带宽</span></div>
+      <div class="metric"><span class="metric-value">288GB</span><span class="metric-label">HBM4单颗容量</span></div>
+      <div class="metric"><span class="metric-value">~80%+</span><span class="metric-label">DDR5 AI服务器渗透率</span></div>
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">存储芯片供应链传导路径</h2>
+      <span class="section-sub">从晶圆到GPU/服务器的完整链路</span>
+    </div>
+    <div class="flow-diagram">
+      <div class="flow-node">
+        <div class="flow-node-icon">💎</div>
+        <div class="flow-node-title">DRAM/NAND晶圆</div>
+        <div class="flow-node-sub">SK hynix/Samsung/Micron</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🔬</div>
+        <div class="flow-node-title">先进封装</div>
+        <div class="flow-node-sub">TSV + Hybrid Bonding</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">💾</div>
+        <div class="flow-node-title">HBM内存</div>
+        <div class="flow-node-sub">HBM3e · TSV堆叠</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🎮</div>
+        <div class="flow-node-title">GPU/ASIC</div>
+        <div class="flow-node-sub">CoWoS集成</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🗄️</div>
+        <div class="flow-node-title">AI服务器</div>
+        <div class="flow-node-sub">NVL72/存储阵列</div>
+    </div>
+  </div>
+  </section>
+
+  <section class="section" id="sec-hbm">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">HBM高带宽内存 — AI算力的核心瓶颈</h2>
+      <span class="section-sub">SK hynix绝对龙头 · HBM3E售罄至2026年</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-purple-light);">💾</div>
+        <div class="sector-title-group">
+          <div class="sector-title">HBM 高带宽内存 — SK hynix / Samsung / Micron</div>
+          <div class="sector-desc">HBM通过TSV垂直堆叠DRAM die，是GPU和AI ASIC的必需配置，带宽是GDDR7的约5倍。</div>
+        </div>
+        <span class="sector-badge badge-purple">存储芯片</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text"><strong>HBM（High Bandwidth Memory）</strong>通过TSV（硅通孔）垂直堆叠DRAM die，是GPU和AI ASIC的必需配置。HBM3e带宽8TB/s，是GDDR7的约5倍，单颗容量192GB（8层×24Gb die）。HBM占AI服务器BOM成本约35-40%，是除GPU芯片外最贵的单一组件。</p>
+            <p class="concept-text"><strong>SK hynix：</strong>是绝对龙头，Q2 2025 HBM市占62%，HBM3E已售罄至2026年。<strong>核心技术突破点：HBM4 控制底座（Base Die）走向先进制程委外。</strong>从 HBM4 世代开始，由于互联性能和功耗控制的极度严苛，底座芯片无法再使用传统的 DRAM 工艺，必须转用 <strong>TSMC 的 5nm 或 7nm 先进制程逻辑工艺</strong>。这一改变使得 SK hynix（以及美光）与台积电先进封装/制程生态形成了坚不可摧的“超同盟”壁垒。三星虽然拥有自家的晶圆代工部门，但为了争取 NVIDIA 等大客户，其 HBM4 也宣布将支持使用台积电制造的控制底座。</p>
+            <p class="concept-text"><strong>Micron</strong> HBM3E已获NVIDIA认证，Q1 FY2026财季HBM收入创历史新高，HBM4也在开发中。美光是美国唯一的HBM供应商，具有战略价值。</p>
+            <p class="concept-text"><strong>Samsung</strong>因良率问题在NVIDIA认证上落后，目前仅向部分客户少量供货。正在加速追赶HBM4，2026年是关键验证节点。</p>
+            <div class="sources">HBM4量产时间表将决定2026-2027年市场格局；HBM认证周期12-18个月</div>
+          </div>
+          <div class="col">
+            <h4>关键数据</h4>
+            <div class="stats-grid">
+              <div class="cstat"><div class="cstat-lbl">HBM市场规模 2025</div><div class="cstat-val purple">~$35B</div></div>
+              <div class="cstat"><div class="cstat-lbl">SK hynix HBM市占 Q2 2025</div><div class="cstat-val green">62%</div></div>
+              <div class="cstat"><div class="cstat-lbl">Micron HBM市占</div><div class="cstat-val">~21%</div></div>
+              <div class="cstat"><div class="cstat-lbl">Samsung HBM市占</div><div class="cstat-val">~17%</div></div>
+              <div class="cstat"><div class="cstat-lbl">HBM3e单颗容量</div><div class="cstat-val">192GB</div></div>
+              <div class="cstat"><div class="cstat-lbl">HBM4目标带宽</div><div class="cstat-val up">22 TB/s</div></div>
+              <div class="cstat"><div class="cstat-lbl">HBM占服务器BOM</div><div class="cstat-val">~35-40%</div>
+    </div>
+  </div>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">000660.KRX</span>
+              <span class="stock-name">SK hynix</span>
+              <span class="stock-exch exch-kr">韩股</span>
+              <span class="stock-note">HBM绝对龙头</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">MU</span>
+              <span class="stock-name">Micron</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">HBM3E已认证</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">005930.KRX</span>
+              <span class="stock-name">Samsung</span>
+              <span class="stock-exch exch-kr">韩股</span>
+              <span class="stock-note">HBM4追赶中</span>
+            </div>
+    </div>
+  </div>
+        <div class="risks-box">
+          <div class="risks-title">风险提示</div>
+          <div class="risk-item">Samsung HBM4量产成功可能侵蚀SK hynix市场份额</div>
+          <div class="risk-item">HBM市场2027年可能出现供应过剩</div>
+          <div class="risk-item">HBM4量产良率不确定性高</div>
+          <div class="risk-item">韩元汇率波动影响SK hynix/Samsung收益</div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <section class="section" id="sec-nand">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">NAND闪存 — AI大模型存储需求引擎</h2>
+      <span class="section-sub">Samsung/SK hynix/Kioxia · QLC NAND在AI存储中崛起</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-teal-light);">💿</div>
+        <div class="sector-title-group">
+          <div class="sector-title">NAND闪存 — Samsung / SK hynix / Kioxia / Western Digital</div>
+          <div class="sector-desc">NAND Flash用于AI服务器的大容量存储（数据集、模型权重、缓存），AI训练需要大量高速存储读取。</div>
+        </div>
+        <span class="sector-badge badge-teal">存储芯片</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text">NAND Flash用于AI服务器的大容量存储（数据集、模型权重、缓存）。AI训练需要大量高速存储读取，NVMe SSD（基于NAND）成为主流。AI服务器对NAND的需求来源：训练数据集存储（TB-PB级）、模型权重存储、高速缓存层、高密度服务器存储。</p>
+            <p class="concept-text"><strong>QLC NAND</strong>（四层单元）在AI存储中应用增多：每个存储单元存储4bit数据，容量大（相同芯片面积下单bit成本最低），适合读密集型负载（模型推理、批量数据读取）。数据中心QLC SSD顺序读取速度可达7GB/s。</p>
+            <p class="concept-text">Samsung是全球NAND龙头（Q4 2024市占约35%），SK hynix（含Solidigm）约25%，Kioxia约20%，Western Digital约13%。长江存储（YMTC）是中国本土NAND厂商，已能量产232层3D NAND，受美国出口限制影响扩产受阻。</p>
+            <div class="sources">QLC vs TLC NAND：读写性能相近，但QLC寿命较短（PE cycles约1000 vs TLC约3000）；AI存储多为读密集型，QLC适用</div>
+          </div>
+          <div class="col">
+            <h4>关键数据</h4>
+            <div class="stats-grid">
+              <div class="cstat"><div class="cstat-lbl">NAND市场规模 2025</div><div class="cstat-val teal">~$68B</div></div>
+              <div class="cstat"><div class="cstat-lbl">Samsung NAND市占</div><div class="cstat-val">~35%</div></div>
+              <div class="cstat"><div class="cstat-lbl">SK hynix NAND市占</div><div class="cstat-val">~25%</div></div>
+              <div class="cstat"><div class="cstat-lbl">Kioxia NAND市占</div><div class="cstat-val">~20%</div></div>
+              <div class="cstat"><div class="cstat-lbl">QLC SSD读取速度</div><div class="cstat-val up">~7 GB/s</div>
+    </div>
+  </div>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">005930.KRX</span>
+              <span class="stock-name">Samsung</span>
+              <span class="stock-exch exch-kr">韩股</span>
+              <span class="stock-note">NAND全球龙头</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">000660.KRX</span>
+              <span class="stock-name">SK hynix（含Solidigm）</span>
+              <span class="stock-exch exch-kr">韩股</span>
+              <span class="stock-note">QLC NAND领先</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">WDC</span>
+              <span class="stock-name">Western Digital</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">数据中心NVMe SSD</span>
+            </div>
+    </div>
+  </div>
+        <div class="risks-box">
+          <div class="risks-title">风险提示</div>
+          <div class="risk-item">NAND周期性强，价格波动大（2022-2023年NAND价格暴跌）</div>
+          <div class="risk-item">长江存储等中国厂商本土竞争，但受制于出口限制</div>
+          <div class="risk-item">AI存储需求节奏不确定，可能出现库存调整</div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <section class="section" id="sec-dram">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">DRAM演进 — DDR5成为AI服务器标配</h2>
+      <span class="section-sub">DDR5渗透率 · LPDDR5在边缘AI · 标准DRAM与HBM互补</span>
+    </div>
+    <div class="sector">
+      <div class="sector-body">
+        <p class="concept-text" style="margin-bottom:16px;"><strong>DDR5</strong>是数据中心DRAM的新标准，相比DDR4带宽提升50%以上（DDR5-4800 vs DDR4-3200 MT/s）。AI服务器需要大量高速DRAM用于数据加载和缓存，DDR5成为AI服务器CPU侧的标准配置。服务器DDR5渗透率2024年底约60-70%，预计2026年超过85%。</p>
+        <div class="body-grid">
+          <div class="col">
+            <h4>技术演进路线</h4>
+            <p class="concept-text">DDR5标准频率从4800 MT/s起步，当前主流6400 MT/s。下一代LPDDR6（预计2026年）频率可达14.4 GT/s，功耗进一步降低。LPDDR5在AI PC和边缘AI推理中广泛使用（功耗23-45W，NPU算力45+ TOPS），低功耗特性适合边缘场景。</p>
+            <p class="concept-text"><strong>重要区分</strong>：HBM是GPU专用（与GPU通过CoWoS封装集成，带宽极高但成本高），DDR5是CPU和系统DRAM（通过DIMM插槽连接，带宽较低但成本低）。两者是互补关系，不是替代关系。</p>
+          </div>
+          <div class="col">
+            <h4>关键数据</h4>
+            <div class="stats-grid">
+              <div class="cstat"><div class="cstat-lbl">DDR5 vs DDR4带宽</div><div class="cstat-val up">>50%提升</div></div>
+              <div class="cstat"><div class="cstat-lbl">DDR5颗粒速度</div><div class="cstat-val">4800-6400 MT/s</div></div>
+              <div class="cstat"><div class="cstat-lbl">AI服务器DDR5渗透率 2025</div><div class="cstat-val up">>80%</div></div>
+              <div class="cstat"><div class="cstat-lbl">LPDDR5功耗降低</div><div class="cstat-val green">~30% vs DDR4</div>
+    </div>
+  </div>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">MU</span>
+              <span class="stock-name">Micron</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">DDR5+LPDDR5全系列</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">005930.KRX</span>
+              <span class="stock-name">Samsung</span>
+              <span class="stock-exch exch-kr">韩股</span>
+              <span class="stock-note">DDR5量产</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">000660.KRX</span>
+              <span class="stock-name">SK hynix</span>
+              <span class="stock-exch exch-kr">韩股</span>
+              <span class="stock-note">DDR5+HBM双线</span>
+            </div>
+    </div>
+  </div>
+      </div>
+    </div>
+
+    <div class="sector" style="margin-top:18px;">
+      <div class="sector-body">
+        <h4 style="font-family:'Playfair Display',serif;margin-bottom:14px;">AI存储芯片全景对比</h4>
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>存储类型</th>
+              <th>主要厂商</th>
+              <th>应用场景</th>
+              <th>带宽/速度</th>
+              <th>AI价值</th>
+              <th>市况</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>HBM3e</strong></td>
+              <td>SK hynix/Micron/Samsung</td>
+              <td>GPU/ASIC内存<span class="tag tag-purple">核心</span></td>
+              <td>8 TB/s</td>
+              <td>占BOM 35-40%</td>
+              <td>供不应求至2026</td>
+            </tr>
+            <tr>
+              <td><strong>HBM4</strong></td>
+              <td>SK hynix/TSMC（Base Die）</td>
+              <td>下一代AI GPU<span class="tag tag-purple">未来</span></td>
+              <td>22 TB/s（目标）</td>
+              <td>2026 Q4量产</td>
+              <td>2026年放量</td>
+            </tr>
+            <tr>
+              <td><strong>DDR5</strong></td>
+              <td>Micron/Samsung/SK hynix</td>
+              <td>CPU侧系统DRAM<span class="tag tag-blue">标配</span></td>
+              <td>6400 MT/s</td>
+              <td>数据加载/缓存</td>
+              <td>渗透率>80%</td>
+            </tr>
+            <tr>
+              <td><strong>NAND/QLC SSD</strong></td>
+              <td>Samsung/SK hynix/Kioxia/WDC</td>
+              <td>大容量数据存储<span class="tag tag-teal">重要</span></td>
+              <td>~7 GB/s读取</td>
+              <td>数据集/模型存储</td>
+              <td>周期波动</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="sector" style="margin-top:18px;">
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>投资逻辑</h4>
+            <p class="concept-text"><strong>1. HBM是AI算力扩张最大瓶颈之一：</strong>SK hynix HBM3E售罄至2026年，供需紧张持续至2027年。HBM价格高、利润率高，SK hynix直接受益。</p>
+            <p class="concept-text"><strong>2. SK hynix技术领先+产能扩张：</strong>HBM4量产（2026 Q4）将巩固龙头地位，Base Die与TSMC 5NP协同是技术优势。</p>
+            <p class="concept-text"><strong>3. Micron HBM3E认证通过：</strong>是美国市场的重要受益者，政策支持+技术改善双轮驱动。</p>
+            <p class="concept-text"><strong>4. NAND在AI存储需求中量价齐升：</strong>QLC SSD在大模型存储中广泛应用，但周期性强需择时。</p>
+          </div>
+          <div class="col">
+            <h4>关键风险</h4>
+            <p class="concept-text"><strong>1. Samsung HBM4追赶风险：</strong>若Samsung在2026年成功通过NVIDIA HBM4认证，将分流SK hynix订单。</p>
+            <p class="concept-text"><strong>2. HBM周期见顶风险：</strong>2026年HBM产能大幅扩张，2027年可能出现供应过剩。</p>
+            <p class="concept-text"><strong>3. NAND价格周期风险：</strong>NAND价格波动剧烈，库存调整可能拖累厂商盈利。</p>
+            <p class="concept-text"><strong>4. 地缘政治：</strong>长江存储受制裁、SK hynix在韩美布局，供应链安全成焦点。</p>
+          </div>
+    </div>
+  </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">投资要点</h2>
+      <span class="section-sub">本章核心投资逻辑 · 仅供参考</span>
+    </div>
+    <div class="inv-card" id="inv-card" style="margin-top:0">
+      <div class="inv-card-body">
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">核心驱动因素</div>
+            <div class="inv-col-val">HBM成为GPU刚需，单芯片容量与层数快速提升；DDR5/LPDDR5X渗透率加速；企业级QLC SSD大容量存储爆发</div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">关键风险</div>
+            <div class="inv-col-val">各巨头HBM产能大幅扩张可能导致2027年起供应过剩；三星通过NVIDIA验证进展滞后</div>
+          </div>
+        </div>
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">受益方向</div>
+            <div class="inv-tickers"><span>SK hynix（HBM龙头）</span><span>MU（美光科技）</span><span>WDC（西数存储）</span></div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">风险暴露</div>
+            <div class="inv-col-val">传统DRAM和NAND价格周期性波动；高额的HBM设备资本开支折旧压力；供应链重组成本</div>
+          </div>
+        </div>
+        <div class="inv-catalyst">
+          <div class="inv-col-label">近期催化剂</div>
+          <div class="inv-col-val">三星12层HBM3E通过英伟达验证进展；各大巨头月度存储报价走势；Micron新一期财报</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">章节导航</h2>
+    </div>
+    <div class="prev-next-nav">
+      <a class="pn-btn pn-prev" href="ch05-chips.html">
+        <span class="pn-label">&larr; 上一章</span>
+        <span class="pn-title">AI芯片</span>
+      </a>
+      <a class="pn-btn pn-next" href="ch07-packaging.html">
+        <span class="pn-label">下一章 &rarr;</span>
+        <span class="pn-title">先进封装</span>
+      </a>
+    </div>
+    <div class="insight" style="margin-bottom:8px;"><strong>章节导航：</strong>共17章完整产业链 · <a href="index.html">返回总览</a></div>
+  </section>
+
+  <div class="footer">
+    <div class="footer-text">数据来源（实时搜索，2026年5月）：NVIDIA官方 &middot; AMD官方 &middot; Intel官方 &middot; Goldman Sachs Research &middot; Counterpoint Research &middot; TrendForce &middot; SemiAnalysis &middot; 各公司财报及公告<br><br>⚠ 本报告数据基于公开信息整理，不构成投资建议。所有投资标的请自行判断风险。数据可能有误差，欢迎反馈指正。</div>
+  </div>
+
+</div>
+
+<script src="theme-toggle.js"></script>
+<script src="nav.js"></script>
+
+</body>
+</html>

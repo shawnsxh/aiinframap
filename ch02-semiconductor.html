@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- SEO Meta -->
+  <meta name="description" content="台积电、GlobalFoundries、三星晶圆代工格局。先进制程（N3/N5/N2）竞争态势、CapEx扩产计划、亚利桑那/日本/德国Fab全球布局。">
+  <meta property="og:title" content="CH02 · 半导体制造 · 晶圆代工">
+  <meta property="og:description" content="台积电、GlobalFoundries、三星晶圆代工格局。先进制程（N3/N5/N2）竞争态势、CapEx扩产计划、亚利桑那/日本/德国Fab全球布局。">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CH02 · 半导体制造 · 晶圆代工">
+  <meta name="twitter:description" content="台积电、GlobalFoundries、三星晶圆代工格局。先进制程（N3/N5/N2）竞争态势、CapEx扩产计划、亚利桑那/日本/德国Fab全球布局。">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗺️</text></svg>">
+<title>CH02 · 半导体制造与设备 · AIinfra Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* Page-specific: light theme extras + accent overrides */
+:root,[data-theme="light"]{--shadow-panel:0 24px 64px rgba(0,0,0,0.18),0 0 0 1px rgba(0,0,0,0.06)}
+
+.chapter-tag{background:var(--accent)}
+.hero-title em{color:var(--accent)}
+.flow-node:hover{border-color:var(--accent);transform:translateY(-2px)}
+.insight{background:var(--accent-gold-light);border:1px solid rgba(140,104,32,.2)}
+.insight strong{color:var(--accent)}
+.insight .acc{color:var(--accent);font-weight:500}
+
+/* ch02-specific components */
+.insight-box{margin-bottom:24px;background:var(--accent-gold-light);border:1px solid rgba(140,104,32,.2);border-radius:5px;padding:16px 18px}
+
+.insight-box-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-gold);margin-bottom:6px}
+.insight-box p{font-size:12.5px;color:var(--text-2);line-height:1.8}
+
+.company-card{background:var(--card-bg);border:1px solid var(--border-light);border-radius:8px;overflow:hidden;margin-bottom:18px;box-shadow:var(--shadow)}
+.company-card-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--surface-1);border-bottom:1px solid var(--border-light)}
+.company-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:var(--text-1)}
+.company-meta{font-family:'DM Mono',monospace;font-size:10px;color:var(--accent)}
+.company-card-body{padding:16px 18px}
+.company-stat{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.stat{background:var(--surface-1);border-radius:5px;padding:9px 11px;display:flex;flex-direction:column;gap:2px}
+.stat-val{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:var(--text-1)}
+.stat-val.green{color:var(--accent-green)}
+.stat-val.accent{color:var(--accent)}
+.stat-val.gold{color:var(--accent-gold)}
+.stat-val.purple{color:var(--accent-purple)}
+.stat-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-4)}
+.company-desc{font-size:12.5px;color:var(--text-2);line-height:1.85}
+.company-desc strong{color:var(--text-1);font-weight:600}
+
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
+.card{background:var(--card-bg);border:1px solid var(--border-light);border-radius:8px;padding:14px;box-shadow:var(--shadow)}
+.card-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.card-icon{width:28px;height:28px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.card-name{font-family:'Playfair Display',serif;font-size:13px;font-weight:600;color:var(--text-1)}
+.card-ticker{font-family:'DM Mono',monospace;font-size:9px;color:var(--accent);margin-left:auto}
+.card-desc{font-size:11.5px;color:var(--text-3);line-height:1.7;margin-bottom:10px}
+.card-tags{display:flex;flex-wrap:wrap;gap:4px}
+
+
+.nav-header .section-num{color:var(--accent)}</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="site-header">
+    <div class="logo">AIinfra <span>/</span> Map</div>
+        <nav class="header-nav" id="mainNav"></nav>
+    <div class="header-right">
+      <div class="header-meta"><span><span class="dot"></span>数据截至 2026.05 · 共17章</span></div>
+      <div class="theme-switcher" id="themeSwitcher">
+        <button class="theme-btn" data-theme="light" title="浅色主题"><span class="dot-inner light"></span><span>浅色</span></button>
+        <button class="theme-btn" data-theme="dark" title="深色主题"><span class="dot-inner dark"></span><span>深色</span></button>
+      </div>
+      <button class="nav-collapse-btn" id="navCollapseBtn" title="收起导航" aria-label="收起导航"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 8L6 4L10 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="mobile-hamburger" id="mobileHamburger" aria-label="打开菜单"><svg width="18" height="14" viewBox="0 0 18 14" fill="none"><rect y="1" width="18" height="2" rx="1" fill="currentColor"/><rect y="6" width="18" height="2" rx="1" fill="currentColor"/><rect y="11" width="18" height="2" rx="1" fill="currentColor"/></svg></button>
+    </div>
+  </header>
+
+<div id="mobileNavMount"></div>
+
+  <section class="hero">
+<div class="breadcrumb"><a href="index.html">AIinfra Map</a> / <span>CH02 · 半导体制造与设备</span></div>
+    <div class="hero-eyebrow"><span class="chapter-tag">CH02 · 半导体制造与设备</span></div>
+    <h1 class="hero-title">AI芯片的<br><em>制造层瓶颈</em></h1>
+    <p class="hero-subtitle">NVIDIA垄断下的先进制程与封装是算力供给的底层约束 · 数据截至 2026.05</p>
+    <div class="hero-metrics">
+      <div class="metric"><span class="metric-value">~$5T+</span><span class="metric-label">NVIDIA市值</span></div>
+      <div class="metric"><span class="metric-value accent">>80%</span><span class="metric-label">AI GPU市占</span></div>
+      <div class="metric"><span class="metric-value gold">5M+</span><span class="metric-label">CUDA开发者</span></div>
+      <div class="metric"><span class="metric-value green">2080亿</span><span class="metric-label">B200晶体管</span></div>
+      <div class="metric"><span class="metric-value purple">720 PFLOPS</span><span class="metric-label">GB200 NVL72算力</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">TSMC：先进制程与CoWoS封装</h2>
+      <span class="section-sub">全球最大晶圆代工厂，AI芯片产能核心约束</span>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-box-title">投资要点</div>
+      <p>TSMC 是 AI 芯片制造链中最核心的卡点。CoWoS 封装月产能正从 2025 年底的约 7.5 万片扩产至 2026 年底的约 13 万片。在 2025 年全年总产能中，仅 NVIDIA 一家就锁定了约 37 万片（占比超 50%）。先进封装产能预计持续供不应求至 2027 年。</p>
+    </div>
+
+    <div class="company-card">
+      <div class="company-card-head">
+        <span class="company-name">台积电 TSMC</span>
+        <span class="company-meta">NYSE: TSM</span>
+      </div>
+      <div class="company-card-body">
+        <div class="company-stat">
+          <span class="stat"><span class="stat-val">N2 量产中</span><span class="stat-label">制程节点</span></span>
+          <span class="stat"><span class="stat-val green">>98%</span><span class="stat-label">CoWoS良率 2026</span></span>
+          <span class="stat"><span class="stat-val accent">13万/月</span><span class="stat-label">CoWoS目标产能 2026末</span></span>
+          <span class="stat"><span class="stat-val">A16(1.6nm)</span><span class="stat-label">2026下半年量产</span></span>
+        </div>
+        <p class="company-desc">
+          <strong>先进制程：</strong>TSMC 2nm（N2）已进入量产，A16（1.6nm）计划2026年下半年量产，引入背面供电（Super Power Rail）专攻AI加速器数据中心场景。<strong>CoWoS封装：</strong>全球最大5.5-reticle尺寸CoWoS封装，良率超98%。TSMC计划2026年新建5座配合AI需求的工厂。
+        </p>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon" style="background:#d8f0e4">📦</div>
+          <span class="card-name">CoWoS 封装</span>
+        </div>
+        <p class="card-desc">Chip on Wafer on Substrate，将HBM与GPU/ASIC裸Die通过硅中介层互联，是GB200、AMD MI300等AI芯片的必须工艺。</p>
+        <div class="card-tags">
+          <span class="tag tag-blue">月产7.5万片（2025）</span>
+          <span class="tag tag-green">月产13万片（2026目标）</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon" style="background:#f0e8d0">⚡</div>
+          <span class="card-name">NVIDIA 锁定产能</span>
+        </div>
+        <p class="card-desc">NVIDIA 独家锁定了台积电 2025 全年 CoWoS 总产能中的约 37 万片（占比超 50%）。2026 年订单目标上调至 80-85 万片。</p>
+        <div class="card-tags">
+          <span class="tag tag-red">产能已售罄至2027</span>
+          <span class="tag tag-gold">ASIC客户快速扩量</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon" style="background:#f0ecf8">🔧</div>
+          <span class="card-name">先进制程路线</span>
+        </div>
+        <p class="card-desc">N2（量产中）→ N2P（2026下半年，背面供电）→ A16（1.6nm，2026下半年，AI专用）</p>
+        <div class="card-tags">
+          <span class="tag tag-blue">N2 2025年量产</span>
+          <span class="tag tag-purple">A16 2026下半年</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">ASML：EUV光刻机的绝对垄断</h2>
+      <span class="section-sub">全球唯一EUV光刻机供应商，订单排至数年之后</span>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-box-title">投资要点</div>
+      <p>ASML占据全球光刻机市场超80%份额，EUV市场100%垄断。2025年末在手订单388亿欧元，其中EUV占比超半。先进制程、存储和High-NA EUV需求叠加，支撑ASML目标2030年营收440-600亿欧元。</p>
+    </div>
+
+    <div class="company-card">
+      <div class="company-card-head">
+        <span class="company-name">ASML</span>
+        <span class="company-meta">NASDAQ: ASML</span>
+      </div>
+      <div class="company-card-body">
+        <div class="company-stat">
+          <span class="stat"><span class="stat-val gold">327亿欧元</span><span class="stat-label">2025年营收</span></span>
+          <span class="stat"><span class="stat-val gold">388亿欧元</span><span class="stat-label">在手订单（2025年末）</span></span>
+          <span class="stat"><span class="stat-val green">+52.8%</span><span class="stat-label">毛利率</span></span>
+          <span class="stat"><span class="stat-val purple">96亿欧元</span><span class="stat-label">2025净利润</span></span>
+        </div>
+        <p class="company-desc">
+          <strong>2025全年：</strong>净销售额327亿欧元（同比+15.6%），净利润96亿欧元（同比+26.3%），毛利率52.8%。<strong>Q4新增订单：</strong>132亿欧元，其中EUV相关订单74亿欧元。<strong>High NA EUV：</strong>已发运第5台数值孔径0.55的High NA EUV，已有客户：英特尔、三星、台积电。
+        </p>
+      </div>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>指标</th><th>数据</th><th>备注</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>2025年净销售额</td><td class="num gold">327亿欧元</td><td>同比+15.6%</td></tr>
+        <tr><td>在手订单（2025年末）</td><td class="num gold">388亿欧元</td><td>EUV订单占比超50%</td></tr>
+        <tr><td>Q4 EUV新增订单</td><td class="num">74亿欧元</td><td>单季历史高位</td></tr>
+        <tr><td>全球光刻市场份额</td><td class="num">超80%</td><td>EUV市场100%垄断</td></tr>
+        <tr><td>High NA EUV已发运</td><td class="num">5台</td><td>客户：Intel/Samsung/TSMC</td></tr>
+        <tr><td>2030年营收目标</td><td class="num green">440-600亿欧元</td><td>毛利率目标56-60%</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Foundry竞争格局：三星 vs 英特尔</h2>
+      <span class="section-sub">追赶TSMC的挑战者，以及NVIDIA开始评估英特尔18A</span>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon" style="background:#f8d8d8">🏭</div>
+          <span class="card-name">三星Foundry</span>
+          <span class="card-ticker">KRX: 005930</span>
+        </div>
+        <p class="card-desc">2026年2nm产能目标双位数增长，良率55-60%。得克萨斯州Taylor工厂2026年投产，EUV设备就位。1.4nm量产预计2029年。</p>
+        <div class="card-tags">
+          <span class="tag tag-gold">2nm良率55-60%</span>
+          <span class="tag tag-green">Taylor厂2026年投产</span>
+          <span class="tag tag-blue">SF1.4 → 2029</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon" style="background:#d8e4f0">🏭</div>
+          <span class="card-name">英特尔Foundry</span>
+          <span class="card-ticker">NASDAQ: INTC</span>
+        </div>
+        <p class="card-desc">18A制程（1.8nm）推进中，已宣布获得NVIDIA评估。目标2026-2027年追赶良率。分析师预测2027年实现盈亏平衡。</p>
+        <div class="card-tags">
+          <span class="tag tag-purple">18A接受NVIDIA评估</span>
+          <span class="tag tag-blue">2027目标盈亏平衡</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon" style="background:#f0ecf8">💎</div>
+          <span class="card-name">NVIDIA路线图</span>
+        </div>
+        <p class="card-desc">Blackwell（N2/CoWoS）→ Rubin系列 → Feynman（跳过N2，直接采用TSMC A16，2028年）</p>
+        <div class="card-tags">
+          <span class="tag tag-green">GB200量产中</span>
+          <span class="tag tag-blue">Feynman A16 2028</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">半导体设备市场全景</h2>
+      <span class="section-sub">WFE销售额、关键设备商格局</span>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-box-title">投资要点</div>
+      <p>全球半导体设备（WFE）市场预计2026年达1381亿美元，连续第三年增长。LAM Research、KLA、Applied Materials等设备商与ASML共同构成先进制程的产能瓶颈。</p>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>公司</th><th>领域</th><th>关键产品</th><th>备注</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>ASML</td><td><span class="tag tag-blue">光刻</span></td><td class="num">EUV / DUV / High NA EUV</td><td>EUV市场100%垄断</td></tr>
+        <tr><td>LAM Research</td><td><span class="tag tag-green">刻蚀/沉积</span></td><td class="num">导体刻蚀设备</td><td>先进制程关键</td></tr>
+        <tr><td>KLA</td><td><span class="tag tag-gold">检测</span></td><td class="num">晶圆检测/量测</td><td>决定良率</td></tr>
+        <tr><td>Applied Materials</td><td><span class="tag tag-teal">沉积/CMP</span></td><td class="num">PVD / CMP</td><td>大面积薄膜沉积</td></tr>
+        <tr><td>Synopsys / Cadence</td><td><span class="tag tag-purple">EDA</span></td><td class="num">设计工具链</td><td>AI芯片设计必须</td></tr>
+        <tr><td>Arm</td><td><span class="tag tag-red">IP</span></td><td class="num">处理器IP</td><td>几乎所有AI芯片授权</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">投资要点</h2>
+      <span class="section-sub">本章核心投资逻辑 · 仅供参考</span>
+    </div>
+    <div class="inv-card" id="inv-card" style="margin-top:0">
+      <div class="inv-card-body">
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">核心驱动因素</div>
+            <div class="inv-col-val">先进制程（3nm/2nm）向AI芯片倾斜；CoWoS等先进封装成为出货刚需；全球半导体设备需求复苏</div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">关键风险</div>
+            <div class="inv-col-val">先进制程良率提升缓慢；地缘政治导致关键设备出口限制加码；代工竞争加剧</div>
+          </div>
+        </div>
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">受益方向</div>
+            <div class="inv-tickers"><span>TSM（先进制程）</span><span>ASML（光刻机）</span><span>AMAT（设备龙头）</span></div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">风险暴露</div>
+            <div class="inv-col-val">晶圆代工产能局部过剩风险；部分设备大厂受出口限制订单流失；高估值设备板块的回调</div>
+          </div>
+        </div>
+        <div class="inv-catalyst">
+          <div class="inv-col-label">近期催化剂</div>
+          <div class="inv-col-val">台积电2nm制程下半年试产进展；各大晶圆厂资本开支（CapEx）指引调整</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header"><span class="section-num">06</span><h2 class="section-title">章节导航</h2></div>
+    <div class="prev-next-nav">
+      <a class="pn-btn pn-prev" href="ch01-overview.html"><span class="pn-label">&larr; 上一章</span><span class="pn-title">全产业链全景图</span></a>
+      <a class="pn-btn pn-next" href="ch03-eda.html"><span class="pn-label">下一章 &rarr;</span><span class="pn-title">EDA与软件基础设施</span></a>
+    </div>
+    <div class="insight" style="margin-bottom:8px;"><strong>章节导航：</strong>共17章完整产业链 · <a href="index.html">返回总览</a></div>
+  </section>
+
+  <div class="footer">
+    <div class="footer-text">数据来源（实时搜索，2026年5月）：NVIDIA官方 &middot; AMD官方 &middot; Intel官方 &middot; Goldman Sachs Research &middot; Counterpoint Research &middot; TrendForce &middot; SemiAnalysis &middot; 各公司财报及公告<br><br>⚠ 本报告数据基于公开信息整理，不构成投资建议。所有投资标的请自行判断风险。数据可能有误差，欢迎反馈指正。</div>
+  </div>
+
+</div>
+
+<script src="theme-toggle.js"></script>
+<script src="nav.js"></script>
+
+</body>
+</html>

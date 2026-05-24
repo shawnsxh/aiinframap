@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIinfra Map · CH09 · 算力与服务器</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.chapter-tag{background:var(--accent-purple)}
+.hero-title em{color:var(--accent-purple)}
+.flow-node:hover{border-color:var(--accent-purple)}
+.insight{background:var(--accent-purple-light);border:1px solid rgba(0,0,0,.15)}
+.insight strong{color:var(--accent-purple)}
+</style>
+</head>
+<body class="dark">
+<div class="wrap">
+<header class="site-header">
+    <div class="logo">AIinfra <span>/</span> Map</div>
+        <nav class="header-nav" id="mainNav"></nav>
+    <div class="header-right">
+      <div class="header-meta"><span><span class="dot"></span>数据截至 2026.05 · 共17章</span></div>
+      <div class="theme-switcher" id="themeSwitcher">
+        <button class="theme-btn" data-theme="light" title="浅色主题"><span class="dot-inner light"></span><span>浅色</span></button>
+        <button class="theme-btn" data-theme="dark" title="深色主题"><span class="dot-inner dark"></span><span>深色</span></button>
+      </div>
+      <button class="nav-collapse-btn" id="navCollapseBtn" title="收起导航" aria-label="收起导航"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 8L6 4L10 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="mobile-hamburger" id="mobileHamburger" aria-label="打开菜单"><svg width="18" height="14" viewBox="0 0 18 14" fill="none"><rect y="1" width="18" height="2" rx="1" fill="currentColor"/><rect y="6" width="18" height="2" rx="1" fill="currentColor"/><rect y="11" width="18" height="2" rx="1" fill="currentColor"/></svg></button>
+    </div>
+  </header>
+<!-- Mobile Nav -->
+  <div id="mobileNavMount"></div>
+<section class="hero">
+    <div class="hero-eyebrow"><span class="chapter-tag">CH09 · 算力与服务器</span></div>
+    <h1 class="hero-title">AI服务器整机<br><em>ODM格局与电源管理全解析</em></h1>
+    <p class="hero-subtitle">鸿海40%市场份额 · 品牌整机 vs 白牌ODM · GB200 NVL72系统详解</p>
+    <div class="hero-metrics">
+      <div class="metric"><span class="metric-value purple">$128B</span><span class="metric-label">AI服务器市场2024</span></div>
+      <div class="metric"><span class="metric-value green">28%</span><span class="metric-label">市场CAGR</span></div>
+      <div class="metric"><span class="metric-value gold">~40%</span><span class="metric-label">鸿海AI服务器市占</span></div>
+      <div class="metric"><span class="metric-value">120kW</span><span class="metric-label">GB200 NVL72单rack功耗</span></div>
+      <div class="metric"><span class="metric-value accent">5-8%</span><span class="metric-label">ODM模式毛利率</span></div>
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">AI服务器供应链传导路径</h2>
+      <span class="section-sub">从GPU芯片到数据中心部署的完整链路</span>
+    </div>
+    <div class="flow-diagram">
+      <div class="flow-node">
+        <div class="flow-node-icon">🎮</div>
+        <div class="flow-node-title">GPU芯片</div>
+        <div class="flow-node-sub">NVIDIA B200/H200</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🔲</div>
+        <div class="flow-node-title">主板/载板</div>
+        <div class="flow-node-sub">HDI PCB</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🗜️</div>
+        <div class="flow-node-title">液冷集成</div>
+        <div class="flow-node-sub">CDU+冷板</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🔧</div>
+        <div class="flow-node-title">系统组装</div>
+        <div class="flow-node-sub">ODM/品牌厂</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">⚡</div>
+        <div class="flow-node-title">电源+PDU</div>
+        <div class="flow-node-sub">UPS+配电</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🗄️</div>
+        <div class="flow-node-title">数据中心</div>
+        <div class="flow-node-sub">集群部署</div>
+    </div>
+  </div>
+  </section>
+
+  <section class="section" id="sec-brand">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">AI服务器整机 — 品牌厂商格局</h2>
+      <span class="section-sub">Dell / HPE / Super Micro · GB200 NVL72系统</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-purple-light);">🖥️</div>
+        <div class="sector-title-group">
+          <div class="sector-title">AI服务器整机 — Dell / HPE / Super Micro</div>
+          <div class="sector-desc">AI服务器是承载AI GPU和提供算力的最终系统形态，2024年市场规模$128B，预计CAGR 28%，2034年达$1.56T。</div>
+        </div>
+        <span class="sector-badge badge-purple">算力整机</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text">AI服务器是承载AI GPU和提供算力的最终系统形态。<strong>Dell Technologies</strong>是全球企业服务器龙头，PowerEdge产品线完整，在AI服务器中提供PowerEdge+GPU解决方案（支持NVIDIA H100/H200/B200），与NVIDIA合作紧密。企业客户覆盖广，Dell Services提供安装、维护等增值服务。</p>
+            <p class="concept-text"><strong>HPE（慧与科技）</strong>通过Cray（超算）和Apollo产品线布局AI服务器，Cray Shasta超算平台在政府和科研领域有传统优势，AI服务器通过Apollo产品线与NVIDIA合作。</p>
+            <p class="concept-text"><strong>Super Micro（超微）</strong>以液冷AI服务器设计著称（SuperServer+专利液冷），快速交付能力突出，拥有从GPU服务器到存储的全产品线。但2024-2025年因会计问题（审计机构辞职、股价暴跌、从NASDAQ摘牌风险）面临严峻挑战。</p>
+            <p class="concept-text"><strong>GB200 NVL72</strong>是NVIDIA推荐的旗舰AI服务器配置：包含72颗B200 GPU + 36颗Grace CPU + 72个NVLink Switch，FP8算力720 PFLOPS，单rack功耗约120kW，必须液冷，单rack价值约$10M+。</p>
+          </div>
+          <div class="col">
+            <h4>关键数据</h4>
+            <div class="stats-grid">
+              <div class="cstat"><div class="cstat-lbl">AI服务器市场 2024</div><div class="cstat-val purple">$128B</div></div>
+              <div class="cstat"><div class="cstat-lbl">市场CAGR</div><div class="cstat-val up">28%</div></div>
+              <div class="cstat"><div class="cstat-lbl">2034年预计规模</div><div class="cstat-val up">$1.56T</div></div>
+              <div class="cstat"><div class="cstat-lbl">GB200 NVL72算力</div><div class="cstat-val up">720 PFLOPS</div></div>
+              <div class="cstat"><div class="cstat-lbl">GB200 NVL72功耗</div><div class="cstat-val gold">~120kW/rack</div></div>
+              <div class="cstat"><div class="cstat-lbl">GB200 NVL72单价</div><div class="cstat-val">~$10M+/rack</div>
+    </div>
+  </div>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">DELL</span>
+              <span class="stock-name">Dell Technologies</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">全球企业服务器龙头</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">HPE</span>
+              <span class="stock-name">HPE（慧与科技）</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">Cray超算+AI服务器</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">SMCI</span>
+              <span class="stock-name">Super Micro</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">液冷AI服务器（会计问题）</span>
+            </div>
+    </div>
+  </div>
+        <div class="risks-box">
+          <div class="risks-title">风险提示</div>
+          <div class="risk-item">Super Micro会计问题引发信任危机和退市风险</div>
+          <div class="risk-item">GPU（CoWoS/HBM）供应瓶颈制约服务器整机出货量</div>
+          <div class="risk-item">液冷改造成本高，增加服务器总拥有成本（TCO）</div>
+          <div class="risk-item">品牌服务器毛利率约20-25%，但AI服务器交付周期长</div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <section class="section" id="sec-odm">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">整机 vs 白牌ODM格局 — 制造主导的市场</h2>
+      <span class="section-sub">鸿海40% · 广达 · 英业达 · 品牌溢价</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-green-light);">🔧</div>
+        <div class="sector-title-group">
+          <div class="sector-title">白牌ODM — 鸿海（富士康）/ 广达 / 英业达</div>
+          <div class="sector-desc">ODM模式主导AI服务器市场，鸿海约占机架组装40%市场份额，云厂商直接向ODM下单定制。</div>
+        </div>
+        <span class="sector-badge badge-green">算力整机</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text">AI服务器市场分为品牌整机（Brand：Dell/HPE/Super Micro）和<strong>白牌ODM</strong>（Original Design Manufacturer）两种模式。ODM模式主导AI服务器市场。</p>
+            <p class="concept-text"><strong>鸿海（富士康）</strong>是全球最大AI服务器ODM，约占机架组装40%市场份额，核心客户包括NVIDIA（DGX系统）、Microsoft（Azure AI服务器）、Amazon（Trainium服务器）、Alphabet（Google TPU服务器）。鸿海拥有全球最完整的电子制造供应链（EMS），垂直整合能力强。</p>
+            <p class="concept-text"><strong>广达（2382.TW）</strong>是Google的AI服务器核心供应商，也是全球前三的服务器ODM。云厂商（微软/谷歌/亚马逊/Meta）直接向ODM下单定制，绕过品牌厂商。</p>
+            <p class="concept-text"><strong>英业达（2356.TW）</strong>是台湾第三大服务器ODM，客户包括Dell/HPE等品牌厂商和部分云厂商。</p>
+            <p class="concept-text"><strong>毛利率对比：</strong>ODM模式毛利率约5-8%（制造属性强）；品牌厂商毛利率约20-25%（含服务溢价、品牌溢价）。NVLink Switch Tray是NVIDIA的模块化产品，ODM可采购组装，降低了系统集成壁垒。</p>
+          </div>
+          <div class="col">
+            <h4>市场格局对比</h4>
+            <table class="compare-table">
+              <thead>
+                <tr><th>厂商类型</th><th>代表企业</th><th>毛利率</th><th>优势</th><th>劣势</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>品牌整机</strong></td><td>Dell/HPE/SMCI</td><td>20-25%<span class="tag tag-green">较高</span></td><td>品牌+服务溢价</td><td>成本较高</td></tr>
+                <tr><td><strong>白牌ODM</strong></td><td>鸿海/广达/英业达</td><td>5-8%<span class="tag tag-red">较低</span></td><td>成本优势+弹性</td><td>利润率低</td></tr>
+                <tr><td><strong>云厂商自建</strong></td><td>AWS/Azure/GCP</td><td>内部成本<span class="tag tag-gold">特殊</span></td><td>定制+控制</td><td>资本开支大</td></tr>
+              </tbody>
+            </table>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">2319.TW</span>
+              <span class="stock-name">鸿海/富士康</span>
+              <span class="stock-exch exch-tw">台股</span>
+              <span class="stock-note">全球最大AI服务器ODM</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">2382.TW</span>
+              <span class="stock-name">广达</span>
+              <span class="stock-exch exch-tw">台股</span>
+              <span class="stock-note">Google核心供应商</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">2356.TW</span>
+              <span class="stock-name">英业达</span>
+              <span class="stock-exch exch-tw">台股</span>
+              <span class="stock-note">服务器ODM</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">DELL</span>
+              <span class="stock-name">Dell</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">品牌服务器龙头</span>
+            </div>
+    </div>
+  </div>
+        <div class="risks-box">
+          <div class="risks-title">风险提示</div>
+          <div class="risk-item">代工属性导致ODM毛利率低（5-8%），利润空间有限</div>
+          <div class="risk-item">客户集中度高（Nvidia对鸿海营收影响大）</div>
+          <div class="risk-item">地缘政治影响台湾ODM产能（台海风险）</div>
+          <div class="risk-item">中国ODM（华为供应链、浪潮信息等）价格竞争</div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <section class="section" id="sec-power-mgmt">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">电源管理 — Vicor / Microchip / onsemi</h2>
+      <span class="section-sub">48V架构 · 垂直供电 · AI服务器功率密度</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-teal-light);">⚡</div>
+        <div class="sector-title-group">
+          <div class="sector-title">AI服务器电源管理 — Vicor / Microchip / onsemi</div>
+          <div class="sector-desc">AI服务器电源系统负责将市电转换为GPU/CPU所需电压，48V架构是AI服务器的主流方向。</div>
+        </div>
+        <span class="sector-badge badge-teal">电力电子</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text">AI服务器电源系统负责将市电转换为GPU/CPU所需电压。GB200 NVL72单rack功耗120kW，需要高功率密度电源系统（功率密度>1kW/in³）。</p>
+            <p class="concept-text"><strong>Vicor（VICR）</strong>是AI服务器电源模块龙头，提供<strong>垂直供电（Vertical Power Delivery）</strong>方案：将48V电压直接转换到GPU引脚，效率>92%，功率密度远高于传统方案（传统方案需多级转换：48V→12V→GPU电压，每级都有损耗）。Vicor的垂直供电方案被NVIDIA B200/H200等AI服务器广泛采用。</p>
+            <p class="concept-text"><strong>48V架构</strong>逐步替代传统12V架构：高电压=低电流=配电损耗降低约50%。在48V架构中，服务器内部配电更简单，电缆更细，系统效率更高。</p>
+            <p class="concept-text"><strong>Microchip（微芯科技）</strong>提供服务器电源管理IC、FPGA和微控制器。onsemi和Infineon在IGBT/SiC功率器件上也有布局，SiC MOSFET在AI服务器PSU中逐步导入。</p>
+          </div>
+          <div class="col">
+            <h4>关键数据</h4>
+            <div class="stats-grid">
+              <div class="cstat"><div class="cstat-lbl">Vicor垂直供电效率</div><div class="cstat-val up">>92%</div></div>
+              <div class="cstat"><div class="cstat-lbl">48V架构配电损耗降低</div><div class="cstat-val up">~50% vs 12V</div></div>
+              <div class="cstat"><div class="cstat-lbl">AI服务器单GPU电源</div><div class="cstat-val">800-1200W</div></div>
+              <div class="cstat"><div class="cstat-lbl">GB200 NVL72电源需求</div><div class="cstat-val gold">~120kW/rack</div>
+    </div>
+  </div>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">VICR</span>
+              <span class="stock-name">Vicor</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">AI服务器电源模块龙头</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">MCHP</span>
+              <span class="stock-name">Microchip（微芯科技）</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">电源管理IC</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">ON</span>
+              <span class="stock-name">onsemi（安森美）</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">功率器件+SiC</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">IFNNY</span>
+              <span class="stock-name">Infineon（英飞凌）</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">SiC功率器件</span>
+            </div>
+    </div>
+  </div>
+        <div class="risks-box">
+          <div class="risks-title">风险提示</div>
+          <div class="risk-item">Vicor估值较高（PS倍数），市值小（~$5B），波动性大</div>
+          <div class="risk-item">竞争对手（Vicor独占鳌头，但也面临TI等模拟芯片厂商竞争）</div>
+          <div class="risk-item">AI服务器功率密度持续提升，技术迭代要求高</div>
+          <div class="risk-item">48V架构导入速度存在不确定性</div>
+    </div>
+  </div>
+    </div>
+
+    <div class="sector" style="margin-top:18px;">
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>投资逻辑</h4>
+            <p class="concept-text"><strong>1. AI服务器市场$128B→$1.56T：</strong>10年10倍，超级成长赛道，ODM和品牌厂共享成长。</p>
+            <p class="concept-text"><strong>2. 鸿海ODM占据40%份额：</strong>台湾电子制造供应链完整+成本优势，鸿海是AI服务器扩张最大制造受益者。</p>
+            <p class="concept-text"><strong>3. 液冷是AI服务器的强制需求：</strong>GB200 NVL72功耗120kW，必须液冷。Super Micro在液冷设计上领先，但会计问题压制估值。</p>
+            <p class="concept-text"><strong>4. 电源管理受益于功率密度提升：</strong>Vicor垂直供电方案被广泛采用，随AI服务器出货量增长而增长。</p>
+          </div>
+          <div class="col">
+            <h4>关键风险</h4>
+            <p class="concept-text"><strong>1. GPU供应瓶颈：</strong>CoWoS/HBM短缺是系统性约束，制约服务器出货量。</p>
+            <p class="concept-text"><strong>2. ODM竞争激烈、毛利率低：</strong>白牌ODM模式利润率极低（5-8%），盈利弹性有限。</p>
+            <p class="concept-text"><strong>3. 地缘政治：</strong>台湾ODM产能集中在台湾，地缘政治风险不可忽视。</p>
+            <p class="concept-text"><strong>4. 技术路线变化：</strong>电源架构（48V标准化）、封装技术演进可能改变供应链。</p>
+          </div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <!-- 投资要点卡片 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">投资要点</h2>
+      <span class="section-sub">本章核心投资逻辑 · 仅供参考</span>
+    </div>
+    <div class="inv-card" id="inv-card" style="margin-top:0">
+      <div class="inv-card-body">
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">核心驱动因素</div>
+            <div class="inv-col-val">AI服务器市场十倍成长；鸿海等台湾ODM厂享有代工份额优势；GB200等高功率架构推动液冷及电源管理需求</div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">关键风险</div>
+            <div class="inv-col-val">GPU及高端封装等系统性供应瓶颈；ODM行业利润率低；地缘政治集中度风险</div>
+          </div>
+        </div>
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">受益方向</div>
+            <div class="inv-tickers"><span>DELL（品牌服务器）</span><span>SMCI（液冷整合）</span><span>鸿海（ODM绝对领先）</span></div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">风险暴露</div>
+            <div class="inv-col-val">白牌服务器市场竞争激烈导致毛利下滑；核心零部件（如电缆、电源扣板）短缺拖累出货</div>
+          </div>
+        </div>
+        <div class="inv-catalyst">
+          <div class="inv-col-label">近期催化剂</div>
+          <div class="inv-col-val">英伟达GB200 NVL72整机柜出货指引；代工龙头季度财报与出货数据</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">章节导航</h2>
+    </div>
+    <div class="prev-next-nav">
+      <a class="pn-btn pn-prev" href="ch08-optical.html">
+        <span class="pn-label">&larr; 上一章</span>
+        <span class="pn-title">光模块与互联</span>
+      </a>
+      <a class="pn-btn pn-next" href="ch10-power.html">
+        <span class="pn-label">下一章 &rarr;</span>
+        <span class="pn-title">能源与电力</span>
+      </a>
+    </div>
+    <div class="insight" style="margin-bottom:8px;"><strong>章节导航：</strong>共17章完整产业链 · <a href="index.html">返回总览</a></div>
+  </section>
+
+  
+<div class="footer">
+    <div class="footer-text">数据来源（实时搜索，2026年5月）：NVIDIA官方 &middot; AMD官方 &middot; Intel官方 &middot; Goldman Sachs Research &middot; Counterpoint Research &middot; TrendForce &middot; SemiAnalysis &middot; 各公司财报及公告<br><br>⚠ 本报告数据基于公开信息整理，不构成投资建议。所有投资标的请自行判断风险。数据可能有误差，欢迎反馈指正。</div>
+</div>
+
+<script src="theme-toggle.js"></script>
+<script src="nav.js"></script>
+
+
+
+
+</div>
+</div>
+</body>
+</html>

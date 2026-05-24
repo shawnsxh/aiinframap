@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIinfra Map · CH10 · 能源与电力</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.chapter-tag{background:var(--accent-gold)}
+.hero-title em{color:var(--accent-gold)}
+.flow-node:hover{border-color:var(--accent-gold)}
+.insight{background:var(--accent-gold-light);border:1px solid rgba(0,0,0,.15)}
+.insight strong{color:var(--accent-gold)}
+</style>
+</head>
+<body class="dark">
+<div class="wrap">
+<header class="site-header">
+    <div class="logo">AIinfra <span>/</span> Map</div>
+        <nav class="header-nav" id="mainNav"></nav>
+    <div class="header-right">
+      <div class="header-meta"><span><span class="dot"></span>数据截至 2026.05 · 共17章</span></div>
+      <div class="theme-switcher" id="themeSwitcher">
+        <button class="theme-btn" data-theme="light" title="浅色主题"><span class="dot-inner light"></span><span>浅色</span></button>
+        <button class="theme-btn" data-theme="dark" title="深色主题"><span class="dot-inner dark"></span><span>深色</span></button>
+      </div>
+      <button class="nav-collapse-btn" id="navCollapseBtn" title="收起导航" aria-label="收起导航"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 8L6 4L10 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="mobile-hamburger" id="mobileHamburger" aria-label="打开菜单"><svg width="18" height="14" viewBox="0 0 18 14" fill="none"><rect y="1" width="18" height="2" rx="1" fill="currentColor"/><rect y="6" width="18" height="2" rx="1" fill="currentColor"/><rect y="11" width="18" height="2" rx="1" fill="currentColor"/></svg></button>
+    </div>
+  </header>
+<!-- Mobile Nav -->
+  <div id="mobileNavMount"></div>
+<section class="hero">
+    <div class="hero-eyebrow"><span class="chapter-tag">CH08 · 能源与电力</span></div>
+    <h1 class="hero-title">能源与电力<br><em>数据中心扩张的物理瓶颈</em></h1>
+    <p class="hero-subtitle">电力架构 · UPS/发电机 · SiC功率器件 · Vertiv订单增60%</p>
+    <div class="hero-metrics">
+      <div class="metric"><span class="metric-value gold">+60%</span><span class="metric-label">Vertiv Q3 2025订单YoY</span></div>
+      <div class="metric"><span class="metric-value green">$10.7B</span><span class="metric-label">液冷市场2030预计</span></div>
+      <div class="metric"><span class="metric-value accent">51.93%</span><span class="metric-label">液冷市场CAGR</span></div>
+      <div class="metric"><span class="metric-value">120kW</span><span class="metric-label">GB200 NVL72/rack功耗</span></div>
+      <div class="metric"><span class="metric-value teal">5-10MW</span><span class="metric-label">5000台GPU集群耗电</span></div>
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">数据中心电力供应链传导路径</h2>
+      <span class="section-sub">从电网到GPU供电的完整链路</span>
+    </div>
+    <div class="flow-diagram">
+      <div class="flow-node">
+        <div class="flow-node-icon">⚡</div>
+        <div class="flow-node-title">电网接入</div>
+        <div class="flow-node-sub">110-220kV市电</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🔌</div>
+        <div class="flow-node-title">变压器</div>
+        <div class="flow-node-sub">降压至10-35kV</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🔋</div>
+        <div class="flow-node-title">UPS不间断电源</div>
+        <div class="flow-node-sub">备用电力保障</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🔀</div>
+        <div class="flow-node-title">PDU配电单元</div>
+        <div class="flow-node-sub">AC→DC分配</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">💡</div>
+        <div class="flow-node-title">48V配电</div>
+        <div class="flow-node-sub">SiC功率转换</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🗄️</div>
+        <div class="flow-node-title">GPU/CPU供电</div>
+        <div class="flow-node-sub">Vicor垂直供电</div>
+    </div>
+  </div>
+  </section>
+
+  <section class="section" id="sec-power-arch">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">数据中心电力架构 — 扩张的物理瓶颈</h2>
+      <span class="section-sub">电力系统多级架构 · AI时代需求爆发</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-gold-light);">⚡</div>
+        <div class="sector-title-group">
+          <div class="sector-title">数据中心电力系统架构</div>
+          <div class="sector-desc">数据中心电力系统是一个多级架构，AI时代功耗急剧增长，电力基础设施扩张速度成为数据中心扩张的核心物理约束。</div>
+        </div>
+        <span class="sector-badge badge-gold">能源</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text">数据中心电力系统是一个<strong>多级架构</strong>：市电电网（110kV或220kV）→ 主变压器（降压至10-35kV）→ 中压配电柜 → <strong>UPS（不间断电源）</strong>→ 配电单元（PDU，将AC转为DC）→ 机架PDU → <strong>服务器电源（PSU）</strong>→ 主板/GPU供电。</p>
+            <p class="concept-text">AI时代电力需求急剧增长：<strong>传统数据中心</strong>机架功耗约5-10kW，<strong>AI服务器机架</strong>达30-120kW（GB200 NVL72约120kW/rack）。一个<strong>5000台GPU的AI集群</strong>耗电约5-10MW，相当于一个小城镇的用电量。</p>
+            <p class="concept-text">数据中心选址受电力供应制约：可再生能源（核能/太阳能/风能）成为吸引因素。Microsoft签约核能（已与美国核能公司签署购电协议），Amazon和Google大额投资可再生能源和核能数据中心。</p>
+            <p class="concept-text">电力成本占数据中心OPEX（运营支出）约40%，是仅次于服务器硬件的第二大成本项。AI时代电力成本占比进一步提升。</p>
+          </div>
+          <div class="col">
+            <h4>关键数据</h4>
+            <div class="stats-grid">
+              <div class="cstat"><div class="cstat-lbl">传统机架功耗</div><div class="cstat-val">5-10kW</div></div>
+              <div class="cstat"><div class="cstat-lbl">AI机架功耗</div><div class="cstat-val up">30-120kW</div></div>
+              <div class="cstat"><div class="cstat-lbl">5000台GPU集群耗电</div><div class="cstat-val up">5-10MW</div></div>
+              <div class="cstat"><div class="cstat-lbl">电力成本占OPEX</div><div class="cstat-val gold">~40%</div></div>
+              <div class="cstat"><div class="cstat-lbl">数据中心选址制约</div><div class="cstat-val">电力+土地+水</div>
+    </div>
+  </div>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">VRT</span>
+              <span class="stock-name">Vertiv（维谛技术）</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">电力+冷却综合龙头</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">ETN</span>
+              <span class="stock-name">Eaton（伊顿）</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">UPS全球龙头</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">GEV</span>
+              <span class="stock-name">GE Vernova</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">大型发电设备</span>
+            </div>
+    </div>
+  </div>
+        <div class="risks-box">
+          <div class="risks-title">风险提示</div>
+          <div class="risk-item">电力基础设施扩张速度跟不上算力增速（主要矛盾）</div>
+          <div class="risk-item">部分地区电网容量不足，制约数据中心选址和扩张</div>
+          <div class="risk-item">碳中和要求推动可再生能源采购压力，增加运营成本</div>
+          <div class="risk-item">电力设备（变压器、UPS）交付周期长（6-12个月）</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sector" style="margin-top:18px;">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-gold-light);">☢️</div>
+        <div class="sector-title-group">
+          <div class="sector-title">核电与SMR（小模块化反应堆）采购浪潮</div>
+          <div class="sector-desc">随着传统电网遭遇瓶颈，AI 巨头直接与核电厂商锁定长期电力购买协议（PPA），核电和下一代小模块化反应堆（SMR）正成为 AI 最关键的清洁基荷能源。</div>
+        </div>
+        <span class="sector-badge badge-gold">核能</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>产业变局与趋势</h4>
+            <p class="concept-text"><strong>电网瓶颈与核电复兴：</strong>随着超大规模数据中心集群向十万卡、百万卡演进，其所需的数百兆瓦甚至吉瓦级电力已无法通过传统电网满足。为了实现全天候 24/7 的无碳稳定供电，云厂商正直接锁定核电资源。</p>
+            <p class="concept-text"><strong>巨头购电协议（PPA）落地：</strong>微软与星座能源（Constellation Energy，CEG）达成协议，为三哩岛核电站 1 号机组重启提供 20 年的独家电力购买；亚马逊 AWS 则购买了 Talen Energy 位于核电站旁的数据中心园区；谷歌也与 Kairos Power 签署协议支持其部署首批 SMR。</p>
+            <p class="concept-text"><strong>SMR（小模块化反应堆）的未来：</strong>SMR 具有制造模块化、占地面积小、安全性极高以及可直接部署在数据中心园区旁的独特优势。虽然 SMR 的商业落地时间预计在 2030 年左右，但云厂商正在通过长协资金加速其产业化进程，重塑未来数据中心的选址与供电模式。</p>
+            <div class="sources">Constellation Energy 与微软的合同是历史上最大单笔 PPA 购电协议；SMR 首批商用预计在 2028-2030 年。</div>
+          </div>
+          <div class="col">
+            <h4>关键数据</h4>
+            <div class="stats-grid">
+              <div class="cstat"><div class="cstat-lbl">微软核电长协期限</div><div class="cstat-val up">20 年</div></div>
+              <div class="cstat"><div class="cstat-lbl">三哩岛重启供电规模</div><div class="cstat-val green">835 MW</div></div>
+              <div class="cstat"><div class="cstat-lbl">SMR 单堆功率</div><div class="cstat-val">50-300 MW</div></div>
+              <div class="cstat"><div class="cstat-lbl">SMR 预计商用时程</div><div class="cstat-val gold">2028-2030年</div></div>
+            </div>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">CEG</span>
+              <span class="stock-name">Constellation Energy</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">全美最大核电运营商，绑定微软</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">TLN</span>
+              <span class="stock-name">Talen Energy</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">核电直供AWS数据中心</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">OKLO</span>
+              <span class="stock-name">Oklo Inc.</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">奥特曼投资的SMR先驱</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">SMR</span>
+              <span class="stock-name">Nuscale Power</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">首个获得NRC设计批准的SMR</span>
+            </div>
+          </div>
+        </div>
+        <div class="risks-box">
+          <div class="risks-title">风险提示</div>
+          <div class="risk-item">核能项目受严格的监管与NRC（核能管理委员会）安全审查，审批进度存在高度不确定性</div>
+          <div class="risk-item">SMR 仍处于技术验证与早期部署阶段，商业化量产可能出现延期</div>
+          <div class="risk-item">核燃料（高富集度低浓缩铀 HALEU）供应链可能受限</div>
+        </div>
+      </div>
+    </div>
+</section>
+
+  <section class="section" id="sec-ups">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">UPS/发电机格局 — 电力备份系统</h2>
+      <span class="section-sub">Vertiv / 伊顿 / 施耐德 / Caterpillar</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-teal-light);">🔋</div>
+        <div class="sector-title-group">
+          <div class="sector-title">UPS不间断电源 / 备用发电机</div>
+          <div class="sector-desc">UPS在市电中断时提供即时电力保障，发电机在长时间停电时接管供电，两者共同保障数据中心99.99%+可用性。</div>
+        </div>
+        <span class="sector-badge badge-teal">能源</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text"><strong>UPS（不间断电源）</strong>在市电中断时提供即时电力保障（市电→整流→逆变→负载，无缝切换时间<1ms），保障服务器不宕机。大型数据中心通常配置N+1冗余UPS（多台并联，一台故障不影响运行）。</p>
+            <p class="concept-text"><strong>Vertiv（维谛技术）</strong>是数据中心电力和冷却基础设施的全球龙头，产品覆盖UPS、精密配电、冷却系统全类别。Q3 2025订单增长+60% YoY，营收增长超30%，是AI基础设施景气最直接的受益者之一。</p>
+            <p class="concept-text"><strong>Eaton（伊顿）</strong>是全球UPS和电气保护设备龙头，在数据中心配电市场份额约25%，产品涵盖UPS、PDU、断路器等。Schneider Electric（施耐德电气EcoStruxure）在数据中心电力管理平台上领先。</p>
+            <p class="concept-text"><strong>发电机</strong>：Caterpillar（CAT）和Cummins（CMI）是数据中心备用发电机龙头，功率范围500kW-5MW+，可在市电中断后数秒内启动。发电机燃料可为柴油、天然气。</p>
+          </div>
+          <div class="col">
+            <h4>关键数据</h4>
+            <div class="stats-grid">
+              <div class="cstat"><div class="cstat-lbl">Vertiv Q3 2025订单</div><div class="cstat-val up">+60% YoY</div></div>
+              <div class="cstat"><div class="cstat-lbl">伊顿数据中心配电市占</div><div class="cstat-val teal">~25%</div></div>
+              <div class="cstat"><div class="cstat-lbl">模块化UPS渗透率</div><div class="cstat-val up">持续提升</div></div>
+              <div class="cstat"><div class="cstat-lbl">锂电UPS替代铅酸</div><div class="cstat-val up">趋势加速</div></div>
+              <div class="cstat"><div class="cstat-lbl">发电机功率范围</div><div class="cstat-val">500kW-5MW+</div>
+    </div>
+  </div>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">VRT</span>
+              <span class="stock-name">Vertiv（维谛技术）</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">数据中心电力+冷却龙头</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">ETN</span>
+              <span class="stock-name">Eaton（伊顿）</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">UPS全球龙头</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">CAT</span>
+              <span class="stock-name">Caterpillar（卡特彼勒）</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">备用发电机龙头</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">CMI</span>
+              <span class="stock-name">Cummins（康明斯）</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">数据中心发电机</span>
+            </div>
+    </div>
+  </div>
+        <div class="risks-box">
+          <div class="risks-title">风险提示</div>
+          <div class="risk-item">中国厂商（华为/维谛中国）在亚太市场竞争，价格压力增加</div>
+          <div class="risk-item">数据中心运营商自建电力设备可能降低对外部供应商的依赖</div>
+          <div class="risk-item">原材料（铜/钢/电子元件）价格波动影响成本和毛利</div>
+          <div class="risk-item">AI CapEx削减可能影响电力设备采购</div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <section class="section" id="sec-sic-power">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">碳化硅在电力转换中的核心应用</h2>
+      <span class="section-sub">onsemi / Infineon / STMicro / 天岳先进</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-green-light);">💎</div>
+        <div class="sector-title-group">
+          <div class="sector-title">碳化硅功率器件 — 数据中心电力转换革命</div>
+          <div class="sector-desc">SiC功率器件在数据中心的电力转换系统中降低损耗、减小体积，是AI数据中心的刚需。</div>
+        </div>
+        <span class="sector-badge badge-green">能源</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text">数据中心电力转换链路长（AC→DC→负载），每次转换都有损耗。传统Si IGBT开关频率低（<20kHz），需要大型磁性元件（电感/变压器），效率约95-96%，体积大、散热多。</p>
+            <p class="concept-text"><strong>SiC MOSFET</strong>相比传统Si IGBT：<strong>开关损耗降低50-70%</strong>、<strong>工作频率提升10倍</strong>（>100kHz）、<strong>功率密度提高3倍</strong>。这使数据中心可以：①减小磁性元件体积（高频=更小的电感/变压器）；②降低散热需求（损耗低）；③提升配电效率（48V架构中SiC价值更高）。</p>
+            <p class="concept-text">在AI服务器PSU中，SiC二极管已广泛使用，SiC MOSFET正在快速导入。在UPS中，SiC提升效率的同时减小设备体积。<strong>Wolfspeed</strong>是全球SiC衬底龙头（市占约45%），但2025年申请破产保护重组，行业格局可能重塑。<strong>onsemi</strong>和<strong>Infineon</strong>在SiC器件上快速扩张。</p>
+          </div>
+          <div class="col">
+            <h4>关键数据</h4>
+            <div class="stats-grid">
+              <div class="cstat"><div class="cstat-lbl">SiC vs Si IGBT开关损耗</div><div class="cstat-val up">降低50-70%</div></div>
+              <div class="cstat"><div class="cstat-lbl">SiC电力转换效率</div><div class="cstat-val up">>98% vs ~95-96%</div></div>
+              <div class="cstat"><div class="cstat-lbl">SiC衬底成本</div><div class="cstat-val">硅的3-5倍</div></div>
+              <div class="cstat"><div class="cstat-lbl">Wolfspeed SiC衬底市占</div><div class="cstat-val gold">~45%（财务承压）</div></div>
+              <div class="cstat"><div class="cstat-lbl">AI服务器PSU SiC渗透</div><div class="cstat-val up">快速提升</div>
+    </div>
+  </div>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">ON</span>
+              <span class="stock-name">onsemi（安森美）</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">SiC器件快速扩张</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">IFNNY</span>
+              <span class="stock-name">Infineon（英飞凌）</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">SiC功率器件欧洲龙头</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">STM</span>
+              <span class="stock-name">STMicroelectronics</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">SiC IDM全产业链</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">688234.SH</span>
+              <span class="stock-name">天岳先进</span>
+              <span class="stock-exch exch-cn">A股</span>
+              <span class="stock-note">SiC衬底中国龙头</span>
+            </div>
+    </div>
+  </div>
+        <div class="risks-box">
+          <div class="risks-title">风险提示</div>
+          <div class="risk-item">Wolfspeed破产重组带来SiC供应链不确定性</div>
+          <div class="risk-item">SiC成本仍是硅基的3-5倍，渗透速度取决于成本下降节奏</div>
+          <div class="risk-item">中国厂商追赶加速，但高端SiC衬底仍有差距</div>
+    </div>
+  </div>
+    </div>
+
+    <div class="sector" style="margin-top:18px;">
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>投资逻辑</h4>
+            <p class="concept-text"><strong>1. AI服务器功耗飙升（GB200 NVL72 120kW/rack），电力基础设施是数据中心扩张的物理瓶颈：</strong>Vertiv订单增长60% YoY，电力+冷却双轮驱动，景气度极高。</p>
+            <p class="concept-text"><strong>2. SiC在电力转换中加速渗透：</strong>效率提升+体积减小是AI数据中心的刚需，onsemi/Infineon快速扩张。</p>
+            <p class="concept-text"><strong>3. 发电机组、UPS等电力备份设备需求随数据中心扩张同步增长：</strong>Caterpillar/Cummins发电机需求受益。</p>
+            <p class="concept-text"><strong>4. 电力成本占OPEX 40%+，电力效率优化是云厂商的核心关注点。</strong></p>
+          </div>
+          <div class="col">
+            <h4>关键风险</h4>
+            <p class="concept-text"><strong>1. 电力基础设施扩张速度跟不上算力增速：</strong>这是AI基础设施扩张的系统性瓶颈，短期难以根本解决。</p>
+            <p class="concept-text"><strong>2. Wolfspeed破产带来的SiC供应链不确定性：</strong>可能加速onsemi/Infineon市占提升。</p>
+            <p class="concept-text"><strong>3. 中国厂商价格竞争：</strong>华为/维谛中国在亚太电力设备市场竞争激烈。</p>
+            <p class="concept-text"><strong>4. 可再生能源采购压力：</strong>碳中和政策推动增加运营成本。</p>
+          </div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <!-- 投资要点卡片 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">投资要点</h2>
+      <span class="section-sub">本章核心投资逻辑 · 仅供参考</span>
+    </div>
+    <div class="inv-card" id="inv-card" style="margin-top:0">
+      <div class="inv-card-body">
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">核心驱动因素</div>
+            <div class="inv-col-val">AI数据中心功耗暴增推动变配电及UPS需求；高效率转换推动SiC加速渗透；发电机组与电力备份增长</div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">关键风险</div>
+            <div class="inv-col-val">电力资源成为AI算力扩张的终极物理瓶颈；SiC供应链存在不确定性；碳中和采购成本压力</div>
+          </div>
+        </div>
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">受益方向</div>
+            <div class="inv-tickers"><span>VRT（变配电与温控）</span><span>ETN（配电巨头）</span><span>ON（SiC器件）</span></div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">风险暴露</div>
+            <div class="inv-col-val">美国电网并网申请积压；关键原材料铜价格上涨增加电网设备变压器制造成本</div>
+          </div>
+        </div>
+        <div class="inv-catalyst">
+          <div class="inv-col-label">近期催化剂</div>
+          <div class="inv-col-val">云厂商与核电巨头购电协议（PPA）落地；Vertiv及Eaton在手订单最新公布</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header"><span class="section-num">06</span><h2 class="section-title">章节导航</h2></div>
+    <div class="prev-next-nav">
+      <a class="pn-btn pn-prev" href="ch09-servers.html"><span class="pn-label">&larr; 上一章</span><span class="pn-title">算力与服务器</span></a>
+      <a class="pn-btn pn-next" href="ch11-cooling.html"><span class="pn-label">下一章 &rarr;</span><span class="pn-title">散热与液冷</span></a>
+    </div>
+    <div class="insight" style="margin-bottom:8px;"><strong>章节导航：</strong>共17章完整产业链 · <a href="index.html">返回总览</a></div>
+  </section>
+<div class="footer">
+    <div class="footer-text">数据来源（实时搜索，2026年5月）：Vertiv官方 · Eaton官方 · IDC · Goldman Sachs Research · Uptime Institute · 各公司财报及公告<br><br>⚠ 本报告数据基于公开信息整理，不构成投资建议。所有投资标的请自行判断风险。数据可能有误差，欢迎反馈指正。</div>
+</div>
+<script src="theme-toggle.js"></script>
+<script src="nav.js"></script>
+
+</div>
+
+</body>
+</html>

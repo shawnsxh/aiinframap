@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗺️</text></svg>">
+<title>AIinfra Map · CH14 · 风险因素与地缘政治</title>
+<meta name="description" content="美国BIS出口管制、台海地缘风险、供应链分散化、中国自主可控全面分析。华为昇腾追赶路径，投资对冲策略与情景分析。">
+<meta property="og:title" content="CH14 · 风险因素与地缘政治">
+<meta property="og:description" content="美国BIS出口管制、台海地缘风险、供应链分散化、中国自主可控全面分析。">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.chapter-tag{background:var(--accent-red)}
+.hero-title em{color:var(--accent-red)}
+.insight{background:var(--accent-red-light);border:1px solid rgba(140,26,42,0.2)}
+.insight strong{color:var(--accent-red)}
+.inv-tickers span{background:var(--accent-red-light);border:1px solid rgba(140,26,42,0.2);color:var(--accent-red)}
+
+/* ─── Risk Labels ─── */
+.risk-high{color:#fff;background:#8c1a2a;padding:2px 8px;border-radius:4px;font-family:"DM Mono",monospace;font-size:10px}
+.risk-med{color:#fff;background:#8c6820;padding:2px 8px;border-radius:4px;font-family:"DM Mono",monospace;font-size:10px}
+.risk-low{color:#fff;background:#1a5c3a;padding:2px 8px;border-radius:4px;font-family:"DM Mono",monospace;font-size:10px}
+
+/* ─── Timeline ─── */
+.timeline{margin:28px 0;position:relative;padding-left:32px}
+.timeline::before{content:"";position:absolute;left:7px;top:4px;bottom:4px;width:2px;background:linear-gradient(to bottom,var(--accent-red),var(--accent-red-light),transparent);border-radius:1px}
+.timeline-item{margin-bottom:32px;position:relative;padding-left:20px}
+.timeline-item::before{content:"";position:absolute;left:-29px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--surface-0);border:2.5px solid var(--accent-red);box-shadow:0 0 0 4px var(--accent-red-light)}
+.timeline-date{font-family:"DM Mono",monospace;font-size:10px;color:var(--accent-red);letter-spacing:.06em;margin-bottom:4px;font-weight:500}
+.timeline-title{font-family:"Playfair Display",serif;font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:5px}
+.timeline-desc{font-size:13px;color:var(--text-2);line-height:1.75}
+
+/* ─── Risk Matrix ─── */
+.risk-matrix{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin:24px 0}
+.risk-card{background:var(--card-bg);border:1px solid var(--border-light);border-radius:8px;padding:16px 18px;box-shadow:var(--shadow);transition:all .2s ease;border-left:3px solid var(--border)}
+.risk-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.risk-card.high{border-left-color:var(--accent-red)}
+.risk-card.med{border-left-color:var(--accent-gold)}
+.risk-card.low{border-left-color:var(--accent-green)}
+.risk-card-title{font-family:"Playfair Display",serif;font-size:14px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.risk-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.risk-dot.h{background:#8c1a2a;box-shadow:0 0 6px rgba(140,26,42,0.4)}
+.risk-dot.m{background:#8c6820;box-shadow:0 0 6px rgba(140,104,32,0.3)}
+.risk-dot.l{background:#1a5c3a;box-shadow:0 0 6px rgba(26,92,58,0.3)}
+.risk-card p{font-size:12.5px;color:var(--text-3);line-height:1.7}
+.risk-card .companies{font-family:"DM Mono",monospace;font-size:10px;color:var(--text-2);margin-top:8px}
+
+/* ─── Geo Map ─── */
+.geo-map{background:var(--surface-1);border:1px solid var(--border);border-radius:10px;padding:24px;margin:24px 0}
+.geo-map-title{font-family:"Playfair Display",serif;font-size:15px;font-weight:600;margin-bottom:18px;color:var(--text-1)}
+.geo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.geo-region{background:var(--card-bg);border:1px solid var(--border-light);border-radius:8px;padding:14px 16px;box-shadow:var(--shadow);transition:all .2s ease}
+.geo-region:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.geo-region-name{font-family:"DM Mono",monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:5px}
+.geo-region-fab{font-size:14px;font-weight:600;color:var(--text-1);margin-bottom:4px}
+.geo-region-note{font-size:11.5px;color:var(--text-3);line-height:1.6}
+
+/* ─── Hedge Grid ─── */
+.hedge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin:24px 0}
+.hedge-card{background:var(--card-bg);border:1px solid var(--border-light);border-radius:8px;padding:18px 20px;box-shadow:var(--shadow);transition:all .2s ease}
+.hedge-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.hedge-icon-wrap{width:40px;height:40px;border-radius:10px;background:var(--accent-red-light);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px}
+.hedge-title{font-family:"Playfair Display",serif;font-size:14px;font-weight:600;color:var(--text-1);margin-bottom:7px}
+.hedge-desc{font-size:12.5px;color:var(--text-3);line-height:1.7}
+
+/* ─── Info Table ─── */
+.info-table{width:100%;border-collapse:separate;border-spacing:0;overflow:hidden;border-radius:8px;border:1px solid var(--border);font-size:13px}
+.info-table thead tr{background:var(--surface-2)}
+.info-table th{padding:10px 14px;text-align:left;font-family:"DM Mono",monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);border-bottom:2px solid var(--border)}
+.info-table td{padding:10px 14px;border-bottom:1px solid var(--border-light);color:var(--text-2)}
+.info-table tbody tr:last-child td{border-bottom:none}
+.info-table tbody tr:hover{background:var(--surface-1)}
+
+
+
+/* ─── Responsive ─── */
+@media(max-width:600px){
+  .risk-matrix{grid-template-columns:1fr}
+  .geo-grid{grid-template-columns:1fr}
+  .hedge-grid{grid-template-columns:1fr}
+  .inv-row{grid-template-columns:1fr}
+  .timeline{padding-left:24px}
+}
+
+.nav-header .section-num{color:var(--accent-red)}</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="site-header">
+  <div class="logo">AIinfra <span>/</span> Map</div>
+    <nav class="header-nav" id="mainNav"></nav>
+  <div class="header-right">
+    <div class="header-meta"><span class="dot"></span>数据截至 2026.05 · 共17章</div>
+    <div class="theme-switcher">
+      <button class="theme-btn" data-theme="light" title="浅色主题"><span class="dot-inner light"></span><span>浅色</span></button>
+      <button class="theme-btn" data-theme="dark" title="深色主题"><span class="dot-inner dark"></span><span>深色</span></button>
+    </div>
+    <button class="nav-collapse-btn" id="navCollapseBtn" title="收起导航" aria-label="收起导航"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 8L6 4L10 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button class="mobile-hamburger" id="mobileHamburger" aria-label="打开菜单"><svg width="18" height="14" viewBox="0 0 18 14" fill="none"><rect y="1" width="18" height="2" rx="1" fill="currentColor"/><rect y="6" width="18" height="2" rx="1" fill="currentColor"/><rect y="11" width="18" height="2" rx="1" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<div id="mobileNavMount"></div>
+
+<section class="hero">
+<div class="breadcrumb"><a href="index.html">AIinfra Map</a> / <span>CH14 · 风险因素与地缘政治</span></div>
+  <div class="hero-eyebrow"><span class="chapter-tag">CH14 · Risk &amp; Geopolitics</span></div>
+  <h1 class="hero-title">风险因素<br><em>与地缘政治</em></h1>
+  <p class="hero-subtitle">出口管制 · 台海风险 · 供应链分散化 · 中国自主可控 · 投资对冲策略</p>
+  <div class="hero-metrics">
+    <div class="metric"><span class="metric-value red">$160M+</span><span class="metric-label">2025年芯片走私拦截规模</span></div>
+    <div class="metric"><span class="metric-value gold">80</span><span class="metric-label">2026年1月新增实体清单企业</span></div>
+    <div class="metric"><span class="metric-value purple">$165B</span><span class="metric-label">TSMC亚利桑那扩产总规模</span></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">为什么风险因素至关重要</h2>
+  </div>
+  <p>AI基础设施产业链高度集中于台湾地区 and 少数几个国家，使得该行业对地缘政治事件极为敏感。2025至2026年间，美国出口管制持续收紧，中国加速推动自主可控，台湾供应链向全球分散化——这三股力量正在重新塑造AI产业链的地理格局。</p>
+  <div class="insight"><strong>核心判断：</strong>AI基础设施投资的核心风险不是技术，也不是需求，而是供应链的地理集中度。在台海风险、出口管制和供应链重构三重叠加下，产业链中的"冗余节点"（如非台湾地区的先进封装、境外代工产能）将从成本负担变为战略资产。</div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">美国出口管制</h2>
+    <span class="section-sub">BIS 实体清单与许可证政策</span>
+  </div>
+  <p>美国商务部工业与安全局（BIS）的出口管制是当前AI芯片产业最重要的政策变量。</p>
+  <div class="timeline">
+    <div class="timeline-item"><div class="timeline-date">2025年1月</div><div class="timeline-title">拜登政府强化 AI 扩散规则</div><div class="timeline-desc">BIS宣布强化AI扩散规则，进一步限制先进AI芯片向受关注国家出口。</div></div>
+    <div class="timeline-item"><div class="timeline-date">2025年4月</div><div class="timeline-title">特朗普政府废除 AI 扩散规则</div><div class="timeline-desc">新政府废除拜登时期AI扩散规则，但同步扩大实体清单范围，新增约65个中国实体。</div></div>
+    <div class="timeline-item"><div class="timeline-date">2025年12月</div><div class="timeline-title">司法部"守门员行动"</div><div class="timeline-desc">截获涉案规模超过<strong>$160M</strong>的芯片走私网络，涉及经香港向中国大陆非法出口AI芯片。</div></div>
+    <div class="timeline-item"><div class="timeline-date">2026年1月15日</div><div class="timeline-title">H200逐案审查政策</div><div class="timeline-desc">BIS将Nvidia H200、AMD MI325X对华出口许可证审查政策从"拒绝推定"改为"逐案审查"（Case-by-Case）。</div></div>
+  </div>
+  <table class="info-table" style="margin-top:18px">
+    <thead><tr><th>芯片类型</th><th>限制级别</th><th>状态</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Nvidia H100</strong></td><td><span class="risk-high">最高</span></td><td>全面限制出口中国/港澳</td></tr>
+      <tr><td><strong>Nvidia Blackwell (B100/B200)</strong></td><td><span class="risk-high">最高</span></td><td>全面限制</td></tr>
+      <tr><td><strong>AMD MI325X</strong></td><td><span class="risk-high">高</span></td><td>2026年1月起逐案审查</td></tr>
+      <tr><td><strong>HBM3/3E 存储</strong></td><td><span class="risk-high">高</span></td><td>用于中国AI芯片的HBM需特别许可</td></tr>
+    </tbody>
+  </table>
+  <div class="insight" style="margin-top:16px"><strong>关键风险：</strong>"Affiliates Rule"是2025年新引入的延伸管制——若境外实体50%以上被列入实体清单企业所有，该境外实体也将受到同等出口限制。</div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">台湾地缘风险</h2>
+    <span class="section-sub">集中度的代价</span>
+  </div>
+  <p>台积电一家公司占据全球约60%的先进制程芯片产能。这种集中度在和平时期是效率的体现，在地缘冲突背景下则是整个AI产业链的致命弱点。</p>
+  <div class="geo-map">
+    <div class="geo-map-title">全球先进制程产能分布（2026年预估）</div>
+    <div class="geo-grid">
+      <div class="geo-region"><div class="geo-region-name">台湾地区</div><div class="geo-region-fab">~63% 先进制程产能</div><div class="geo-region-note">TSMC 全部N3/N5产能；面临地震、军事冲突风险</div></div>
+      <div class="geo-region"><div class="geo-region-name">亚利桑那（美国）</div><div class="geo-region-fab">Fab1 生产中；Fab2 2H27</div><div class="geo-region-note">总扩产规模$165B；最高12座fab规划</div></div>
+      <div class="geo-region"><div class="geo-region-name">熊本（日本）</div><div class="geo-region-fab">Fab1 运行中；Fab2 2028</div><div class="geo-region-note">JASM；Sony/Nissan/Toyota股东；3nm引入 Nvidia AI需求</div></div>
+      <div class="geo-region"><div class="geo-region-name">德国</div><div class="geo-region-fab">进度延后</div><div class="geo-region-note">补贴谈判僵局；进度不及预期</div></div>
+    </div>
+  </div>
+  <div class="insight"><strong>台海风险量化：</strong>若台海发生军事冲突，全球半导体供应链可能面临3-6个月的严重中断，AI服务器价格上涨20-40%。极端情景概率低，但一旦发生破坏力极大。</div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2 class="section-title">中国自主可控</h2>
+    <span class="section-sub">华为昇腾的追赶之路</span>
+  </div>
+  <p>在美国持续制裁下，以华为-中芯国际组合为核心 of 中国AI芯片产业链正在以超乎预期的速度缩小与西方的差距。</p>
+  <table class="info-table" style="margin-top:18px">
+    <thead><tr><th>芯片型号</th><th>制程</th><th>目标时间</th><th>对标产品</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Ascend 910B / 910C</strong></td><td>7nm (N+2)</td><td>已量产</td><td>A100 / H100</td></tr>
+      <tr><td><strong>Atlas 950 SuperCluster</strong></td><td>7nm集群</td><td>Q4 2025</td><td>H100 Cluster</td></tr>
+      <tr><td><strong>Ascend 950PR</strong></td><td>7nm</td><td>Q1 2026</td><td>H200</td></tr>
+      <tr><td><strong>Ascend 950DT</strong></td><td>7nm</td><td>Q4 2026</td><td>H200/H100</td></tr>
+      <tr><td><strong>Atlas 960 SuperCluster</strong></td><td>7nm集群</td><td>Q4 2027</td><td>B200 Cluster</td></tr>
+    </tbody>
+  </table>
+  <div class="insight" style="margin-top:16px"><strong>关键瓶颈——HBM：</strong>中国AI芯片面临的最大瓶颈是HBM。SK Hynix和Samsung受美国管制无法向中国供应HBM，CXMT长鑫存储国产HBM2e仍在追赶HBM3E水平。这一瓶颈在2026-2027年前难以完全突破。</div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2 class="section-title">全环节风险矩阵</h2>
+  </div>
+  <div class="risk-matrix">
+    <div class="risk-card high"><div class="risk-card-title"><span class="risk-dot h"></span>台积电制造集中度</div><p>全球60%先进制程产能在台湾单一地区。地震、军事冲突或外交封锁均可导致供应链中断。</p></div>
+    <div class="risk-card high"><div class="risk-card-title"><span class="risk-dot h"></span>H100/H200出口管制</div><p>H100已全面受限；H200转向逐案审查。中国AI企业获取高端GPU的渠道持续收窄。</p></div>
+    <div class="risk-card high"><div class="risk-card-title"><span class="risk-dot h"></span>HBM供应集中于韩企</div><p>SK Hynix（全球HBM市占约55%）是英伟达HBM3E独家供应商。韩国地缘政治风险叠加地震风险。</p></div>
+    <div class="risk-card med"><div class="risk-card-title"><span class="risk-dot m"></span>CoWoS封装产能瓶颈</div><p>台积电CoWoS月产能约6,000片（2025年），扩张受设备交货期限制。产能扩张速度可能制约AI芯片供应量。</p></div>
+    <div class="risk-card med"><div class="risk-card-title"><span class="risk-dot m"></span>液体电解质冷却剂（PFAS）</div><p>3M等主导PFAS冷却剂供应，面临环境管制压力。替代品正在评估但尚未完全替代。</p></div>
+    <div class="risk-card low"><div class="risk-card-title"><span class="risk-dot l"></span>能源电网容量</div><p>AI数据中心用电需求快速增长，部分地区电网容量成为扩张瓶颈。能源多元化正在缓解这一风险。</p></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <span class="section-num">06</span>
+    <h2 class="section-title">投资对冲策略</h2>
+  </div>
+  <div class="hedge-grid">
+    <div class="hedge-card"><div class="hedge-icon-wrap">🏭</div><div class="hedge-title">台积电台股以外产能受益者</div><div class="hedge-desc">TSMC Arizona、日本JASM工厂的设备供应商和建设承包商将受益于台积电全球扩张。台积电2026年资本开支$52-56B。</div></div>
+    <div class="hedge-card"><div class="hedge-icon-wrap">🔄</div><div class="hedge-title">供应链冗余节点</div><div class="hedge-desc">先进封装分散化：ASE Group、Amkor的非台湾地区产能（马来西亚、越南）将获得更多关注。</div></div>
+    <div class="hedge-card"><div class="hedge-icon-wrap">🏛️</div><div class="hedge-title">数据中心REITs分散地缘风险</div><div class="hedge-desc">Equinix、Digital Realty等全球性数据中心REITs资产分布在不同地区，可在单一地缘事件中对冲区域集中风险。</div></div>
+    <div class="hedge-card"><div class="hedge-icon-wrap">🇨🇳</div><div class="hedge-title">中国自主可控主题</div><div class="hedge-desc">华为昇腾供应链（中芯国际、长电科技）、国产半导体设备（北方华创、中微公司）具备长期配置价值。</div></div>
+  </div>
+</section>
+
+<!-- 投资要点卡片 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2 class="section-title">投资要点</h2>
+      <span class="section-sub">本章核心投资逻辑 · 仅供参考</span>
+    </div>
+    <div class="inv-card" id="inv-card" style="margin-top:0">
+      <div class="inv-card-body">
+    <div class="inv-row">
+      <div class="inv-col">
+        <div class="inv-col-label">核心驱动因素</div>
+        <div class="inv-col-val">美国 BIS 出口管制持续收紧；台海地缘风险驱动供应链分散化；中国举国体制加速半导体自主可控</div>
+      </div>
+      <div class="inv-col">
+        <div class="inv-col-label">关键风险</div>
+        <div class="inv-col-val">台海军事冲突（极端低概率极高破坏力）；出口管制超预期全面升级；HBM供应断供</div>
+      </div>
+    </div>
+    <div class="inv-row">
+      <div class="inv-col">
+        <div class="inv-col-label">受益方向</div>
+        <div class="inv-tickers"><span>TSM（分散化受益）</span><span>EQIX/DLR（REITs对冲）</span><span>北方华创/中微（国产）</span></div>
+      </div>
+      <div class="inv-col">
+        <div class="inv-col-label">风险暴露</div>
+        <div class="inv-col-val">NVDA H100受限；SK Hynix HBM供中国受阻；ASE马来西亚/越南产能扩张</div>
+      </div>
+    </div>
+    <div class="inv-catalyst">
+      <div class="inv-col-label">近期催化剂</div>
+      <div class="inv-col-val">BIS 春秋半年度审查；TSMC Arizona Fab2设备安装节点（2H26）；华为 Ascend 950DT 发布（Q4 2026）</div>
+    </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="section">
+    <div class="section-header"><span class="section-num">08</span><h2 class="section-title">章节导航</h2></div>
+    <div class="prev-next-nav">
+      <a class="pn-btn pn-prev" href="ch13-applications.html"><span class="pn-label">&larr; 上一章</span><span class="pn-title">AI应用层</span></a>
+      <a class="pn-btn pn-next" href="ch15-valuation.html"><span class="pn-label">下一章 &rarr;</span><span class="pn-title">估值对比</span></a>
+    </div>
+    <div class="insight" style="margin-bottom:8px;"><strong>章节导航：</strong>共17章完整产业链 · <a href="index.html">返回总览</a></div>
+  </section>
+
+  <div class="footer">
+    <div class="footer-text">数据来源（实时搜索，2026年5月）：BIS官方公告 · TSMC财报 · Bloomberg · SemiAnalysis · Morrison Foerster · 各公司财报及公告<br><br>⚠ 本报告数据基于公开信息整理，不构成投资建议。所有投资标的请自行判断风险。数据可能有误差，欢迎反馈指正。</div>
+  </div>
+</div>
+
+<script src="theme-toggle.js"></script>
+<script src="nav.js"></script>
+
+</body>
+</html>

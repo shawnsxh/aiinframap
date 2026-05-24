@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIinfra Map · CH11 · 散热与液冷</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.chapter-tag{background:var(--accent-teal)}
+.hero-title em{color:var(--accent-teal)}
+.flow-node:hover{border-color:var(--accent-teal)}
+.insight{background:var(--accent-teal-light);border:1px solid rgba(0,0,0,.15)}
+.insight strong{color:var(--accent-teal)}
+</style>
+</head>
+<body class="dark">
+<div class="wrap">
+<header class="site-header">
+    <div class="logo">AIinfra <span>/</span> Map</div>
+        <nav class="header-nav" id="mainNav"></nav>
+    <div class="header-right">
+      <div class="header-meta"><span><span class="dot"></span>数据截至 2026.05 · 共17章</span></div>
+      <div class="theme-switcher" id="themeSwitcher">
+        <button class="theme-btn" data-theme="light" title="浅色主题"><span class="dot-inner light"></span><span>浅色</span></button>
+        <button class="theme-btn" data-theme="dark" title="深色主题"><span class="dot-inner dark"></span><span>深色</span></button>
+      </div>
+      <button class="nav-collapse-btn" id="navCollapseBtn" title="收起导航" aria-label="收起导航"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 8L6 4L10 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="mobile-hamburger" id="mobileHamburger" aria-label="打开菜单"><svg width="18" height="14" viewBox="0 0 18 14" fill="none"><rect y="1" width="18" height="2" rx="1" fill="currentColor"/><rect y="6" width="18" height="2" rx="1" fill="currentColor"/><rect y="11" width="18" height="2" rx="1" fill="currentColor"/></svg></button>
+    </div>
+  </header>
+<!-- Mobile Nav -->
+  <div id="mobileNavMount"></div>
+<section class="hero">
+    <div class="hero-eyebrow"><span class="chapter-tag">CH11 · 散热与液冷</span></div>
+    <h1 class="hero-title">散热与液冷<br><em>AI服务器的强制需求</em></h1>
+    <p class="hero-subtitle">液冷技术路线 · 冷板/浸没/喷淋 · Vertiv/Asetek/英维克</p>
+    <div class="hero-metrics">
+      <div class="metric"><span class="metric-value teal">$870M</span><span class="metric-label">液冷市场2024</span></div>
+      <div class="metric"><span class="metric-value green">$10.7B</span><span class="metric-label">液冷市场2030预计</span></div>
+      <div class="metric"><span class="metric-value gold">51.93%</span><span class="metric-label">液冷市场CAGR</span></div>
+      <div class="metric"><span class="metric-value accent">~70-80%</span><span class="metric-label">冷板冷却市场份额</span></div>
+      <div class="metric"><span class="metric-value purple">5-10x</span><span class="metric-label">液冷vs风冷散热效率</span></div>
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">液冷散热供应链传导路径</h2>
+      <span class="section-sub">从芯片散热到数据中心冷却的完整链路</span>
+    </div>
+    <div class="flow-diagram">
+      <div class="flow-node">
+        <div class="flow-node-icon">🔥</div>
+        <div class="flow-node-title">芯片发热</div>
+        <div class="flow-node-sub">B200 TDP=1000W</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🧊</div>
+        <div class="flow-node-title">冷板/歧管</div>
+        <div class="flow-node-sub">直接接触芯片背面</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">💧</div>
+        <div class="flow-node-title">冷却水循环</div>
+        <div class="flow-node-sub">CDU分配单元</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🌡️</div>
+        <div class="flow-node-title">热交换器</div>
+        <div class="flow-node-sub">冷却塔/干冷器</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">❄️</div>
+        <div class="flow-node-title">精密空调</div>
+        <div class="flow-node-sub">温控+湿度管理</div>
+    </div>
+  </div>
+  </section>
+
+  <section class="section" id="sec-tech路线">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">液冷技术路线全面解析 — 冷板 vs 浸没 vs 喷淋</h2>
+      <span class="section-sub">B200 TDP=1000W，空气冷却已无法满足，液冷是强制需求</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-teal-light);">💧</div>
+        <div class="sector-title-group">
+          <div class="sector-title">液冷三条主要技术路线</div>
+          <div class="sector-desc">液冷是AI服务器（尤其是Blackwell架构GPU）的强制需求，三条技术路线各有优劣。</div>
+        </div>
+        <span class="sector-badge badge-teal">液冷散热</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text"><strong>液冷是AI服务器的强制需求。</strong>Blackwell架构B200 GPU TDP=1000W/颗，空气冷却（风冷）已完全无法满足散热需求。液冷散热效率约为风冷的5-10倍。</p>
+            <p class="concept-text"><strong>①冷板冷却（Cold Plate）</strong>是最主流方案：冷却板（内部通冷却水管）贴在芯片（CPU/GPU/内存）背面，热量通过冷却水带走。服务器内部是风冷+冷板混合（CPU/GPU液冷，其他部件风冷）。<strong>冷板冷却约占据液冷市场70-80%份额。</strong>优点：改造成本相对低，与现有服务器架构兼容；缺点：只能冷却芯片，其他高热部件仍需风冷。</p>
+            <p class="concept-text"><strong>②单相浸没冷却（Single-Phase Immersion）</strong>：将整个服务器浸入不导电冷却液（如3M Novec 7100、矿物油）中，热量通过冷却液循环带走。优点：冷却效果均匀，适合高功率密度；缺点：冷却液成本高（3M Novec约$200-400/kg），维护复杂。<strong>约占液冷市场~15%。</strong></p>
+            <p class="concept-text"><strong>③两相浸没冷却（Two-Phase Immersion）</strong>：冷却液在芯片表面沸腾（相变），带走大量潜热，效率最高。代表厂商：Submer（西班牙）、GRC（Green Revolution Cooling，美国）。<strong>约占液冷市场~2-3%，但增速最快。</strong>成本最高，技术最复杂。</p>
+          </div>
+          <div class="col">
+            <h4>技术路线对比</h4>
+            <table class="compare-table">
+              <thead>
+                <tr><th>技术路线</th><th>市场份额</th><th>优点</th><th>缺点</th><th>代表厂商</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>冷板冷却</strong></td><td>~70-80%<span class="tag tag-teal">主流</span></td><td>成本低/兼容好</td><td>仅冷却芯片</td><td>Vertiv/Asetek</td></tr>
+                <tr><td><strong>单相浸没</strong></td><td>~15%</td><td>冷却均匀</td><td>液成本高</td><td>GRC/Submer</td></tr>
+                <tr><td><strong>两相浸没</strong></td><td>~2-3%<span class="tag tag-green">最快增速</span></td><td>效率最高</td><td>成本最高/复杂</td><td>Submer/GRC</td></tr>
+                <tr><td><strong>风冷（传统）</strong></td><td>快速萎缩</td><td>成本最低</td><td>无法满足AI</td><td>N/A</td></tr>
+              </tbody>
+            </table>
+            <div class="stats-grid" style="margin-top:14px;">
+              <div class="cstat"><div class="cstat-lbl">液冷vs风冷散热效率</div><div class="cstat-val up">5-10倍</div></div>
+              <div class="cstat"><div class="cstat-lbl">B200 TDP</div><div class="cstat-val">1000W/颗</div></div>
+              <div class="cstat"><div class="cstat-lbl">液冷CDU单价</div><div class="cstat-val">$5K-50K</div></div>
+              <div class="cstat"><div class="cstat-lbl">3M Novec液价格</div><div class="cstat-val gold">$200-400/kg</div>
+    </div>
+  </div>
+          </div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <section class="section" id="sec-players">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">主要玩家格局 — Vertiv / Asetek / 中国液冷厂商</h2>
+      <span class="section-sub">全球龙头Vertiv · Asetek CDU专精 · 英维克中国领先</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-green-light);">🏭</div>
+        <div class="sector-title-group">
+          <div class="sector-title">液冷主要玩家 — Vertiv / Asetek / 英维克 / 汇川技术</div>
+          <div class="sector-desc">Vertiv产品组合最全，Asetek专精CDU，中国厂商在本土市场有成本优势。</div>
+        </div>
+        <span class="sector-badge badge-green">液冷散热</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text"><strong>Vertiv（维谛技术）</strong>是液冷领域产品组合最全的厂商：覆盖冷板（CDU+冷板组件）、浸没冷却、控温精密空调全类别。在全球超大规模数据中心（Google/Microsoft/Amazon）中有大量部署。Vertiv同时是数据中心电力设备龙头，液冷+电力双轮驱动，Q3 2025订单增长+60% YoY。</p>
+            <p class="concept-text"><strong>Asetek（ASETEK）</strong>是全球液冷CDU（Coolant Distribution Unit，冷却液分配单元）龙头：专门生产CDU（将冷却液泵送至服务器冷板的设备），服务Google（数据中心CDU核心供应商）、Microsoft等超大规模客户。CDU是液冷系统的核心设备，负责将冷却液分配至多个服务器机架。</p>
+            <p class="concept-text"><strong>英维克（002837.SZ）</strong>是中国数据中心温控龙头：液冷产品线完整（冷板CDU+浸没冷却），在国内市场（阿里/腾讯/字节跳动数据中心）份额领先，拥有价格优势。数据中心PUE（电源使用效率）要求<1.3，液冷是达到该标准的必要手段。</p>
+            <p class="concept-text"><strong>汇川技术（300124.SZ）</strong>通过旗下子公司布局液冷CDU业务，自动化控制技术背景与液冷系统有协同。</p>
+          </div>
+          <div class="col">
+            <h4>关键数据</h4>
+            <div class="stats-grid">
+              <div class="cstat"><div class="cstat-lbl">Vertiv液冷产品</div><div class="cstat-val green">全类别覆盖</div></div>
+              <div class="cstat"><div class="cstat-lbl">液冷市场 CAGR</div><div class="cstat-val up">51.93%</div></div>
+              <div class="cstat"><div class="cstat-lbl">液冷市场 2030预计</div><div class="cstat-val up">$10.7B</div></div>
+              <div class="cstat"><div class="cstat-lbl">英维克国内液冷市场</div><div class="cstat-val teal">领先</div></div>
+              <div class="cstat"><div class="cstat-lbl">液冷CDU单价</div><div class="cstat-val">$5K-50K</div></div>
+              <div class="cstat"><div class="cstat-lbl">液冷后PUE改善</div><div class="cstat-val up">降至1.1-1.2</div>
+    </div>
+  </div>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">VRT</span>
+              <span class="stock-name">Vertiv（维谛技术）</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">全球液冷全类别龙头</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">ASTK.OL</span>
+              <span class="stock-name">Asetek</span>
+              <span class="stock-exch exch-eu">欧股</span>
+              <span class="stock-note">液冷CDU专精·Google核心</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">002837.SZ</span>
+              <span class="stock-name">英维克</span>
+              <span class="stock-exch exch-cn">A股</span>
+              <span class="stock-note">中国液冷温控龙头</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">300124.SZ</span>
+              <span class="stock-name">汇川技术</span>
+              <span class="stock-exch exch-cn">A股</span>
+              <span class="stock-note">液冷CDU布局</span>
+            </div>
+    </div>
+  </div>
+        <div class="risks-box">
+          <div class="risks-title">风险提示</div>
+          <div class="risk-item">液冷技术路线尚未标准化（冷板 vs 浸没仍有分歧）</div>
+          <div class="risk-item">数据中心运营商是否愿意承担液冷改造成本是关键（改造成本约$5-20万/rack）</div>
+          <div class="risk-item">中国厂商（英维克、艾默生中国）价格竞争激烈</div>
+          <div class="risk-item">冷却液（Novec等）供应受环保政策影响，存在供应链风险</div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <section class="section" id="sec-cdcc">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">温控与CDCC格局 — 数据中心能效标准化</h2>
+      <span class="section-sub">PUE指标 · CDCC标准 · 自然冷却</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-purple-light);">📊</div>
+        <div class="sector-title-group">
+          <div class="sector-title">数据中心能效标准与PUE指标</div>
+          <div class="sector-desc">PUE是衡量数据中心能效的核心指标，液冷是降低PUE的必要手段。</div>
+        </div>
+        <span class="sector-badge badge-purple">液冷散热</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text"><strong>CDCC（China Data Center Committee，中国数据中心标准推进委员会）</strong>是推动中国数据中心液冷标准化和能效标准的重要机构。CDCC发布的《数据中心液冷应用标准》对冷板、浸没冷却的设计和测试方法做了详细规范，推动中国液冷市场健康发展。</p>
+            <p class="concept-text"><strong>PUE（Power Usage Effectiveness）</strong>是衡量数据中心能效的核心指标：<strong>PUE = 数据中心总能耗 / IT设备能耗</strong>。PUE越接近1越好。全球数据中心平均PUE约1.5（传统风冷数据中心）。采用液冷后，PUE可降至<strong>1.1-1.2</strong>。</p>
+            <p class="concept-text"><strong>中国政策要求</strong>：新建数据中心PUE<1.3（东部地区），液冷是达到该标准的必要手段。北京、上海等一线城市对数据中心PUE要求更严格（<1.3甚至更低）。</p>
+            <p class="concept-text">数据中心冷却趋势：<strong>自然冷却（利用室外低温）</strong>+液冷结合。在寒冷地区（如北欧、加拿大、中国北方），可以利用室外冷空气预冷冷板/冷却水，进一步降低PUE。</p>
+          </div>
+          <div class="col">
+            <h4>关键数据</h4>
+            <div class="stats-grid">
+              <div class="cstat"><div class="cstat-lbl">中国新建DC PUE要求</div><div class="cstat-val gold"><1.3</div></div>
+              <div class="cstat"><div class="cstat-lbl">液冷后PUE</div><div class="cstat-val up">1.1-1.2</div></div>
+              <div class="cstat"><div class="cstat-lbl">液冷vs风冷PUE改善</div><div class="cstat-val up">~0.2-0.4</div></div>
+              <div class="cstat"><div class="cstat-lbl">全球数据中心平均PUE</div><div class="cstat-val">~1.5</div></div>
+              <div class="cstat"><div class="cstat-lbl">CDCC液冷标准</div><div class="cstat-val">推动行业规范化</div>
+    </div>
+  </div>
+            <h4 style="margin-top:14px;">市场驱动因素</h4>
+            <p class="concept-text">①AI服务器功率密度持续上升（Blackwell后下一代可能更高，>1.5kW/颗）</p>
+            <p class="concept-text">②碳中和政策推动PUE降低</p>
+            <p class="concept-text">③数据中心选址受气候制约，液冷+自然冷却是寒冷地区首选</p>
+            <p class="concept-text">④PUE>1.4的数据中心面临关停改造压力</p>
+          </div>
+    </div>
+  </div>
+    </div>
+
+    <div class="sector" style="margin-top:18px;">
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>投资逻辑</h4>
+            <p class="concept-text"><strong>1. 液冷是AI服务器的强制需求：</strong>Blackwell时代已无替代方案，B200 TDP=1000W，风冷完全失效。</p>
+            <p class="concept-text"><strong>2. 液冷市场$870M→$10.7B（10年约12倍），超级成长赛道：</strong>CAGR 51.93%，是AI基础设施各环节中增速最高的之一。</p>
+            <p class="concept-text"><strong>3. Vertiv产品组合最全+全球覆盖：</strong>直接受益于AI基础设施扩张，电力+液冷双轮驱动，Q3 2025订单增长60% YoY。</p>
+            <p class="concept-text"><strong>4. 中国液冷厂商（英维克、汇川）在本土市场有成本优势：</strong>阿里/腾讯/字节跳动数据中心采购本土供应商，英维克出口潜力大。</p>
+          </div>
+          <div class="col">
+            <h4>关键风险</h4>
+            <p class="concept-text"><strong>1. 技术路线分化（冷板vs浸没）：</strong>尚未标准化，押注错误技术可能导致损失。</p>
+            <p class="concept-text"><strong>2. 冷却液供应链：</strong>Novec液受环保政策影响，3M供应能力有限。</p>
+            <p class="concept-text"><strong>3. 中国厂商价格竞争：</strong>英维克等中国厂商价格优势明显，可能压制全球龙头的利润率。</p>
+            <p class="concept-text"><strong>4. 液冷改造成本：</strong>数据中心运营商是否愿意承担高额改造成本是渗透率的关键约束。</p>
+          </div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <!-- 投资要点卡片 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">投资要点</h2>
+      <span class="section-sub">本章核心投资逻辑 · 仅供参考</span>
+    </div>
+    <div class="inv-card" id="inv-card" style="margin-top:0">
+      <div class="inv-card-body">
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">核心驱动因素</div>
+            <div class="inv-col-val">AI服务器功耗剧增使液冷成为刚需；全球液冷市场高增长；政策严控数据中心PUE标准</div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">关键风险</div>
+            <div class="inv-col-val">液冷技术路线（冷板/浸没）尚未标准化；环保政策限制冷却液供应链；中外厂商价格竞争压低利润率</div>
+          </div>
+        </div>
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">受益方向</div>
+            <div class="inv-tickers"><span>VRT（冷却全套方案）</span><span>SMCI（整机集成）</span><span>英维克（国产液冷）</span></div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">风险暴露</div>
+            <div class="inv-col-val">漏液事故导致设备损坏风险；改造旧数据中心的高昂成本抑制客户意愿</div>
+          </div>
+        </div>
+        <div class="inv-catalyst">
+          <div class="inv-col-label">近期催化剂</div>
+          <div class="inv-col-val">GB200液冷漏液测试及认证结论；云厂商大单采购液冷整机柜落地</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">章节导航</h2>
+    </div>
+    <div class="prev-next-nav">
+      <a class="pn-btn pn-prev" href="ch10-power.html">
+        <span class="pn-label">&larr; 上一章</span>
+        <span class="pn-title">能源与电力</span>
+      </a>
+      <a class="pn-btn pn-next" href="ch12-datacenter.html">
+        <span class="pn-label">下一章 &rarr;</span>
+        <span class="pn-title">数据中心基础设施</span>
+      </a>
+    </div>
+    <div class="insight" style="margin-bottom:8px;"><strong>章节导航：</strong>共17章完整产业链 · <a href="index.html">返回总览</a></div>
+  </section>
+
+  
+<div class="footer">
+    <div class="footer-text">数据来源（实时搜索，2026年5月）：NVIDIA官方 &middot; AMD官方 &middot; Intel官方 &middot; Goldman Sachs Research &middot; Counterpoint Research &middot; TrendForce &middot; SemiAnalysis &middot; 各公司财报及公告<br><br>⚠ 本报告数据基于公开信息整理，不构成投资建议。所有投资标的请自行判断风险。数据可能有误差，欢迎反馈指正。</div>
+</div>
+
+<script src="theme-toggle.js"></script>
+<script src="nav.js"></script>
+
+
+
+
+</div>
+</div>
+</body>
+</html>

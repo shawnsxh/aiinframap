@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗺️</text></svg>">
+<title>AIinfra Map · CH17 · 产业链价值分配</title>
+<meta name="description" content="$750-800B CapEx如何沿AI产业链分配。桑基图可视化、利润率热力图、各环节进入壁垒与价值锚分析。NVIDIA、台积电何以占据产业链利润核心。">
+<meta property="og:title" content="CH17 · 产业链价值分配 · 利润率图谱">
+<meta property="og:description" content="$750-800B CapEx如何沿AI产业链分配。桑基图可视化、利润率热力图、各环节进入壁垒与价值锚分析。">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.chapter-tag{background:var(--accent-purple)}
+.hero-title em{color:var(--accent-purple)}
+.insight{background:var(--accent-purple-light);border:1px solid rgba(106,42,156,0.2)}
+.insight strong{color:var(--accent-purple)}
+.inv-tickers span{background:var(--accent-purple-light);border:1px solid rgba(106,42,156,0.2);color:var(--accent-purple)}
+
+/* ─── Sankey / Chart Wrap ─── */
+.sankey-wrap{background:var(--surface-0);border:1px solid var(--border-light);border-radius:10px;padding:28px 20px;margin:24px 0;box-shadow:var(--shadow)}
+.sankey-title{font-family:"Playfair Display",serif;font-size:15px;font-weight:600;text-align:center;margin-bottom:24px;color:var(--text-1)}
+
+/* ─── Bar Chart ─── */
+.bar-chart-wrap{position:relative;height:220px;margin-left:60px;margin-right:20px}
+.bar-y-axis{position:absolute;left:-60px;top:0;bottom:30px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end;padding-right:10px;width:60px}
+.bar-y-label{font-family:"DM Mono",monospace;font-size:9px;color:var(--text-4);line-height:1}
+.bar-chart{display:flex;align-items:flex-end;gap:10px;height:220px;padding-bottom:30px;position:relative;border-bottom:1px solid var(--border)}
+.bar-col{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1}
+.bar{width:100%;max-width:72px;border-radius:6px 6px 0 0;position:relative;cursor:default;transition:all .25s ease;min-height:4px}
+.bar:hover{opacity:.85;transform:scaleX(1.05)}
+.bar-label{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-family:"DM Mono",monospace;font-size:10px;font-weight:600;color:var(--text-1);white-space:nowrap}
+.bar-x{font-family:"DM Mono",monospace;font-size:10px;color:var(--text-3);text-align:center;line-height:1.3;margin-top:4px}
+.bar-x-sub{font-size:8px;color:var(--text-4);display:block}
+.bar-1{background:linear-gradient(180deg,#1a3a5c,#2a5a8c)}
+.bar-2{background:linear-gradient(180deg,#1a5c3a,#2a8c5a)}
+.bar-3{background:linear-gradient(180deg,#6a2a9c,#8c4acc)}
+.bar-4{background:linear-gradient(180deg,#8c6820,#b89430)}
+.bar-5{background:linear-gradient(180deg,#5a1a6a,#7a2a9c)}
+.bar-6{background:linear-gradient(180deg,#2a6a6a,#3a9a9a)}
+
+/* ─── Margin Table ─── */
+.margin-table-wrap{overflow-x:auto;margin:20px 0;border-radius:10px;border:1px solid var(--border);box-shadow:var(--shadow)}
+.margin-table{width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px}
+.margin-table thead tr{background:linear-gradient(135deg,var(--surface-2) 0%,var(--surface-1) 100%)}
+.margin-table th{padding:10px 14px;text-align:left;font-family:"DM Mono",monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);border-bottom:2px solid var(--border)}
+.margin-table td{padding:10px 14px;border-bottom:1px solid var(--border-light);vertical-align:middle;color:var(--text-2)}
+.margin-table tbody tr:last-child td{border-bottom:none}
+.margin-table tbody tr{transition:background .15s}
+.margin-table tbody tr:hover{background:var(--accent-purple-light)}
+.margin-table tbody tr:nth-child(even){background:var(--surface-1)}
+.margin-table tbody tr:nth-child(even):hover{background:var(--accent-purple-light)}
+.margin-badge{display:inline-flex;align-items:center;gap:8px}
+.badge-bar-inline{height:5px;background:var(--surface-3);border-radius:3px;overflow:hidden;min-width:70px;display:inline-block;vertical-align:middle}
+.badge-bar-fill{height:100%;border-radius:3px}
+.b-hi{font-family:"DM Mono",monospace;font-size:10px;padding:1px 8px;border-radius:10px;background:var(--accent-red-light);color:var(--accent-red);font-weight:500}
+.b-med{font-family:"DM Mono",monospace;font-size:10px;padding:1px 8px;border-radius:10px;background:var(--accent-gold-light);color:var(--accent-gold);font-weight:500}
+.b-lo{font-family:"DM Mono",monospace;font-size:10px;padding:1px 8px;border-radius:10px;background:var(--accent-green-light);color:var(--accent-green);font-weight:500}
+.val-tag{font-family:"DM Mono",monospace;font-size:10px;padding:1px 6px;border-radius:4px;display:inline-block}
+.val-tag-green{background:var(--accent-green-light);color:var(--accent-green)}
+.val-tag-gold{background:var(--accent-gold-light);color:var(--accent-gold)}
+.val-tag-red{background:var(--accent-red-light);color:var(--accent-red)}
+
+.section p{font-size:13.5px;color:var(--text-2);line-height:1.85;margin-bottom:10px}
+.note{font-size:10.5px;color:var(--text-3);line-height:1.6}
+
+@media(max-width:600px){
+  .inv-row{grid-template-columns:1fr}
+  .bar-chart-wrap{margin-left:40px;overflow-x:auto}
+  .bar-chart{min-width:500px}
+  .bar-chart-wrap{overflow-x:auto}
+  .margin-table{font-size:11px}
+  .margin-table th,.margin-table td{padding:8px 10px}
+}
+
+.nav-header .section-num{color:var(--accent-purple)}</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="site-header">
+  <div class="logo">AIinfra <span>/</span> Map</div>
+    <nav class="header-nav" id="mainNav"></nav>
+  <div class="header-right">
+    <div class="header-meta"><span class="dot"></span>数据截至 2026.05 · 共17章</div>
+    <div class="theme-switcher">
+      <button class="theme-btn" data-theme="light" title="浅色主题"><span class="dot-inner light"></span><span>浅色</span></button>
+      <button class="theme-btn" data-theme="dark" title="深色主题"><span class="dot-inner dark"></span><span>深色</span></button>
+    </div>
+    <button class="nav-collapse-btn" id="navCollapseBtn" title="收起导航" aria-label="收起导航"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 8L6 4L10 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button class="mobile-hamburger" id="mobileHamburger" aria-label="打开菜单"><svg width="18" height="14" viewBox="0 0 18 14" fill="none"><rect y="1" width="18" height="2" rx="1" fill="currentColor"/><rect y="6" width="18" height="2" rx="1" fill="currentColor"/><rect y="11" width="18" height="2" rx="1" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<div id="mobileNavMount"></div>
+
+<section class="hero">
+<div class="breadcrumb"><a href="index.html">AIinfra Map</a> / <span>CH17 · 产业链价值分配</span></div>
+  <div class="hero-eyebrow"><span class="chapter-tag">CH17 · Value Distribution</span></div>
+  <h1 class="hero-title">产业链价值分配<br><em>与利润率图谱</em></h1>
+  <p class="hero-subtitle">$750-800B CapEx 如何沿产业链分配 · 各环节利润率与壁垒强度 · 可视化图表</p>
+  <div class="hero-metrics">
+    <div class="metric"><span class="metric-value purple">$750B+</span><span class="metric-label">五大云厂商 CapEx 2026</span></div>
+    <div class="metric"><span class="metric-value gold">25-63%</span><span class="metric-label">利润率跨度</span></div>
+    <div class="metric"><span class="metric-value green">NVDA</span><span class="metric-label">利润之王</span></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">$750-800B CapEx 的去向</h2>
+  </div>
+  <p>2026年，全球五大云厂商AI基础设施资本开支预计达到$750-800B。这些资金沿产业链层层下渗，分配到晶圆代工、AI芯片、存储、光模块、服务器等多个环节。</p>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">各环节 CapEx 分配比例</h2>
+  </div>
+  <div class="sankey-wrap">
+    <div class="sankey-title">$750B+ AI基础设施 CapEx 分配比例（2026年估算）</div>
+    <div class="bar-chart-wrap">
+      <div class="bar-y-axis">
+        <span class="bar-y-label">$200B</span>
+        <span class="bar-y-label">$150B</span>
+        <span class="bar-y-label">$100B</span>
+        <span class="bar-y-label">$50B</span>
+        <span class="bar-y-label">$0</span>
+      </div>
+      <div class="bar-chart">
+        <div class="bar-col">
+          <div class="bar bar-1" style="height:91%"><span class="bar-label">$200B</span></div>
+          <div class="bar-x">AI芯片<span class="bar-x-sub">30.3%</span></div>
+        </div>
+        <div class="bar-col">
+          <div class="bar bar-2" style="height:64%"><span class="bar-label">$140B</span></div>
+          <div class="bar-x">晶圆代工<span class="bar-x-sub">21.2%</span></div>
+        </div>
+        <div class="bar-col">
+          <div class="bar bar-3" style="height:41%"><span class="bar-label">$90B</span></div>
+          <div class="bar-x">服务器<span class="bar-x-sub">13.6%</span></div>
+        </div>
+        <div class="bar-col">
+          <div class="bar bar-4" style="height:36%"><span class="bar-label">$80B</span></div>
+          <div class="bar-x">半导体设备<span class="bar-x-sub">12.1%</span></div>
+        </div>
+        <div class="bar-col">
+          <div class="bar bar-5" style="height:35%"><span class="bar-label">$78B</span></div>
+          <div class="bar-x">存储芯片<span class="bar-x-sub">11.8%</span></div>
+        </div>
+        <div class="bar-col">
+          <div class="bar bar-6" style="height:25%"><span class="bar-label">$55B</span></div>
+          <div class="bar-x">光模块/网络<span class="bar-x-sub">8.3%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">各环节利润率与壁垒强度对比</h2>
+  </div>
+  <p>资金分配不等于利润留存。以下对比各环节的毛利率、营业利润率（OP margin）、资本回报率和进入壁垒强度。</p>
+  <div class="margin-table-wrap">
+    <table class="margin-table">
+      <thead><tr><th>产业链环节</th><th>代表公司</th><th>毛利率</th><th>营业利润率</th><th>ROIC</th><th>进入壁垒</th><th>价值判断</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>AI芯片设计（GPU）</strong></td>
+          <td><span style="font-family:'DM Mono',monospace;font-size:11px">NVDA</span></td>
+          <td><div class="margin-badge"><span style="color:var(--accent-green);font-family:'DM Mono',monospace;font-size:12px;font-weight:500">~75%</span><div class="badge-bar-inline"><div class="badge-bar-fill" style="width:75%;background:var(--accent-green);border-radius:3px"></div></div></div></td>
+          <td><span style="color:var(--accent-green);font-family:'DM Mono',monospace;font-size:12px;font-weight:500">~63%</span></td>
+          <td><span style="font-family:'DM Mono',monospace;font-size:12px;font-weight:500">&gt;100%</span></td>
+          <td><span class="b-hi">极高</span></td>
+          <td><span class="val-tag val-tag-green">利润之王</span></td>
+        </tr>
+        <tr>
+          <td><strong>晶圆代工（先进制程）</strong></td>
+          <td><span style="font-family:'DM Mono',monospace;font-size:11px">TSMC</span></td>
+          <td><div class="margin-badge"><span style="color:var(--accent-green);font-family:'DM Mono',monospace;font-size:12px;font-weight:500">~55%</span><div class="badge-bar-inline"><div class="badge-bar-fill" style="width:55%;background:var(--accent-green);border-radius:3px"></div></div></div></td>
+          <td><span style="color:var(--accent-green);font-family:'DM Mono',monospace;font-size:12px;font-weight:500">~42%</span></td>
+          <td><span style="font-family:'DM Mono',monospace;font-size:12px;font-weight:500">~30%</span></td>
+          <td><span class="b-hi">极高</span></td>
+          <td><span class="val-tag val-tag-green">护城河深</span></td>
+        </tr>
+        <tr>
+          <td><strong>半导体设备</strong></td>
+          <td><span style="font-family:'DM Mono',monospace;font-size:11px">ASML/AMAT</span></td>
+          <td><div class="margin-badge"><span style="color:var(--accent-green);font-family:'DM Mono',monospace;font-size:12px;font-weight:500">~48%</span><div class="badge-bar-inline"><div class="badge-bar-fill" style="width:48%;background:var(--accent-green);border-radius:3px"></div></div></div></td>
+          <td><span style="color:var(--accent-green);font-family:'DM Mono',monospace;font-size:12px;font-weight:500">~30%</span></td>
+          <td><span style="font-family:'DM Mono',monospace;font-size:12px;font-weight:500">~22%</span></td>
+          <td><span class="b-hi">高</span></td>
+          <td><span class="val-tag val-tag-green">高壁垒</span></td>
+        </tr>
+        <tr>
+          <td><strong>AI ASIC设计</strong></td>
+          <td><span style="font-family:'DM Mono',monospace;font-size:11px">AVGO/MRVL</span></td>
+          <td><div class="margin-badge"><span style="color:var(--accent-gold);font-family:'DM Mono',monospace;font-size:12px;font-weight:500">~50%</span><div class="badge-bar-inline"><div class="badge-bar-fill" style="width:50%;background:var(--accent-gold);border-radius:3px"></div></div></div></td>
+          <td><span style="color:var(--accent-gold);font-family:'DM Mono',monospace;font-size:12px;font-weight:500">~35%</span></td>
+          <td><span style="font-family:'DM Mono',monospace;font-size:12px;font-weight:500">~20%</span></td>
+          <td><span class="b-med">高</span></td>
+          <td><span class="val-tag val-tag-gold">稳健</span></td>
+        </tr>
+        <tr>
+          <td><strong>存储芯片</strong></td>
+          <td><span style="font-family:'DM Mono',monospace;font-size:11px">SK Hynix/MU</span></td>
+          <td><div class="margin-badge"><span style="color:var(--accent-gold);font-family:'DM Mono',monospace;font-size:12px;font-weight:500">~30%</span><div class="badge-bar-inline"><div class="badge-bar-fill" style="width:30%;background:var(--accent-gold);border-radius:3px"></div></div></div></td>
+          <td><span style="color:var(--accent-red);font-family:'DM Mono',monospace;font-size:12px;font-weight:500">~5-25%</span></td>
+          <td><span style="font-family:'DM Mono',monospace;font-size:12px;font-weight:500">~5-25%</span></td>
+          <td><span class="b-med">高</span></td>
+          <td><span class="val-tag val-tag-red">周期波动</span></td>
+        </tr>
+        <tr>
+          <td><strong>服务器OEM</strong></td>
+          <td><span style="font-family:'DM Mono',monospace;font-size:11px">DELL/SMCI</span></td>
+          <td><div class="margin-badge"><span style="color:var(--accent-red);font-family:'DM Mono',monospace;font-size:12px;font-weight:500">~22%</span><div class="badge-bar-inline"><div class="badge-bar-fill" style="width:22%;background:var(--accent-red);border-radius:3px"></div></div></div></td>
+          <td><span style="color:var(--accent-red);font-family:'DM Mono',monospace;font-size:12px;font-weight:500">~5%</span></td>
+          <td><span style="font-family:'DM Mono',monospace;font-size:12px;font-weight:500">~10%</span></td>
+          <td><span class="b-lo">中</span></td>
+          <td><span class="val-tag val-tag-red">利润率低</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="insight"><strong>核心结论：</strong>NVIDIA（OP margin ~63%）和台积电（OP margin ~42%）占据了整个链条约50%的经济利润。服务器OEM（DELL ~5%）和存储（周期性）则是利润最薄的环节。这解释了为何 NVIDIA 和台积电在产业链中拥有最强的定价权。</div>
+</section>
+
+<!-- 投资要点卡片 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">投资要点</h2>
+      <span class="section-sub">本章核心投资逻辑 · 仅供参考</span>
+    </div>
+    <div class="inv-card" id="inv-card" style="margin-top:0">
+      <div class="inv-card-body">
+    <div class="inv-row">
+      <div class="inv-col">
+        <div class="inv-col-label">核心驱动因素</div>
+        <div class="inv-col-val">核心IP所有者和顶层设计商掌握产业链定价权；台积电垄断高端产能享有利润分配大头</div>
+      </div>
+      <div class="inv-col">
+        <div class="inv-col-label">关键风险</div>
+        <div class="inv-col-val">供应链过载导致价值向上游加速集中的挤压效应；服务器整机毛利被零部件涨价侵蚀</div>
+      </div>
+    </div>
+    <div class="inv-row">
+      <div class="inv-col">
+        <div class="inv-col-label">受益方向</div>
+        <div class="inv-tickers"><span>NVDA（63% OP margin）</span><span>TSM（42% OP margin）</span><span>ASML（48% OP margin）</span></div>
+      </div>
+      <div class="inv-col">
+        <div class="inv-col-label">风险暴露</div>
+        <div class="inv-col-val">白牌服务器厂无溢价能力；传统分销商价值降低；二线代工厂面临价格下行</div>
+      </div>
+    </div>
+    <div class="inv-catalyst">
+      <div class="inv-col-label">近期催化剂</div>
+      <div class="inv-col-val">台积电3nm/5nm制程价格上涨谈判进展；NVIDIA对供应链厂商的毛利指引调整</div>
+    </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="section">
+    <div class="section-header"><span class="section-num">05</span><h2 class="section-title">章节导航</h2></div>
+    <div class="prev-next-nav">
+      <a class="pn-btn pn-prev" href="ch16-catalysts.html"><span class="pn-label">&larr; 上一章</span><span class="pn-title">催化剂日历</span></a>
+      <a class="pn-btn pn-end" href="index.html"><span class="pn-label" style="font-size:12px;color:var(--text-4);font-weight:400">返回全部章节</span><span class="pn-title">AIinfra Map</span></a>
+    </div>
+    <div class="insight" style="margin-bottom:8px;"><strong>章节导航：</strong>共17章完整产业链 · <a href="index.html">返回总览</a></div>
+  </section>
+
+  <div class="footer">
+    <div class="footer-text">数据来源（实时搜索，2026年5月）：Yahoo Finance · Goldman Sachs Research · Gartner · ASML年报 · SK海力士年报 · Bernstein Research · 各公司财报及公告<br><br>⚠ 本报告数据基于公开信息整理，不构成投资建议。所有投资标的请自行判断风险。数据可能有误差，欢迎反馈指正。</div>
+  </div>
+</div>
+<script src="theme-toggle.js"></script>
+<script src="nav.js"></script>
+
+</body>
+</html>

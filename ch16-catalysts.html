@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗺️</text></svg>">
+<title>AIinfra Map · CH16 · 催化剂日历</title>
+<meta name="description" content="AI基础设施产业链未来12个月重大催化剂：NVIDIA Rubin量产、台积电N2量产、Computex 2026、财报季、政策节点与行业会议时间表。">
+<meta property="og:title" content="CH16 · 催化剂日历 · 2026下半场">
+<meta property="og:description" content="AI基础设施产业链未来12个月重大催化剂：NVIDIA Rubin量产、台积电N2量产、Computex 2026。">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.chapter-tag{background:var(--accent-teal)}
+.hero-title em{color:var(--accent-teal)}
+.insight{background:var(--accent-teal-light);border:1px solid rgba(42,106,106,0.2)}
+.insight strong{color:var(--accent-teal)}
+.inv-tickers span{background:var(--accent-teal-light);border:1px solid rgba(42,106,106,0.2);color:var(--accent-teal)}
+
+/* ─── Calendar ─── */
+.cal-wrap{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin:24px 0}
+.cal-month-card{background:var(--card-bg);border:1px solid var(--border-light);border-radius:10px;overflow:hidden;box-shadow:var(--shadow);transition:all .25s ease}
+.cal-month-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.cal-month-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:linear-gradient(135deg,var(--accent-teal) 0%,#1a4a4a 100%);border-bottom:1px solid var(--border)}
+.cal-month-label{font-family:"Playfair Display",serif;font-size:14px;font-weight:600;color:#fff}
+.cal-month-year{font-family:"DM Mono",monospace;font-size:10px;color:rgba(255,255,255,0.7)}
+.cal-events{padding:12px 14px}
+.cal-event{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border-light)}
+.cal-event:last-child{border-bottom:none}
+.cal-event-content{flex:1}
+.cal-event-date{font-family:"DM Mono",monospace;font-size:9px;color:var(--accent-teal);white-space:nowrap;padding-top:2px;min-width:56px;font-weight:500}
+.cal-event-title{font-size:13px;font-weight:600;color:var(--text-1);line-height:1.4;margin-bottom:3px}
+.cal-event-desc{font-size:11px;color:var(--text-3);line-height:1.55}
+.cal-event-tag{font-family:"DM Mono",monospace;font-size:9px;padding:2px 8px;border-radius:10px;display:inline-block;margin-top:5px;font-weight:500}
+.tag-qe{background:var(--accent-light);color:var(--accent)}
+.tag-product{background:var(--accent-green-light);color:var(--accent-green)}
+.tag-policy{background:var(--accent-red-light);color:var(--accent-red)}
+.tag-event{background:var(--accent-gold-light);color:var(--accent-gold)}
+.tag-tech{background:var(--accent-purple-light);color:var(--accent-purple)}
+.impact-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.impact-h{background:#8c1a2a;box-shadow:0 0 6px rgba(140,26,42,0.5)}
+.impact-m{background:#8c6820;box-shadow:0 0 6px rgba(140,104,32,0.3)}
+.impact-l{background:#1a5c3a;box-shadow:0 0 6px rgba(26,92,58,0.3)}
+.impact-dot-wrap{display:flex;align-items:flex-start;padding-top:2px;min-width:22px}
+
+/* ─── Filter Bar ─── */
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.filter-btn{font-family:"DM Mono",monospace;font-size:10px;padding:5px 14px;border-radius:16px;border:1px solid var(--border);background:var(--surface-0);color:var(--text-3);cursor:pointer;transition:all .2s ease}
+.filter-btn:hover{background:var(--accent-teal-light);color:var(--accent-teal);border-color:var(--accent-teal)}
+.filter-btn.active{background:var(--accent-teal);color:#fff;border-color:var(--accent-teal)}
+
+.section p{font-size:13.5px;color:var(--text-2);line-height:1.85;margin-bottom:10px}
+
+@media(max-width:600px){
+  .cal-wrap{grid-template-columns:1fr}
+  .inv-row{grid-template-columns:1fr}
+  .cal-event{gap:8px}
+}
+
+.nav-header .section-num{color:var(--accent-teal)}</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="site-header">
+  <div class="logo">AIinfra <span>/</span> Map</div>
+    <nav class="header-nav" id="mainNav"></nav>
+  <div class="header-right">
+    <div class="header-meta"><span class="dot"></span>数据截至 2026.05 · 共17章</div>
+    <div class="theme-switcher">
+      <button class="theme-btn" data-theme="light" title="浅色主题"><span class="dot-inner light"></span><span>浅色</span></button>
+      <button class="theme-btn" data-theme="dark" title="深色主题"><span class="dot-inner dark"></span><span>深色</span></button>
+    </div>
+    <button class="nav-collapse-btn" id="navCollapseBtn" title="收起导航" aria-label="收起导航"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 8L6 4L10 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button class="mobile-hamburger" id="mobileHamburger" aria-label="打开菜单"><svg width="18" height="14" viewBox="0 0 18 14" fill="none"><rect y="1" width="18" height="2" rx="1" fill="currentColor"/><rect y="6" width="18" height="2" rx="1" fill="currentColor"/><rect y="11" width="18" height="2" rx="1" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<div id="mobileNavMount"></div>
+
+<section class="hero">
+<div class="breadcrumb"><a href="index.html">AIinfra Map</a> / <span>CH16 · 催化剂日历</span></div>
+  <div class="hero-eyebrow"><span class="chapter-tag">CH16 · Catalyst Calendar</span></div>
+  <h1 class="hero-title">催化剂日历<br><em>2026下半场</em></h1>
+  <p class="hero-subtitle">从现在到2027年 · 覆盖全产业链 · 重大事件时间节点与影响评级</p>
+  <div class="hero-metrics">
+    <div class="metric"><span class="metric-value teal">25+</span><span class="metric-label">年度重大事件</span></div>
+    <div class="metric"><span class="metric-value gold">6</span><span class="metric-label">主要财报季</span></div>
+    <div class="metric"><span class="metric-value purple">3</span><span class="metric-label">产品发布窗口</span></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">什么是催化剂日历，为什么重要</h2>
+  </div>
+  <p>AI基础设施股价的波动性极大程度上由几个关键时间窗口决定：财报发布（市场预期重新校准）、产品发布（Blackwell/Rubin等新一代GPU周期）、政策节点（BIS出口管制更新）和行业会议（GTC/Computex）。</p>
+  <div class="insight" style="margin-top:14px"><strong>使用建议：</strong>红色事件（高影响）通常对应股价大幅波动。建议在事件发生前1-2周评估市场预期，并在事件后重新评估持仓逻辑是否变化。</div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">2026年逐月催化剂</h2>
+  </div>
+  <div class="cal-wrap">
+
+    <!-- June 2026 -->
+    <div class="cal-month-card">
+      <div class="cal-month-head"><span class="cal-month-label">六月</span><span class="cal-month-year">2026</span></div>
+      <div class="cal-events">
+        <div class="cal-event">
+          <div class="impact-dot-wrap"><div class="impact-dot impact-h"></div></div>
+          <div class="cal-event-content">
+            <div class="cal-event-date">6月2-5日</div>
+            <div class="cal-event-title">Computex 2026（台北）</div>
+            <div class="cal-event-desc">全球最大ICT展会；NVIDIA/AMD/TSMC发布重要产品路线图更新。</div>
+            <span class="cal-event-tag tag-event">行业会议</span>
+          </div>
+        </div>
+        <div class="cal-event">
+          <div class="impact-dot-wrap"><div class="impact-dot impact-m"></div></div>
+          <div class="cal-event-content">
+            <div class="cal-event-date">6月中旬</div>
+            <div class="cal-event-title">Rubin服务器出货情况</div>
+            <div class="cal-event-desc">Rubin平台已开始量产，系统级产品2H26陆续出货，6月前后可能有关键产能信息。</div>
+            <span class="cal-event-tag tag-product">产品发布</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- July-August 2026 -->
+    <div class="cal-month-card">
+      <div class="cal-month-head"><span class="cal-month-label">七月 - 八月</span><span class="cal-month-year">Q2财报季</span></div>
+      <div class="cal-events">
+        <div class="cal-event">
+          <div class="impact-dot-wrap"><div class="impact-dot impact-h"></div></div>
+          <div class="cal-event-content">
+            <div class="cal-event-date">7月下旬</div>
+            <div class="cal-event-title">TSMC 季度法说会</div>
+            <div class="cal-event-desc">关键关注：亚利桑那Fab2进展、N2制程量产时间表、海外扩产对毛利率影响。</div>
+            <span class="cal-event-tag tag-qe">财报季</span>
+          </div>
+        </div>
+        <div class="cal-event">
+          <div class="impact-dot-wrap"><div class="impact-dot impact-h"></div></div>
+          <div class="cal-event-content">
+            <div class="cal-event-date">8月中旬</div>
+            <div class="cal-event-title">NVIDIA FY2026 Q2财报</div>
+            <div class="cal-event-desc">Blackwell出货量是关键指标。预期数据中心收入持续超$40B。</div>
+            <span class="cal-event-tag tag-qe">财报季</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- September 2026 -->
+    <div class="cal-month-card">
+      <div class="cal-month-head"><span class="cal-month-label">九月</span><span class="cal-month-year">2026</span></div>
+      <div class="cal-events">
+        <div class="cal-event">
+          <div class="impact-dot-wrap"><div class="impact-dot impact-h"></div></div>
+          <div class="cal-event-content">
+            <div class="cal-event-date">9月底</div>
+            <div class="cal-event-title">台积电 N2（2nm）量产里程碑</div>
+            <div class="cal-event-desc">全球最受瞩目的技术里程碑。若良率达标，将是首个N2大规模量产记录。</div>
+            <span class="cal-event-tag tag-tech">技术里程碑</span>
+          </div>
+        </div>
+        <div class="cal-event">
+          <div class="impact-dot-wrap"><div class="impact-dot impact-m"></div></div>
+          <div class="cal-event-content">
+            <div class="cal-event-date">9月</div>
+            <div class="cal-event-title">BIS 出口管制半年度审查</div>
+            <div class="cal-event-desc">关注H200等芯片逐案审查政策是否进一步收紧或放宽。</div>
+            <span class="cal-event-tag tag-policy">政策节点</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Oct-Nov 2026 -->
+    <div class="cal-month-card">
+      <div class="cal-month-head"><span class="cal-month-label">十月 - 十一月</span><span class="cal-month-year">Q3财报季 + SC26</span></div>
+      <div class="cal-events">
+        <div class="cal-event">
+          <div class="impact-dot-wrap"><div class="impact-dot impact-h"></div></div>
+          <div class="cal-event-content">
+            <div class="cal-event-date">10月中旬</div>
+            <div class="cal-event-title">NVIDIA FY2026 Q3财报</div>
+            <div class="cal-event-desc">Rubin平台2H26出货数据首次披露。评估 Blackwell到 Rubin过渡节奏。</div>
+            <span class="cal-event-tag tag-qe">财报季</span>
+          </div>
+        </div>
+        <div class="cal-event">
+          <div class="impact-dot-wrap"><div class="impact-dot impact-m"></div></div>
+          <div class="cal-event-content">
+            <div class="cal-event-date">11月中旬</div>
+            <div class="cal-event-title">SC（超算大会）2026</div>
+            <div class="cal-event-desc">全球超算领域最重要会议。Top500超算榜单更新，AI集群互联技术新进展。</div>
+            <span class="cal-event-tag tag-event">行业会议</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2026年底-2027年初 -->
+    <div class="cal-month-card">
+      <div class="cal-month-head"><span class="cal-month-label">2026底 - 2027初</span><span class="cal-month-year">年度切换</span></div>
+      <div class="cal-events">
+        <div class="cal-event">
+          <div class="impact-dot-wrap"><div class="impact-dot impact-h"></div></div>
+          <div class="cal-event-content">
+            <div class="cal-event-date">2027年1月</div>
+            <div class="cal-event-title">NVIDIA CES 2027（预期）</div>
+            <div class="cal-event-desc">Rubin Ultra（2027）可能首次亮相下一代GPU路线图。Feynman（2027+）披露。</div>
+            <span class="cal-event-tag tag-product">产品路线图</span>
+          </div>
+        </div>
+        <div class="cal-event">
+          <div class="impact-dot-wrap"><div class="impact-dot impact-m"></div></div>
+          <div class="cal-event-content">
+            <div class="cal-event-date">2027年Q1</div>
+            <div class="cal-event-title">华为 Ascend 950PR 实际出货</div>
+            <div class="cal-event-desc">Ascend 950PR（Prefill / 推荐）Q1 2026发布后，Q1 2027观察实际规模化出货情况。</div>
+            <span class="cal-event-tag tag-product">产品发布</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 周期性 -->
+    <div class="cal-month-card">
+      <div class="cal-month-head"><span class="cal-month-label">周期性事件</span><span class="cal-month-year">每季度重复</span></div>
+      <div class="cal-events">
+        <div class="cal-event">
+          <div class="impact-dot-wrap"><div class="impact-dot impact-h"></div></div>
+          <div class="cal-event-content">
+            <div class="cal-event-date">每季度末前2周</div>
+            <div class="cal-event-title">主要AI基础设施公司财报季</div>
+            <div class="cal-event-desc">NVDA（2/5/8/11月）、TSM（1/4/7/10月）、ASML（1/4/7/10月）季度财报发布。</div>
+            <span class="cal-event-tag tag-qe">财报季</span>
+          </div>
+        </div>
+        <div class="cal-event">
+          <div class="impact-dot-wrap"><div class="impact-dot impact-m"></div></div>
+          <div class="cal-event-content">
+            <div class="cal-event-date">每年3月</div>
+            <div class="cal-event-title">NVIDIA GTC 开发者大会</div>
+            <div class="cal-event-desc">GTC是NVIDIA最重要的年度技术大会。CEO黄仁勋通常发布新一代GPU架构。</div>
+            <span class="cal-event-tag tag-event">行业会议</span>
+          </div>
+        </div>
+        <div class="cal-event">
+          <div class="impact-dot-wrap"><div class="impact-dot impact-l"></div></div>
+          <div class="cal-event-content">
+            <div class="cal-event-date">每年春秋</div>
+            <div class="cal-event-title">BIS 出口管制政策更新</div>
+            <div class="cal-event-desc">美国商务部工业与安全局通常在春秋两季进行政策审查和更新。</div>
+            <span class="cal-event-tag tag-policy">政策节点</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 投资要点卡片 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">投资要点</h2>
+      <span class="section-sub">本章核心投资逻辑 · 仅供参考</span>
+    </div>
+    <div class="inv-card" id="inv-card" style="margin-top:0">
+      <div class="inv-card-body">
+    <div class="inv-row">
+      <div class="inv-col">
+        <div class="inv-col-label">核心驱动因素</div>
+        <div class="inv-col-val">重大产品发布（Blackwell/Rubin/MI325）与开发者大会驱动股价；定期财报发布提供业绩兑现依据</div>
+      </div>
+      <div class="inv-col">
+        <div class="inv-col-label">关键风险</div>
+        <div class="inv-col-val">重大技术发布会推迟或实测数据不及预期；BIS出口管制发布时间窗口突击</div>
+      </div>
+    </div>
+    <div class="inv-row">
+      <div class="inv-col">
+        <div class="inv-col-label">受益方向</div>
+        <div class="inv-tickers"><span>NVDA（发布会焦点）</span><span>TSM（代工排单点）</span><span>ASML（设备交付点）</span></div>
+      </div>
+      <div class="inv-col">
+        <div class="inv-col-label">风险暴露</div>
+        <div class="inv-col-val">三星通过验证拖延导致财报爆雷；二线光模块厂商产品送样失败</div>
+      </div>
+    </div>
+    <div class="inv-catalyst">
+      <div class="inv-col-label">近期催化剂</div>
+      <div class="inv-col-val">下半年各大云厂商财报；NVIDIA Rubin架构开发者预览</div>
+    </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="section">
+    <div class="section-header"><span class="section-num">04</span><h2 class="section-title">章节导航</h2></div>
+    <div class="prev-next-nav">
+      <a class="pn-btn pn-prev" href="ch15-valuation.html"><span class="pn-label">&larr; 上一章</span><span class="pn-title">估值对比</span></a>
+      <a class="pn-btn pn-next" href="ch17-value.html"><span class="pn-label">下一章 &rarr;</span><span class="pn-title">价值分配</span></a>
+    </div>
+    <div class="insight" style="margin-bottom:8px;"><strong>章节导航：</strong>共17章完整产业链 · <a href="index.html">返回总览</a></div>
+  </section>
+
+  <div class="footer">
+    <div class="footer-text">数据来源（实时搜索，2026年5月）：NVIDIA官方 · AMD官方 · TSMC官方 · BIS官方 · Tom's Hardware · The Verge · 各公司财报及公告<br><br>⚠ 本报告数据基于公开信息整理，不构成投资建议。所有投资标的请自行判断风险。数据可能有误差，欢迎反馈指正。</div>
+  </div>
+</div>
+<script src="theme-toggle.js"></script>
+<script src="nav.js"></script>
+
+</body>
+</html>

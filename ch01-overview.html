@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗺️</text></svg>">
+<title>AIinfra Map · CH01 · 全景图</title>
+<meta name="description" content="AI基础设施产业链全景：从砂子到AI应用的完整链条概览。覆盖$750-800B CapEx流向、产业链各环节核心参与者和关键数据。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+:root,[data-theme="light"]{--text-inv:#ffffff;--shadow-panel:0 24px 64px rgba(0,0,0,0.18),0 0 0 1px rgba(0,0,0,0.06);--map-bg:#f4f2ed;--map-grid:#e8e5de;--map-border:#d4cfc5}
+[data-theme="dark"]{--map-bg:#141b24;--map-grid:#1c2533;--map-border:#2b3a4f}
+.chapter-tag{background:var(--accent)}.hero-title em{color:var(--accent)}.insight{background:var(--accent-gold-light);border:1px solid rgba(140,104,32,0.2)}.insight strong{color:var(--accent-gold)}
+.map-wrap{background:var(--map-bg);border:1px solid var(--map-border);border-radius:8px;overflow:hidden;margin-bottom:22px}
+.map-header{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:var(--surface-1);border-bottom:1px solid var(--border-light)}
+.map-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3)}.map-title strong{color:var(--text-2);font-weight:500}
+.map-ctrl-row{display:flex;align-items:center;gap:6px}
+.map-hint{padding:7px 16px;font-family:'DM Mono',monospace;font-size:9px;color:var(--text-4);background:var(--surface-1);border-bottom:1px solid var(--border-light);display:flex;gap:14px}
+.map-btn{width:28px;height:28px;border-radius:4px;background:var(--surface-0);border:1px solid var(--border);font-family:'DM Mono',monospace;font-size:14px;color:var(--text-3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.map-btn:hover{background:var(--surface-2);color:var(--text-1)}.map-viewport{overflow:hidden;cursor:grab;position:relative}.map-viewport:active{cursor:grabbing}.map-svg{width:100%;display:block}
+.lbl{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;fill:var(--text-4)}
+.ntitle{font-family:'Playfair Display',serif;font-size:13px;fill:var(--text-1);font-weight:600}
+.nsub{font-family:'DM Mono',monospace;font-size:9px;fill:var(--text-3)}
+.nval{font-family:'DM Mono',monospace;font-size:10px;fill:var(--text-2);font-weight:500}
+.nval-blue{fill:var(--accent)}.nval-green{fill:var(--accent-green)}.nval-gold{fill:var(--accent-gold)}.nval-red{fill:var(--accent-red)}.nval-purple{fill:var(--accent-purple)}
+.accent-bar{fill:var(--accent)}.gold-bar{fill:var(--accent-gold)}.green-bar{fill:var(--accent-green)}.purple-bar{fill:var(--accent-purple)}.teal-bar{fill:var(--accent-teal)}.grey-bar{fill:var(--text-4)}
+.mid-stroke{stroke:var(--border-mid)}.lit-stroke{stroke:var(--accent-light)}.map-bg-fill{fill:var(--map-bg)}.map-grid-fill{fill:var(--map-grid)}
+.lclick{cursor:pointer;transition:opacity 0.15s}.lclick:hover{opacity:0.85}
+.panel-overlay{position:fixed;inset:0;z-index:200;background:rgba(10,13,16,0.45);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s ease}
+.panel-overlay.open{opacity:1;pointer-events:all}
+.panel{background:var(--card-bg);border-radius:12px;width:min(520px,92vw);max-height:85vh;overflow-y:auto;box-shadow:var(--shadow-panel);transform:translateY(12px) scale(0.97);transition:transform 0.22s ease,background 0.3s}
+.panel-overlay.open .panel{transform:translateY(0) scale(1)}.panel::-webkit-scrollbar{width:4px}.panel::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.panel-head{padding:18px 20px 14px;border-bottom:1px solid var(--border-light);background:linear-gradient(135deg,var(--surface-1) 0%,var(--surface-0) 60%);display:flex;align-items:flex-start;gap:10px;border-radius:12px 12px 0 0}
+.panel-cat{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-4);margin-bottom:4px}
+.panel-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;color:var(--text-1);line-height:1.2}
+.panel-tick{font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);margin-top:3px}
+.panel-tag{font-family:'DM Mono',monospace;font-size:10px;padding:3px 10px;border-radius:20px;flex-shrink:0;margin-top:2px}
+.panel-cls{width:28px;height:28px;background:var(--surface-1);border:1px solid var(--border);border-radius:50%;font-size:16px;color:var(--text-3);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.panel-cls:hover{background:var(--surface-2);color:var(--text-1)}.panel-body{padding:16px 20px}
+.panel-desc{font-size:13px;color:var(--text-2);line-height:1.85;margin-bottom:16px}
+.panel-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:16px}
+.pstat{background:var(--surface-1);border-radius:5px;padding:9px 11px}
+.pstat-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-4);margin-bottom:2px}
+.pstat-val{font-family:'DM Mono',monospace;font-size:14px;font-weight:500;color:var(--text-1)}.pstat-val.up{color:var(--accent-green)}.pstat-val.acc{color:var(--accent)}
+.panel-sec-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-4);margin-bottom:8px}
+.stock-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+.schip{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;padding:4px 11px;border-radius:4px;border:1px solid var(--border);background:var(--surface-1);color:var(--text-2);transition:all 0.15s;cursor:default}
+.schip.us{color:var(--accent);border-color:rgba(74,138,204,0.3);background:var(--accent-light)}
+.schip.cn{color:var(--accent-gold);border-color:rgba(140,104,32,0.3);background:var(--accent-gold-light)}
+.schip.tw{color:var(--accent-green);border-color:rgba(76,175,128,0.3);background:var(--accent-green-light)}
+.schip.kr{color:var(--accent-purple);border-color:rgba(106,42,156,0.3);background:var(--accent-purple-light)}
+.panel-risk{background:var(--accent-red-light);border:1px solid var(--border-light);border-radius:5px;padding:10px 12px;margin-top:14px}
+.panel-risk-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-red);margin-bottom:5px}
+.panel-risk-item{font-size:11px;color:var(--text-3);line-height:1.7}.panel-risk-item::before{content:'— ';color:var(--accent-red)}
+@media(max-width:860px){.site-header{padding:0 20px;margin:0 -20px}.header-meta{display:none}.panel-stat-grid{grid-template-columns:1fr}}
+
+.nav-header .section-num{color:var(--accent)}</style>
+</head>
+<body>
+<div class="wrap">
+<header class="site-header">
+  <div class="logo">AIinfra <span>/</span> Map</div>
+    <nav class="header-nav" id="mainNav"></nav>
+  <div class="header-right">
+    <div class="header-meta"><span class="dot"></span>数据截至 2026.05 · 共17章</div>
+    <div class="theme-switcher">
+      <button class="theme-btn" data-theme="light" title="浅色主题"><span class="dot-inner light"></span><span>浅色</span></button>
+      <button class="theme-btn" data-theme="dark" title="深色主题"><span class="dot-inner dark"></span><span>深色</span></button>
+    </div>
+    <button class="nav-collapse-btn" id="navCollapseBtn" title="收起导航" aria-label="收起导航"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 8L6 4L10 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button class="mobile-hamburger" id="mobileHamburger" aria-label="打开菜单"><svg width="18" height="14" viewBox="0 0 18 14" fill="none"><rect y="1" width="18" height="2" rx="1" fill="currentColor"/><rect y="6" width="18" height="2" rx="1" fill="currentColor"/><rect y="11" width="18" height="2" rx="1" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<div id="mobileNavMount"></div>
+<section class="hero">
+<div class="breadcrumb"><a href="index.html">AIinfra Map</a> / <span>CH01 · 全产业链全景图</span></div>
+  <div class="hero-eyebrow"><span class="chapter-tag">CH01 · 全景图</span></div>
+  <h1 class="hero-title">AI基础设施<br><em>投资全景图</em></h1>
+  <p class="hero-subtitle">从砂子到AI应用的全产业链价值链 · 实时搜索数据 · 板块概念为核心 · 所有数字标注来源</p>
+  <div class="hero-metrics">
+    <div class="metric"><span class="metric-value gold">$750B+</span><span class="metric-label">五大云厂商 CapEx 2026</span></div>
+    <div class="metric"><span class="metric-value">$75.4B</span><span class="metric-label">AI基础设施市场 (2026)</span></div>
+    <div class="metric"><span class="metric-value green">26.6%</span><span class="metric-label">市场 CAGR</span></div>
+    <div class="metric"><span class="metric-value accent">62%</span><span class="metric-label">SK hynix HBM 市占</span></div>
+    <div class="metric"><span class="metric-value">8 TB/s</span><span class="metric-label">B200 HBM3e 带宽</span></div>
+  </div>
+</section>
+<section class="section" id="ch01">
+  <div class="section-header"><span class="section-num">01</span><h2 class="section-title">全产业链互动地图</h2><span class="section-sub">点击板块查看详情 · 滚轮缩放 · 拖动平移</span></div>
+  <div class="map-wrap">
+    <div class="map-header"><div class="map-title"><strong>AI Infrastructure Supply Chain</strong> · Value Map · 2026.05</div><div class="map-ctrl-row"><button class="map-btn" id="zoomIn" title="放大">+</button><button class="map-btn" id="zoomOut" title="缩小">−</button><button class="map-btn" id="resetView" title="重置视图" style="font-size:11px;">⊙</button></div></div>
+    <div class="map-hint"><span>🖱 滚轮缩放</span><span>✋ 拖动平移</span><span>👆 点击板块查看详情</span></div>
+    <div class="map-viewport" id="viewport">
+      <svg class="map-svg" id="mapSvg" viewBox="0 0 1160 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI产业链全景地图">
+          <defs>
+            <pattern id="lgrid" width="50" height="50" patternUnits="userSpaceOnUse">
+              <path d="M 50 0 L 0 0 0 50" fill="none" stroke="var(--map-grid)" stroke-width="0.5"/>
+            </pattern>
+            <filter id="lshadow" x="-5%" y="-5%" width="110%" height="110%">
+              <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="rgba(0,0,0,0.08)"/>
+            </filter>
+            <marker id="larr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 L2,3Z" fill="var(--border-mid)"/>
+            </marker>
+          </defs>
+          <rect width="1160" height="720" class="map-bg-fill"/>
+          <rect width="1160" height="720" fill="url(#lgrid)"/>
+
+          <!-- topbar -->
+          <rect x="0" y="0" width="1160" height="26" fill="var(--surface-1)" opacity="0.7"/>
+          <text x="20" y="17" font-family="'DM Mono',monospace" font-size="9" fill="var(--text-4)" letter-spacing="0.5">AI INFRASTRUCTURE SUPPLY CHAIN · CLICK TO EXPLORE · DATA: 2026.05</text>
+
+          <!-- L1: upstream -->
+          <text x="130" y="50" class="lbl" text-anchor="middle">UPSTREAM MATERIALS</text>
+
+          <g class="lclick" data-id="sec_ccl">
+            <rect x="20" y="58" width="210" height="68" rx="6" fill="var(--card-bg)" stroke="var(--border)" stroke-width="1.2" filter="url(#lshadow)"/>
+            <rect x="20" y="58" width="4" height="68" rx="2" class="gold-bar"/>
+            <text x="36" y="74" class="lbl" fill="var(--text-4)">COPPER FOIL · CCL</text>
+            <text x="36" y="92" class="ntitle" font-size="12">CCL覆铜板</text>
+            <text x="36" y="107" class="nsub">铜箔 + 玻纤布 + 树脂层压</text>
+            <text x="222" y="116" font-family="'DM Mono',monospace" font-size="8" fill="var(--accent)" text-anchor="end">HVLP4需求+48%</text>
+          </g>
+
+          <g class="lclick" data-id="sec_pcb">
+            <rect x="245" y="58" width="210" height="68" rx="6" fill="var(--card-bg)" stroke="var(--border)" stroke-width="1.2" filter="url(#lshadow)"/>
+            <rect x="245" y="58" width="4" height="68" rx="2" class="gold-bar"/>
+            <text x="261" y="74" class="lbl" fill="var(--text-4)">PCB · PRINTED CIRCUIT BOARD</text>
+            <text x="261" y="92" class="ntitle" font-size="12">PCB印制电路板</text>
+            <text x="261" y="107" class="nsub">承载所有电子元器件的骨架</text>
+            <text x="447" y="116" font-family="'DM Mono',monospace" font-size="8" fill="var(--accent)" text-anchor="end">AI服务器>40层</text>
+          </g>
+
+          <g class="lclick" data-id="sec_glass">
+            <rect x="470" y="58" width="195" height="68" rx="6" fill="var(--card-bg)" stroke="var(--border)" stroke-width="1.2" filter="url(#lshadow)"/>
+            <rect x="470" y="58" width="4" height="68" rx="2" class="grey-bar"/>
+            <text x="486" y="74" class="lbl" fill="var(--text-4)">GLASS CLOTH · PREPREG</text>
+            <text x="486" y="92" class="ntitle" font-size="12">电子布 / 玻纤芯材</text>
+            <text x="486" y="107" class="nsub">PCB核心增强材料</text>
+          </g>
+
+          <path d="M 130 129 L 130 158 L 580 158 L 580 193" fill="none" stroke="var(--border-mid)" stroke-width="1.2" marker-end="url(#larr)"/>
+          <path d="M 350 129 L 350 158 L 580 158" fill="none" stroke="var(--border-mid)" stroke-width="1.2"/>
+          <path d="M 568 129 L 568 158 L 580 158" fill="none" stroke="var(--border-mid)" stroke-width="1.2"/>
+
+          <!-- L2: chip -->
+          <rect x="175" y="193" width="810" height="115" rx="8" fill="var(--card-bg)" stroke="var(--accent)" stroke-width="1.5" filter="url(#lshadow)"/>
+          <text x="192" y="212" class="lbl" fill="var(--accent)">CHIP DESIGN · AI COMPUTE CORE</text>
+
+          <g class="lclick" data-id="sec_gpu">
+            <rect x="192" y="222" width="225" height="76" rx="5" fill="var(--surface-1)" stroke="var(--accent)" stroke-width="1" filter="url(#lshadow)"/>
+            <text x="209" y="238" class="lbl" fill="var(--accent)">GPU · AI ACCELERATOR</text>
+            <text x="209" y="257" class="ntitle" font-size="14">GPU 加速器</text>
+            <text x="209" y="274" class="nsub">AI训练与推理的核心算力载体</text>
+            <text x="209" y="289" class="nval nval-blue">市占 >80% · CUDA生态</text>
+          </g>
+
+          <line x1="435" y1="225" x2="435" y2="295" stroke="var(--border-light)" stroke-width="1"/>
+          <g class="lclick" data-id="sec_asic">
+            <rect x="445" y="222" width="225" height="76" rx="5" fill="var(--surface-1)" stroke="var(--border)" stroke-width="1" filter="url(#lshadow)"/>
+            <text x="462" y="238" class="lbl" fill="var(--text-4)">ASIC · CUSTOM AI CHIP</text>
+            <text x="462" y="257" class="ntitle" font-size="14">AI定制芯片 ASIC</text>
+            <text x="462" y="274" class="nsub">大厂自研（TPU / Trainium）</text>
+            <text x="462" y="289" class="nval nval-gold">降低算力成本依赖</text>
+          </g>
+
+          <line x1="688" y1="225" x2="688" y2="295" stroke="var(--border-light)" stroke-width="1"/>
+          <g class="lclick" data-id="sec_cpu">
+            <rect x="698" y="222" width="225" height="76" rx="5" fill="var(--surface-1)" stroke="var(--border)" stroke-width="1" filter="url(#lshadow)"/>
+            <text x="715" y="238" class="lbl" fill="var(--text-4)">CPU · EDGE AI</text>
+            <text x="715" y="257" class="ntitle" font-size="14">CPU / 边缘AI</text>
+            <text x="715" y="274" class="nsub">Xeon / AI PC / 边缘推理</text>
+            <text x="715" y="289" class="nval nval-gold">AI PC赛道新兴</text>
+          </g>
+
+          <!-- L3: midstream -->
+          <line x1="305" y1="308" x2="305" y2="353" stroke="var(--border-mid)" stroke-width="1" marker-end="url(#larr)"/>
+          <line x1="558" y1="308" x2="558" y2="353" stroke="var(--border-mid)" stroke-width="1" marker-end="url(#larr)"/>
+          <line x1="810" y1="308" x2="810" y2="353" stroke="var(--border-mid)" stroke-width="1" marker-end="url(#larr)"/>
+          <line x1="305" y1="353" x2="175" y2="382" stroke="var(--border-light)" stroke-width="1" marker-end="url(#larr)"/>
+          <line x1="558" y1="353" x2="415" y2="382" stroke="var(--border-light)" stroke-width="1" marker-end="url(#larr)"/>
+          <line x1="810" y1="353" x2="650" y2="382" stroke="var(--border-light)" stroke-width="1" marker-end="url(#larr)"/>
+
+          <g class="lclick" data-id="sec_hbm">
+            <rect x="15" y="382" width="320" height="123" rx="7" fill="var(--card-bg)" stroke="var(--accent-purple)" stroke-width="1.5" filter="url(#lshadow)"/>
+            <rect x="15" y="382" width="5" height="123" rx="2.5" class="purple-bar"/>
+            <text x="30" y="401" class="lbl" fill="var(--accent-purple)">HIGH BANDWIDTH MEMORY</text>
+            <text x="30" y="420" class="ntitle" font-size="16">HBM 高带宽内存</text>
+            <text x="30" y="438" class="nsub">3D堆叠DRAM，TSV垂直互连，突破内存带宽瓶颈</text>
+            <rect x="30" y="448" width="73" height="23" rx="3" fill="var(--accent-purple-light)"><text x="66" y="464" font-family="'DM Mono',monospace" font-size="10" fill="var(--accent-purple)" text-anchor="middle" font-weight="600">SK hynix 62%</text></rect>
+            <rect x="109" y="448" width="73" height="23" rx="3" fill="var(--accent-purple-light)"><text x="145" y="464" font-family="'DM Mono',monospace" font-size="10" fill="var(--accent-purple)" text-anchor="middle">Micron 21%</text></rect>
+            <rect x="188" y="448" width="73" height="23" rx="3" fill="var(--surface-2)"><text x="224" y="464" font-family="'DM Mono',monospace" font-size="10" fill="var(--text-3)" text-anchor="middle">Samsung 17%</text></rect>
+            <text x="30" y="488" class="nval nval-green">HBM3E 已售罄至2026年</text>
+            <text x="30" y="502" class="nsub">HBM4: 288GB/颗 · 22 TB/s · 2026Q4量产</text>
+          </g>
+
+          <g class="lclick" data-id="sec_pkg">
+            <rect x="350" y="382" width="200" height="123" rx="7" fill="var(--card-bg)" stroke="var(--accent)" stroke-width="1.5" filter="url(#lshadow)"/>
+            <rect x="350" y="382" width="5" height="123" rx="2.5" class="accent-bar"/>
+            <text x="365" y="401" class="lbl" fill="var(--accent)">ADVANCED PACKAGING</text>
+            <text x="365" y="420" class="ntitle" font-size="15">封装</text>
+            <text x="365" y="438" class="nsub">CoWoS · 2.5D/3D · SoIC</text>
+            <text x="365" y="454" class="nval nval-blue">CoWoS产能 65K → 130K WPM</text>
+            <text x="365" y="469" class="nsub">2025年 → 2026年底</text>
+            <text x="365" y="485" class="nsub">OSAT: ASE · Amkor · JCET</text>
+            <text x="365" y="499" class="nval nval-red" font-size="9">⚠ 封装是GPU产能瓶颈</text>
+          </g>
+
+          <g class="lclick" data-id="sec_optical">
+            <rect x="565" y="382" width="280" height="123" rx="7" fill="var(--card-bg)" stroke="var(--accent-green)" stroke-width="1.5" filter="url(#lshadow)"/>
+            <rect x="565" y="382" width="5" height="123" rx="2.5" class="green-bar"/>
+            <text x="580" y="401" class="lbl" fill="var(--accent-green)">OPTICAL INTERCONNECT</text>
+            <text x="580" y="420" class="ntitle" font-size="15">光模块 / 互联</text>
+            <text x="580" y="438" class="nval nval-green">800G / 1.6T 光收发模块</text>
+            <text x="580" y="454" class="nsub">市场 $13.4B (2025) · CAGR 13.5%</text>
+            <text x="580" y="469" class="nsub">→ $48.1B (2035)</text>
+            <text x="580" y="485" class="nsub">硅光 · CPO · InfiniBand / NVLink</text>
+            <text x="580" y="499" class="nval nval-red" font-size="9">⚠ EML激光器 = 最稀缺组件</text>
+          </g>
+
+          <g class="lclick" data-id="sec_server">
+            <rect x="860" y="382" width="195" height="123" rx="7" fill="var(--card-bg)" stroke="var(--border-mid)" stroke-width="1.5" filter="url(#lshadow)"/>
+            <rect x="860" y="382" width="5" height="123" rx="2.5" fill="var(--text-3)"/>
+            <text x="875" y="401" class="lbl" fill="var(--text-4)">AI SERVER SYSTEM</text>
+            <text x="875" y="420" class="ntitle" font-size="15">AI服务器整机</text>
+            <text x="875" y="438" class="nsub">市场 $128B (2024) · CAGR 28%</text>
+            <text x="875" y="453" class="nsub">→ $1.56T (2034)</text>
+            <text x="875" y="469" class="nsub">鸿海(富士康) ~40% · 广达 · Super Micro</text>
+            <text x="875" y="485" class="nsub">GB200 NVL72 · TDP 120kW/rack</text>
+            <text x="875" y="499" class="nval nval-red" font-size="9">⚠ 液冷 = 强制需求</text>
+          </g>
+
+          <!-- L4: downstream -->
+          <line x1="175" y="508" x2="175" y2="540" stroke="var(--border-light)" stroke-width="1" marker-end="url(#larr)"/>
+          <line x1="450" y="508" x2="450" y2="540" stroke="var(--border-light)" stroke-width="1" marker-end="url(#larr)"/>
+          <line x1="705" y="508" x2="705" y2="540" stroke="var(--border-light)" stroke-width="1" marker-end="url(#larr)"/>
+          <line x1="960" y="508" x2="960" y2="540" stroke="var(--border-light)" stroke-width="1" marker-end="url(#larr)"/>
+
+          <g class="lclick" data-id="sec_power">
+            <rect x="15" y="540" width="235" height="88" rx="6" fill="var(--card-bg)" stroke="var(--accent-gold)" stroke-width="1.2" filter="url(#lshadow)"/>
+            <rect x="15" y="540" width="4" height="88" rx="2" fill="var(--accent-gold)"/>
+            <text x="30" y="558" class="lbl" fill="var(--accent-gold)">POWER · ENERGY INFRASTRUCTURE</text>
+            <text x="30" y="576" class="ntitle" font-size="13">能源与电力</text>
+            <text x="30" y="593" class="nsub">数据中心电力 · UPS · 碳化硅(SiC)</text>
+            <text x="30" y="608" class="nsub">Vertiv · 伊顿 · 施耐德</text>
+            <text x="30" y="622" class="nval nval-red" font-size="9">⚠ 电力 = 数据中心扩张瓶颈</text>
+          </g>
+
+          <g class="lclick" data-id="sec_cooling">
+            <rect x="265" y="540" width="235" height="88" rx="6" fill="var(--card-bg)" stroke="var(--accent-teal)" stroke-width="1.2" filter="url(#lshadow)"/>
+            <rect x="265" y="540" width="4" height="88" rx="2" fill="var(--accent-teal)"/>
+            <text x="280" y="558" class="lbl" fill="var(--accent-teal)">COOLING · THERMAL MANAGEMENT</text>
+            <text x="280" y="576" class="ntitle" font-size="13">散热与液冷</text>
+            <text x="280" y="593" class="nsub">冷板 · 浸没式 · 喷淋式</text>
+            <text x="280" y="608" class="nsub">Vertiv · Asetek · 英维克</text>
+            <text x="280" y="622" class="nval nval-green" font-size="9">$870M → $10.7B · CAGR 52%</text>
+          </g>
+
+          <g class="lclick" data-id="sec_cloud">
+            <rect x="515" y="540" width="630" height="88" rx="6" fill="var(--card-bg)" stroke="var(--accent-green)" stroke-width="1.5" filter="url(#lshadow)"/>
+            <rect x="515" y="540" width="5" height="88" rx="2.5" class="green-bar"/>
+            <text x="530" y="558" class="lbl" fill="var(--accent-green)">DEMAND DRIVER · HYPERSCALER CAPEX 2026</text>
+            <text x="530" y="576" class="ntitle" font-size="13">云厂商 CapEx 需求端</text>
+            <text x="530" y="593" class="nval nval-green">五大云厂商 CapEx $750–$800B · +36% YoY · ~75%用于AI基础设施</text>
+            <rect x="530" y="602" width="88" height="20" rx="3" fill="var(--accent-green-light)"><text x="574" y="616" font-family="'DM Mono',monospace" font-size="9" fill="var(--accent-green)" text-anchor="middle" font-weight="600">AMZN $200B</text></rect>
+            <rect x="624" y="602" width="88" height="20" rx="3" fill="var(--accent-green-light)"><text x="668" y="616" font-family="'DM Mono',monospace" font-size="9" fill="var(--accent-green)" text-anchor="middle" font-weight="600">GOOGL $185B</text></rect>
+            <rect x="718" y="602" width="88" height="20" rx="3" fill="var(--accent-green-light)"><text x="762" y="616" font-family="'DM Mono',monospace" font-size="9" fill="var(--accent-green)" text-anchor="middle" font-weight="600">MSFT $190B</text></rect>
+            <rect x="812" y="602" width="88" height="20" rx="3" fill="var(--accent-green-light)"><text x="856" y="616" font-family="'DM Mono',monospace" font-size="9" fill="var(--accent-green)" text-anchor="middle" font-weight="600">META $135B</text></rect>
+            <rect x="906" y="602" width="88" height="20" rx="3" fill="var(--surface-2)"><text x="950" y="616" font-family="'DM Mono',monospace" font-size="9" fill="var(--text-3)" text-anchor="middle" font-weight="500">ORCL $50B</text></rect>
+          </g>
+
+          <!-- app layer -->
+          <line x1="830" y="631" x2="830" y2="658" stroke="var(--border-mid)" stroke-width="1" marker-end="url(#larr)"/>
+          <rect x="400" y="658" width="360" height="44" rx="6" fill="var(--accent-green-light)" stroke="rgba(76,175,128,0.3)" stroke-width="1"/>
+          <text x="580" y="676" class="ntitle" fill="var(--accent-green)" text-anchor="middle" font-size="12">AI应用层：大模型 · SaaS · Agent · 机器人 · 自动驾驶</text>
+          <text x="580" y="694" font-family="'DM Mono',monospace" font-size="9" fill="var(--text-3)" text-anchor="middle">OpenAI · Anthropic · xAI · Salesforce · Google DeepMind</text>
+        </svg>
+    </div>
+  </div>
+</section>
+
+<!-- PANEL OVERLAY -->
+<div class="panel-overlay" id="panel">
+  <div class="panel" role="dialog" aria-modal="true">
+    <div class="panel-head"><div style="flex:1;"><div class="panel-cat" id="pCat"></div><div class="panel-name" id="pName"></div><div class="panel-tick" id="pTick"></div></div><span class="panel-tag" id="pTag"></span><button class="panel-cls" id="pClose">&times;</button></div>
+    <div class="panel-body"><div class="panel-desc" id="pDesc"></div><div class="panel-stat-grid" id="pStats"></div><div class="panel-sec-lbl">投资标的</div><div class="stock-chips" id="pStocks"></div><div id="pRisks"></div></div>
+  </div>
+</div>
+
+<script src="theme-toggle.js"></script>
+<script src="nav.js"></script>
+<script>
+// ─── PANEL DATA ───
+const P = {
+  sec_ccl: {
+    cat:'上游材料 · CCL覆铜板', name:'CCL 覆铜板', tick:'建滔积层板 · 生益科技 · 台光', tag:'上游材料', tagCls:'badge-gold',
+    desc:'CCL（覆铜板）是PCB的直接原材料，由铜箔、玻纤布和树脂层压而成。AI服务器对高频高速信号要求极高，HVLP（超低轮廓铜箔，Rz≤0.5μm）是核心材料，用于减少信号在PCB走线中的损耗。全球CCL市场2025年约$18.76B，AI驱动增速+34%。HVLP铜箔2025年全球产能增长48.1%。日本供应商（古河电气/三井金属）占HVLP供应60%以上，台湾Co-Tech跻身全球前三（10.3%市占）。生益科技是中国最大CCL龙头。CCL按介质特性分：STD（普通）、无卤（HF）、低损耗（Mid/Ultra Low Loss）。AI服务器需要高速材料（M6级以上），单价和利润率显著高于普通CCL。',
+    stats:[
+      {l:'CCL市场规模 2025',v:'$18.76B',c:''},{l:'AI驱动增速',v:'+34% YoY',c:'up'},
+      {l:'HVLP4需求增速 2025',v:'+48%',c:'up'},{l:'预计2026年市场规模',v:'$21.5B',c:''}
+    ],
+    stocks:[
+      {t:'600183.SH',n:'生益科技(A股)',e:'us'}, {t:'3045.TW',n:'台光(台股)',e:'tw'},
+      {t:'01888.HK',n:'建滔积层板(港股)',e:'cn'}, {t:'2313.TW',n:'华通(台股)',e:'tw'}
+    ],
+    risks:['原材料（铜/树脂）价格波动影响毛利','中国厂商扩产可能带来竞争压力','HVLP4高端铜箔产能瓶颈短期持续','高频高速材料认证周期长（12-18个月）']
+  },
+  sec_pcb: {
+    cat:'上游材料 · PCB印制电路板', name:'PCB 印制电路板', tick:'鹏鼎控股 · 华通 · 景硕', tag:'上游材料', tagCls:'badge-gold',
+    desc:'PCB（印制电路板）是承载所有电子元器件并提供电气互连的载体。AI服务器大量使用任意层HDI（High Density Interconnect）板，层数超过40层（普通服务器约12-16层）。AI服务器PCB单价约为普通服务器的3-5倍，利润率更高。认证周期长达12-18个月，形成较高进入壁垒。鹏鼎控股是全球最大PCB制造商之一，服务苹果、微软、谷歌等客户。华通是台湾高端HDI和IC载板龙头。AI服务器PCB需要激光微孔（<100μm直径）工艺，技术壁垒远高于普通PCB。',
+    stats:[
+      {l:'AI服务器PCB层数',v:'>40层',c:''},{l:'单价vs普通服务器',v:'3-5倍',c:'up'},
+      {l:'HDI认证周期',v:'12-18个月',c:''},{l:'AI PCB增速',v:'高速增长',c:'up'}
+    ],
+    stocks:[
+      {t:'002938.SZ',n:'鹏鼎控股(A股)',e:'cn'}, {t:'2313.TW',n:'华通(台股)',e:'tw'},
+      {t:'3022.TW',n:'景硕(台股)',e:'tw'}
+    ],
+    risks:['下游客户集中度高（依赖几家云厂商）','原材料成本压力大','AI需求波动可能导致产能过剩','HDI产线资本开支大']
+  },
+  sec_glass: {
+    cat:'上游材料 · 电子布/玻纤芯材', name:'电子布 / 玻纤芯材', tick:'台玻 · PPG Industries', tag:'上游材料', tagCls:'badge-gold',
+    desc:'电子级玻璃布（E-glass）是CCL的核心增强层，提供机械强度和绝缘性能。高阶AI服务器用CCL需要超薄电子布（1067/1080型），对厚度均匀性和介电常数有严格要求。台玻是台湾最大的玻璃纤维制造商，PPG是全球工业涂料和玻纤巨头。电子布占CCL成本约15-20%，但对板材性能影响关键。进入壁垒相对较低，价格竞争激烈。',
+    stats:[
+      {l:'电子布供应格局',v:'台湾+日本主导',c:''},{l:'高阶电子布技术壁垒',v:'高',c:''}
+    ],
+    stocks:[
+      {t:'1802.TW',n:'台玻(台股)',e:'tw'}, {t:'PPG',n:'PPG Industries(美股)',e:'us'}
+    ],
+    risks:['进入壁垒相对较低','价格竞争激烈','上游原材料（纯碱/天然气）价格波动']
+  },
+  sec_gpu: {
+    cat:'AI芯片 · GPU加速器', name:'GPU 加速器', tick:'NVDA · AMD · AVGO · MRVL', tag:'AI芯片', tagCls:'badge-blue',
+    desc:'GPU凭借大规模并行计算架构成为AI训练和推理的主流硬件。NVIDIA H100/H200使用Hopper架构，B200使用Blackwell架构（双芯片，2080亿晶体管）。CUDA生态（全球500万+开发者）是核心护城河。GB200 NVL72包含72颗B200 + 36颗Grace CPU，FP8算力720 PFLOPS。AMD MI300X（192GB HBM3e，FP8约7 PF）提供差异化性价比选择。Broadcom AI ASIC服务Google、Meta等大客户。',
+    stats:[
+      {l:'NVIDIA AI GPU市占',v:'>80%',c:'acc'},{l:'B200内存带宽',v:'8 TB/s',c:'up'},
+      {l:'GB200 NVL72 FP8算力',v:'720 PFLOPS',c:'up'},{l:'B200 TDP',v:'1000W',c:''}
+    ],
+    stocks:[
+      {t:'NVDA',n:'NVIDIA(美股) · 垄断',e:'us'},
+      {t:'AMD',n:'AMD(美股) · MI300X',e:'us'},
+      {t:'AVGO',n:'Broadcom(美股) · AI ASIC',e:'us'},
+      {t:'MRVL',n:'Marvell(美股)',e:'us'}
+    ],
+    risks:['CUDA生态壁垒使竞争者软件支持落后','中国出口限制影响部分市场','定制ASIC分流需求（长期','CoWoS/HBM瓶颈制约出货量']
+  },
+  sec_asic: {
+    cat:'AI芯片 · 定制ASIC', name:'AI定制芯片 ASIC', tick:'AVGO · MRVL · GOOGL', tag:'AI芯片', tagCls:'badge-blue',
+    desc:'ASIC（专用集成电路）针对特定AI任务定制优化，单位算力成本和功耗低于GPU。Google TPU（自研，到V5）、Amazon Trainium（AWS）是主要案例。Broadcom是最大AI ASIC代工方，AI ASIC收入已超过传统网络芯片。Marvell通过$5.5B收购Celestial AI（2025年12月）押注光学互联成为AI加速器标准配置。ASIC优势：定制化带来能效比；劣势：开发周期长（18-36个月），生态封闭。',
+    stats:[
+      {l:'AVGO AI ASIC定位',v:'大厂定制',c:'acc'},{l:'Marvell/Celestial AI收购',v:'$5.5B',c:''}
+    ],
+    stocks:[
+      {t:'AVGO',n:'Broadcom(美股) · ASIC代工',e:'us'},
+      {t:'MRVL',n:'Marvell(美股) · 定制AI芯片',e:'us'}
+    ],
+    risks:['ASIC开发周期长，前期投入大','CUDA生态壁垒使开发者难以迁移','大厂自研可能减少商业芯片依赖（长期）']
+  },
+  sec_cpu: {
+    cat:'AI芯片 · CPU/边缘AI', name:'CPU / 边缘AI', tick:'INTC · QCOM', tag:'AI芯片', tagCls:'badge-blue',
+    desc:'Intel Xeon处理器仍是数据中心CPU主流（市占约80%），Gaudi3 AI加速器定位对标H100性价比替代。Qualcomm Snapdragon X Elite进入AI PC市场，在边缘推理场景有低功耗优势（功耗23-45W，NPU算力45 TOPS）。x86 vs ARM架构之争在AI时代重燃。AI PC是2024-2025年新兴赛道。',
+    stats:[
+      {l:'Xeon服务器市占',v:'~80%',c:'acc'},{l:'Snapdragon X NPU算力',v:'45 TOPS',c:''}
+    ],
+    stocks:[
+      {t:'INTC',n:'Intel(美股) · Xeon+Gaudi3',e:'us'},
+      {t:'QCOM',n:'Qualcomm(美股) · AI PC',e:'us'}
+    ],
+    risks:['Gaudi3软件生态远弱于CUDA','Intel制造工艺竞争地位下滑','AI PC市场仍在早期']
+  },
+  sec_hbm: {
+    cat:'存储 · HBM高带宽内存', name:'HBM 高带宽内存', tick:'SK hynix · Samsung · Micron', tag:'存储芯片', tagCls:'badge-purple',
+    desc:'HBM（High Bandwidth Memory）通过TSV垂直堆叠DRAM die，是GPU和AI ASIC的必需配置。HBM3e带宽8 TB/s，是GDDR7的约5倍。HBM占AI服务器BOM成本约35-40%。SK hynix是绝对龙头（Q2 2025市占62%），HBM3E已售罄至2026年，HBM4（288GB/颗、22 TB/s）计划2026年Q4量产。Micron HBM3E已获NVIDIA认证。Samsung因良率问题在NVIDIA认证上落后。HBM4量产时间表将决定2026-2027年市场格局。',
+    stats:[
+      {l:'HBM市场规模 2025',v:'~$35B',c:''},{l:'SK hynix市占 Q2 2025',v:'62%',c:'up'},
+      {l:'HBM4目标带宽',v:'22 TB/s',c:'up'},{l:'HBM占服务器BOM成本',v:'~35-40%',c:''}
+    ],
+    stocks:[
+      {t:'000660.KRX',n:'SK hynix(韩股) · 龙头',e:'kr'},
+      {t:'005930.KRX',n:'Samsung(韩股) · HBM4追赶中',e:'kr'},
+      {t:'MU',n:'Micron(美股) · HBM3E已认证',e:'us'}
+    ],
+    risks:['Samsung HBM4量产可能侵蚀SK hynix份额','HBM市场2027年可能出现供应过剩','HBM4量产良率不确定性','韩元汇率波动影响收益']
+  },
+  sec_pkg: {
+    cat:'先进封装 · CoWoS/2.5D/3D', name:'先进封装', tick:'TSMC · ASE · Amkor', tag:'先进封装', tagCls:'badge-blue',
+    desc:'先进封装是延续摩尔定律的主要路径。CoWoS（Chip-on-Wafer-on-Substrate）是TSMC的2.5D封装技术，将芯片并排放置在硅中介层上，是AI GPU/ASIC封装的主流方案。TSMC CoWoS产能是当前AI算力扩张的核心瓶颈。产能目标：2024年~40K晶圆/月 → 2025年~65K WPM → 2026年底130K WPM（约4倍增长）。SoIC（3D IC）和InFO-M（集成扇出）是其他路线。OSAT ASE、Amkor、长电科技（JCET）是次级封装供应商。',
+    stats:[
+      {l:'CoWoS产能 2024底',v:'~40K WPM',c:''},{l:'CoWoS产能目标 2026底',v:'130K WPM',c:'up'},
+      {l:'产能CAGR 2022-2026',v:'>50%/年',c:'up'},{l:'TSMC封装市占',v:'~100%',c:'acc'}
+    ],
+    stocks:[
+      {t:'TSM',n:'TSMC(美股) · CoWoS垄断',e:'us'},
+      {t:'ASX',n:'ASE(台股) · 最大OSAT',e:'tw'},
+      {t:'AMKR',n:'Amkor(美股) · CoWoS-S',e:'us'}
+    ],
+    risks:['CoWoS扩张资本开支巨大','Intel Foveros/Samsung竞争替代','AI需求波动可能导致产能过剩','台海地缘政治风险']
+  },
+  sec_optical: {
+    cat:'互联 · 光模块', name:'光模块 / 互联', tick:'中际旭创 · Coherent · 新易盛', tag:'互联', tagCls:'badge-green',
+    desc:'光模块将电信号转为光信号，通过光纤传输，是数据中心互联的核心器件。800G是当前主流，1.6T正在量产爬坡（2025年约2.7M只）。硅光模块（将光波导集成在硅芯片上）降低功耗和成本，2025年预计占800G出货约2/3。中际旭创全球800G市占约42%，1.6T约55-60%。CPO（共封装光学）将光引擎与交换芯片封装，是1.6T/3.2T时代演进方向。EML（电吸收调制激光器）是最稀缺组件，Lumentum占全球EML产能50-60%。',
+    stats:[
+      {l:'光模块市场 2025',v:'$13.4B',c:''},{l:'市场CAGR',v:'13.5%',c:'up'},
+      {l:'中际旭创800G市占',v:'~42%',c:'up'},{l:'中际旭创1.6T市占',v:'55-60%',c:'up'}
+    ],
+    stocks:[
+      {t:'300308.SZ',n:'中际旭创(A股) · 全球龙头',e:'cn'},
+      {t:'COHR',n:'Coherent(美股) · 硅光+EML',e:'us'},
+      {t:'300502.SZ',n:'新易盛(A股) · 1.6T放量',e:'cn'},
+      {t:'LITE',n:'Lumentum(美股) · EML垄断50-60%',e:'us'}
+    ],
+    risks:['EML激光器供应瓶颈持续','CPO可能颠覆可插拔光模块（长期','Nvidia自研光模块分流','华为本土竞争']
+  },
+  sec_server: {
+    cat:'算力整机 · AI服务器ODM', name:'AI服务器整机 / ODM', tick:'鸿海 · 广达 · Super Micro', tag:'算力整机', tagCls:'badge-blue',
+    desc:'AI服务器ODM（原始设计制造商）负责硬件组装和系统集成。鸿海（富士康）占AI服务器机架组装约40%市场份额，核心客户包括Nvidia、微软、亚马逊。广达是Google核心供应商。Super Micro设计和组装液冷AI服务器，拥有快速交付优势，但受会计问题困扰。GB200 NVL72包含72颗B200 + 36颗Grace CPU，单机架功耗约120kW，必须液冷。AI服务器市场2024年约$128B，CAGR 28%，预计2034年达$1.56T。',
+    stats:[
+      {l:'AI服务器市场 2024',v:'$128B',c:''},{l:'市场CAGR',v:'28%',c:'up'},
+      {l:'鸿海市场份额',v:'~40%',c:'up'},{l:'GB200 NVL72功耗',v:'~120kW/rack',c:''}
+    ],
+    stocks:[
+      {t:'2319.TW',n:'鸿海/富士康(台股)',e:'tw'},
+      {t:'2382.TW',n:'广达(台股) · Google核心供应商',e:'tw'},
+      {t:'SMCI',n:'Super Micro(美股) · 液冷AI服务器',e:'us'},
+      {t:'DELL',n:'Dell(美股) · 企业AI服务器',e:'us'}
+    ],
+    risks:['客户集中度高（Nvidia占比大）','代工属性毛利率低（5-8%）','Super Micro会计问题引发信任危机','CoWoS/HBM瓶颈制约出货']
+  },
+  sec_power: {
+    cat:'能源 · 数据中心电力', name:'能源与电力', tick:'Vertiv · 伊顿 · 施耐德', tag:'能源', tagCls:'badge-gold',
+    desc:'数据中心电力系统包括市电接入、变压器、UPS（不间断电源）、配电单元（PDU）、发电机。AI服务器功耗飙升（GB200 NVL72约120kW/rack）使电力基础设施扩张速度跟不上算力增速。Vertiv是全球数据中心电力和冷却基础设施龙头。SiC（碳化硅）功率器件降低电力转换损耗。数据中心电力瓶颈是AI扩张的核心物理约束之一。Vertiv液冷产品组合最全，Asetek专注CDU，英维克是亚洲液冷龙头。全球液冷市场2024年$870M，预计2030年$10.7B，CAGR 51.93%。',
+    stats:[
+      {l:'Vertiv Q3 2025订单增长',v:'+60% YoY',c:'up'},{l:'液冷市场CAGR',v:'51.93%',c:'up'},
+      {l:'液冷市场 2030预计',v:'$10.7B',c:'up'},{l:'数据中心电力瓶颈',v:'核心约束',c:''}
+    ],
+    stocks:[
+      {t:'VRT',n:'Vertiv(美股) · 电力+冷却',e:'us'},
+      {t:'ETN',n:'伊顿(美股) · UPS龙头',e:'us'},
+      {t:'GEV',n:'GE Vernova(美股) · 大型发电',e:'us'}
+    ],
+    risks:['电力基础设施扩张速度跟不上算力增速','碳化硅替代传统IGBT需要时间','中国厂商价格竞争']
+  },
+  sec_cooling: {
+    cat:'散热 · 液冷', name:'散热与液冷', tick:'Vertiv · Asetek · 英维克', tag:'液冷散热', tagCls:'badge-teal',
+    desc:'液冷是AI服务器（尤其是Blackwell架构）的强制需求——B200 TDP=1000W，空气冷却已无法满足。液冷技术路线包括：①直接芯片冷却（冷板，主流），②单相浸没冷却，③两相浸没冷却（效率最高但最复杂）。全球液冷市场2024年$870M，预计2030年$10.7B，CAGR 51.93%。Vertiv产品组合最全，Asetek专注CDU，英维克是亚洲液冷龙头。浸没冷却约17%市场份额（2024年），预计逐步提升。',
+    stats:[
+      {l:'液冷市场规模 2024',v:'$870M',c:''},{l:'市场CAGR',v:'51.93%',c:'up'},
+      {l:'液冷市场 2030预计',v:'$10.7B',c:'up'},{l:'浸没冷却市场份额 2024',v:'~17%',c:''}
+    ],
+    stocks:[
+      {t:'VRT',n:'Vertiv(美股) · 全类别液冷',e:'us'},
+      {t:'ASETEK',n:'Asetek(美股) · 液冷CDU',e:'us'},
+      {t:'002837.SZ',n:'英维克(A股) · 亚洲液冷龙头',e:'cn'},
+      {t:'300124.SZ',n:'汇川技术(A股) · 液冷CDU',e:'cn'}
+    ],
+    risks:['液冷技术路线尚未标准化（冷板 vs 浸没仍有分歧','数据中心运营商是否愿意承担液冷改造成本是关键','中国厂商成本优势明显']
+  },
+  sec_cloud: {
+    cat:'需求端 · 云厂商CapEx', name:'五大云厂商 CapEx', tick:'AMZN · GOOGL · MSFT · META · ORCL', tag:'需求端', tagCls:'badge-green',
+    desc:'五大云/AI基础设施厂商（Amazon、Alphabet、Microsoft、Meta、Oracle）2026年合计资本开支约$750-$800B，同比增长约36%。约75%（$560-600B）直接用于AI基础设施（GPU服务器、数据中心、网络）。需求驱动力：LLM训练需要万卡以上集群，推理需求随用户增长指数扩张，AI Agent和多模态模型对算力持续消耗。各家均在扩大内部芯片自研（Nvidia以外的TPU、Trainium、Maia等）以降低成本依赖。Capital密集度（CapEx/收入）部分公司已达45-57%，引发市场对ROI担忧，但管理层表示扩张仍在加速。',
+    stats:[
+      {l:'五大云厂商 CapEx 2026',v:'$750-800B',c:'up'},{l:'AI基础设施占比',v:'~75%',c:'up'},
+      {l:'同比增长',v:'+36% YoY',c:'up'},{l:'部分公司资本密集度',v:'45-57%收入',c:''}
+    ],
+    stocks:[
+      {t:'AMZN',n:'Amazon(美股) · AWS $200B CapEx',e:'us'},
+      {t:'GOOGL',n:'Alphabet(美股) · GCP $175B CapEx',e:'us'},
+      {t:'MSFT',n:'Microsoft(美股) · Azure $120B CapEx',e:'us'},
+      {t:'META',n:'Meta(美股) · Llama $115B CapEx',e:'us'},
+      {t:'ORCL',n:'Oracle(美股) · Stargate $50B',e:'us'}
+    ],
+    risks:['CapEx规模引发市场对ROI担忧','若AI变现不及预期，CapEx可能削减','自研芯片降低对Nvidia依赖（长期','电力/土地/许可等物理约束限制产能']
+  }
+};
+
+// ─── MAP ZOOM/PAN ───
+const mapSvg = document.getElementById('mapSvg');
+const vp = document.getElementById('viewport');
+let ms = 1, mtx = 0, mty = 0, dragging = false, lx = 0, ly = 0;
+function mat() { mapSvg.style.transform = `scale(${ms}) translate(${mtx}px,${mty}px)`; }
+vp.addEventListener('wheel', e => { e.preventDefault(); ms = Math.min(Math.max(ms - e.deltaY * 0.001, 0.5), 3); mat(); }, { passive: false });
+mapSvg.addEventListener('mousedown', e => { if (e.target.closest('.lclick')) return; dragging = true; lx = e.clientX; ly = e.clientY; vp.style.cursor = 'grabbing'; });
+window.addEventListener('mousemove', e => { if (!dragging) return; mtx += (e.clientX - lx) / ms; mty += (e.clientY - ly) / ms; lx = e.clientX; ly = e.clientY; mat(); });
+window.addEventListener('mouseup', () => { dragging = false; vp.style.cursor = 'grab'; });
+document.getElementById('zoomIn').onclick = () => { ms = Math.min(ms + 0.2, 3); mat(); };
+document.getElementById('zoomOut').onclick = () => { ms = Math.max(ms - 0.2, 0.5); mat(); };
+document.getElementById('resetView').onclick = () => { ms = 1; mtx = 0; mty = 0; mat(); };
+
+// ─── MAP CLICK ───
+mapSvg.querySelectorAll('.lclick').forEach(g => {
+  g.addEventListener('click', e => {
+    e.stopPropagation();
+    const id = g.getAttribute('data-id');
+    if (P[id]) showPanel(P[id]);
+  });
+});
+
+// ─── PANEL ───
+const panel = document.getElementById('panel');
+const pClose = document.getElementById('pClose');
+function showPanel(d) {
+  document.getElementById('pCat').textContent = d.cat;
+  document.getElementById('pName').textContent = d.name;
+  document.getElementById('pTick').textContent = d.tick;
+  document.getElementById('pTag').textContent = d.tag;
+  document.getElementById('pTag').className = 'panel-tag ' + d.tagCls;
+  document.getElementById('pDesc').textContent = d.desc;
+  document.getElementById('pStats').innerHTML = d.stats.map(s =>
+    `<div class="pstat"><div class="pstat-lbl">${s.l}</div><div class="pstat-val ${s.c}">${s.v}</div></div>`
+  ).join('');
+  document.getElementById('pStocks').innerHTML = d.stocks.map(s =>
+    `<span class="schip ${s.e}">${s.t} · ${s.n}</span>`
+  ).join('');
+  document.getElementById('pRisks').innerHTML = d.risks.length
+    ? `<div class="panel-risk"><div class="panel-risk-lbl">风险提示</div>${d.risks.map(r => `<div class="panel-risk-item">${r}</div>`).join('')}</div>`
+    : '';
+  panel.classList.add('open');
+}
+function hide() { panel.classList.remove('open'); }
+pClose.onclick = hide;
+panel.onclick = e => { if (e.target === panel) hide(); };
+document.addEventListener('keydown', e => { if (e.key === 'Escape') hide(); });
+</script>
+
+
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">投资要点</h2>
+      <span class="section-sub">本章核心投资逻辑 · 仅供参考</span>
+    </div>
+    <div class="inv-card" id="inv-card" style="margin-top:0">
+      <div class="inv-card-body">
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">核心驱动因素</div>
+            <div class="inv-col-val">全球AI基础设施CapEx爆发；大模型多模态及Agent技术演进；算力、存储、互联、电力四轮驱动</div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">关键风险</div>
+            <div class="inv-col-val">硬件供应链瓶颈（CoWoS/HBM）；AI应用变现不及预期导致云厂商削减预算；地缘政治管制</div>
+          </div>
+        </div>
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">受益方向</div>
+            <div class="inv-tickers"><span>NVDA（算力）</span><span>TSM（制造）</span><span>MU（存储）</span><span>VRT（电力）</span></div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">风险暴露</div>
+            <div class="inv-col-val">白牌服务器利润空间被压缩；二线光模块厂商面临价格战；半导体设计厂地缘风险</div>
+          </div>
+        </div>
+        <div class="inv-catalyst">
+          <div class="inv-col-label">近期催化剂</div>
+          <div class="inv-col-val">NVIDIA及各大云厂商财报；新一代GB200服务器全球批量出货</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section class="section">
+  <div class="section-header"><span class="section-num">03</span><h2 class="section-title">章节导航</h2></div>
+  <div class="prev-next-nav">
+    <a class="pn-btn pn-prev" href="index.html"><span class="pn-label">&larr; 上一章</span><span class="pn-title">全部章节</span></a>
+    <a class="pn-btn pn-next" href="ch02-semiconductor.html"><span class="pn-label">下一章 &rarr;</span><span class="pn-title">半导体制造与设备</span></a>
+  </div>
+    <div class="insight" style="margin-bottom:8px;"><strong>章节导航：</strong>共17章完整产业链 · <a href="index.html">返回总览</a></div>
+</section>
+
+<div class="footer"><div class="footer-text">数据来源（实时搜索，2026年5月）：Fortune Business Insights &middot; Cignal AI &middot; Counterpoint Research &middot; The Futurum Group &middot; CreditSights &middot; GM Insights &middot; Yahoo Finance &middot; Nvidia官方 &middot; 各公司财报<br><br>⚠ 本报告数据基于公开信息整理，不构成投资建议。所有投资标的请自行判断风险。数据可能有误差，欢迎反馈指正。</div></div>
+
+</div>
+
+
+</div>
+</div></body>
+</html>

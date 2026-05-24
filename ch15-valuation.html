@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗺️</text></svg>">
+<title>AIinfra Map · CH15 · 产业链估值对比</title>
+<meta name="description" content="跨17个产业链环节、40+代表标的PE/PS/EV/EBITDA横向对比。识别估值洼地与高估区域，投资评级与时机建议。">
+<meta property="og:title" content="CH15 · 产业链估值对比总表">
+<meta property="og:description" content="跨17个产业链环节、40+代表标的PE/PS/EV/EBITDA横向对比。识别估值洼地与高估区域。">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.chapter-tag{background:var(--accent-purple)}
+.hero-title em{color:var(--accent-purple)}
+.insight{background:var(--accent-purple-light);border:1px solid rgba(106,42,156,0.2)}
+.insight strong{color:var(--accent-purple)}
+.inv-tickers span{background:var(--accent-purple-light);border:1px solid rgba(106,42,156,0.2);color:var(--accent-purple)}
+
+/* ─── Valuation Table ─── */
+.val-table-wrap{overflow-x:auto;margin:20px 0;border-radius:10px;border:1px solid var(--border);box-shadow:var(--shadow)}
+.val-table{width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px}
+.val-table thead tr{background:linear-gradient(135deg,var(--surface-2) 0%,var(--surface-1) 100%)}
+.val-table th{padding:11px 14px;text-align:left;font-family:"DM Mono",monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);border-bottom:2px solid var(--border);white-space:nowrap}
+.val-table td{padding:10px 14px;border-bottom:1px solid var(--border-light);vertical-align:middle;line-height:1.5;color:var(--text-2)}
+.val-table tbody tr:last-child td{border-bottom:none}
+.val-table tbody tr{transition:background .15s}
+.val-table tbody tr:hover{background:var(--accent-purple-light)}
+.val-table tbody tr:nth-child(even){background:var(--surface-1)}
+.val-table tbody tr:nth-child(even):hover{background:var(--accent-purple-light)}
+.ticker{font-family:"DM Mono",monospace;font-size:11px;font-weight:500}
+.ticker.us{color:var(--accent)}
+.ticker.tw{color:var(--accent-green)}
+.ticker.kr{color:var(--accent-purple)}
+.ticker.cn{color:var(--accent-gold)}
+.val-num{font-family:"DM Mono",monospace;font-size:12px;color:var(--text-1);font-weight:500}
+.val-num.up{color:var(--accent-green)}
+.val-num.lo{color:var(--accent-red)}
+.val-num.exp{color:var(--accent-gold)}
+
+/* ─── PE Bar ─── */
+.pe-bar-wrap{display:inline-flex;align-items:center;gap:8px}
+.pe-bar{height:6px;background:var(--surface-3);border-radius:3px;overflow:hidden;min-width:80px;max-width:120px}
+.pe-bar-fill{height:100%;border-radius:3px;background:var(--accent-purple);transition:width .4s ease}
+.pe-bar-fill.low{background:var(--accent-green)}
+.pe-bar-fill.mid{background:var(--accent-gold)}
+.pe-bar-fill.high{background:var(--accent-red)}
+
+/* ─── Rating Badges ─── */
+.overall-badge{font-family:"DM Mono",monospace;font-size:10px;padding:2px 10px;border-radius:12px;display:inline-block;font-weight:500}
+.badge-buy{background:var(--accent-green-light);color:var(--accent-green)}
+.badge-hold{background:var(--accent-gold-light);color:var(--accent-gold)}
+.badge-speculative{background:var(--accent-red-light);color:var(--accent-red)}
+
+/* ─── Summary Cards ─── */
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin:28px 0}
+.sum-card{background:var(--card-bg);border:1px solid var(--border-light);border-radius:8px;padding:18px 20px;box-shadow:var(--shadow);transition:all .2s ease;border-left:3px solid var(--border)}
+.sum-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.sum-card.buy{border-left-color:var(--accent-green)}
+.sum-card.hold{border-left-color:var(--accent-gold)}
+.sum-card.caution{border-left-color:var(--accent-red)}
+.sum-card.cycle{border-left-color:var(--accent-purple)}
+.sum-card-title{font-family:"Playfair Display",serif;font-size:15px;font-weight:600;margin-bottom:8px}
+.sum-card-desc{font-size:12.5px;color:var(--text-3);line-height:1.7}
+
+.section p{font-size:13.5px;color:var(--text-2);line-height:1.85;margin-bottom:10px}
+.note{font-size:10.5px;color:var(--text-3);line-height:1.6}
+
+@media(max-width:600px){
+  .inv-row{grid-template-columns:1fr}
+  .sum-grid{grid-template-columns:1fr}
+  .val-table{font-size:11px}
+  .val-table th,.val-table td{padding:8px 10px}
+  .pe-bar{min-width:50px}
+}
+
+.nav-header .section-num{color:var(--accent-purple)}</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="site-header">
+  <div class="logo">AIinfra <span>/</span> Map</div>
+    <nav class="header-nav" id="mainNav"></nav>
+  <div class="header-right">
+    <div class="header-meta"><span class="dot"></span>数据截至 2026.05 · 共17章</div>
+    <div class="theme-switcher">
+      <button class="theme-btn" data-theme="light" title="浅色主题"><span class="dot-inner light"></span><span>浅色</span></button>
+      <button class="theme-btn" data-theme="dark" title="深色主题"><span class="dot-inner dark"></span><span>深色</span></button>
+    </div>
+    <button class="nav-collapse-btn" id="navCollapseBtn" title="收起导航" aria-label="收起导航"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 8L6 4L10 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button class="mobile-hamburger" id="mobileHamburger" aria-label="打开菜单"><svg width="18" height="14" viewBox="0 0 18 14" fill="none"><rect y="1" width="18" height="2" rx="1" fill="currentColor"/><rect y="6" width="18" height="2" rx="1" fill="currentColor"/><rect y="11" width="18" height="2" rx="1" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<div id="mobileNavMount"></div>
+
+<section class="hero">
+<div class="breadcrumb"><a href="index.html">AIinfra Map</a> / <span>CH15 · 产业链估值对比</span></div>
+  <div class="hero-eyebrow"><span class="chapter-tag">CH15 · Valuation Comparison</span></div>
+  <h1 class="hero-title">产业链估值<br><em>对比总表</em></h1>
+  <p class="hero-subtitle">跨17个环节代表标的 PE · PS · EV/EBITDA · 市值横向对比 · 识别高估/低估区间</p>
+  <div class="hero-metrics">
+    <div class="metric"><span class="metric-value purple">14</span><span class="metric-label">覆盖产业链环节</span></div>
+    <div class="metric"><span class="metric-value gold">40+</span><span class="metric-label">代表性公司/标的</span></div>
+    <div class="metric"><span class="metric-value green">5x</span><span class="metric-label">PE估值跨度（低vs高）</span></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">为什么要做横向估值对比</h2>
+  </div>
+  <p>AI基础设施产业链不同环节的商业模式、资本强度、竞争格局差异极大，直接比较PE意义有限。本表引入市值、EV/EBITDA、PS等多元指标，并结合成长性判断估值合理性。</p>
+  <div class="insight" style="margin-top:14px"><strong>阅读说明：</strong>PE低于25x（科技股）通常被视为价值区间，但需注意：（1）周期股（存储、代工）应参考PB and EV/EBITDA；（2）成长股估值溢价合理性取决于市场地位；（3）本表数据为2026年5月实时数据。</div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">晶圆代工与半导体设备</h2>
+  </div>
+  <p>代工环节（TSM一家独大）和设备环节（美系Applied三雄）占据产业链价值最大份额。</p>
+  <div class="val-table-wrap">
+    <table class="val-table">
+      <thead><tr><th>公司</th><th>代码</th><th>市值</th><th>Revenue</th><th>Trailing PE</th><th>Forward PE</th><th>EV/EBITDA</th><th>投资评级</th></tr></thead>
+      <tbody>
+        <tr><td><strong>台积电</strong></td><td><span class="ticker tw">TSM</span></td><td><span class="val-num">$1.9万亿</span></td><td><span class="val-num">$1,350亿</span></td><td><span class="val-num">31x</span><div class="pe-bar-wrap"><div class="pe-bar"><div class="pe-bar-fill mid" style="width:62%"></div></div></div></td><td><span class="val-num up">22x</span></td><td><span class="val-num">18x</span></td><td><span class="overall-badge badge-buy">买入</span></td></tr>
+        <tr><td><strong>ASML</strong></td><td><span class="ticker us">ASML</span></td><td><span class="val-num">$6,000亿</span></td><td><span class="val-num">€327亿</span></td><td><span class="val-num exp">53x</span><div class="pe-bar-wrap"><div class="pe-bar"><div class="pe-bar-fill high" style="width:100%"></div></div></div></td><td><span class="val-num">40x</span></td><td><span class="val-num exp">38x</span></td><td><span class="overall-badge badge-hold">持有</span></td></tr>
+        <tr><td><strong>应用材料</strong></td><td><span class="ticker us">AMAT</span></td><td><span class="val-num">$3,430亿</span></td><td><span class="val-num">$271亿</span></td><td><span class="val-num exp">42x</span><div class="pe-bar-wrap"><div class="pe-bar"><div class="pe-bar-fill high" style="width:80%"></div></div></div></td><td><span class="val-num exp">36x</span></td><td><span class="val-num">30x</span></td><td><span class="overall-badge badge-buy">买入</span></td></tr>
+        <tr><td><strong>科林研发</strong></td><td><span class="ticker us">LRCX</span></td><td><span class="val-num">$3,800亿</span></td><td><span class="val-num">$195亿</span></td><td><span class="val-num exp">54x</span><div class="pe-bar-wrap"><div class="pe-bar"><div class="pe-bar-fill high" style="width:100%"></div></div></div></td><td><span class="val-num exp">37x</span></td><td><span class="val-num exp">35x</span></td><td><span class="overall-badge badge-buy">买入</span></td></tr>
+        <tr><td><strong>科磊</strong></td><td><span class="ticker us">KLAC</span></td><td><span class="val-num">$2,400亿</span></td><td><span class="val-num">$200亿</span></td><td><span class="val-num exp">51x</span><div class="pe-bar-wrap"><div class="pe-bar"><div class="pe-bar-fill high" style="width:95%"></div></div></div></td><td><span class="val-num exp">36x</span></td><td><span class="val-num">32x</span></td><td><span class="overall-badge badge-buy">买入</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">AI芯片</h2>
+    <span class="section-sub">设计环节</span>
+  </div>
+  <p>NVIDIA占据绝对主导地位，但高估值意味着股价已反映大部分增长预期。AMD作为差异化选择值得关注。</p>
+  <div class="val-table-wrap">
+    <table class="val-table">
+      <thead><tr><th>公司</th><th>代码</th><th>市值</th><th>Revenue</th><th>Trailing PE</th><th>Forward PE</th><th>EV/EBITDA</th><th>投资评级</th></tr></thead>
+      <tbody>
+        <tr><td><strong>NVIDIA</strong></td><td><span class="ticker us">NVDA</span></td><td><span class="val-num">$5.3万亿</span></td><td><span class="val-num">$1,300亿</span></td><td><span class="val-num exp">34x</span><div class="pe-bar-wrap"><div class="pe-bar"><div class="pe-bar-fill mid" style="width:64%"></div></div></div></td><td><span class="val-num up">22x</span></td><td><span class="val-num exp">32x</span></td><td><span class="overall-badge badge-hold">持有</span></td></tr>
+        <tr><td><strong>AMD</strong></td><td><span class="ticker us">AMD</span></td><td><span class="val-num">$7,600亿</span></td><td><span class="val-num">$280亿</span></td><td><span class="val-num exp">50x</span><div class="pe-bar-wrap"><div class="pe-bar"><div class="pe-bar-fill high" style="width:94%"></div></div></div></td><td><span class="val-num exp">36x</span></td><td><span class="val-num exp">34x</span></td><td><span class="overall-badge badge-buy">买入</span></td></tr>
+        <tr><td><strong>博通（AI ASIC）</strong></td><td><span class="ticker us">AVGO</span></td><td><span class="val-num">$1.96万亿</span></td><td><span class="val-num">$560亿</span></td><td><span class="val-num exp">50x</span><div class="pe-bar-wrap"><div class="pe-bar"><div class="pe-bar-fill high" style="width:94%"></div></div></div></td><td><span class="val-num">32x</span></td><td><span class="val-num exp">35x</span></td><td><span class="overall-badge badge-hold">持有</span></td></tr>
+        <tr><td><strong>美满电子</strong></td><td><span class="ticker us">MRVL</span></td><td><span class="val-num">$1,650亿</span></td><td><span class="val-num">$140亿</span></td><td><span class="val-num exp">80x</span><div class="pe-bar-wrap"><div class="pe-bar"><div class="pe-bar-fill high" style="width:100%"></div></div></div></td><td><span class="val-num exp">45x</span></td><td><span class="val-num exp">50x</span></td><td><span class="overall-badge badge-hold">持有</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2 class="section-title">存储芯片</h2>
+  </div>
+  <p>存储是强周期性行业，当前处于周期复苏初期。HBM需求为存储厂商带来结构性增量，但价格波动仍是核心变量。</p>
+  <div class="val-table-wrap">
+    <table class="val-table">
+      <thead><tr><th>公司</th><th>代码</th><th>市值</th><th>Revenue</th><th>Forward PE</th><th>EV/EBITDA</th><th>PB</th><th>投资评级</th></tr></thead>
+      <tbody>
+        <tr><td><strong>SK海力士</strong></td><td><span class="ticker kr">000660.KS</span></td><td><span class="val-num">$9,300亿</span></td><td><span class="val-num">$400亿</span></td><td><span class="val-num lo">6x</span><div class="pe-bar-wrap"><div class="pe-bar"><div class="pe-bar-fill low" style="width:19%"></div></div></div></td><td><span class="val-num">4.5x</span></td><td><span class="val-num up">~3.5x</span></td><td><span class="overall-badge badge-buy">买入</span></td></tr>
+        <tr><td><strong>美光科技</strong></td><td><span class="ticker us">MU</span></td><td><span class="val-num">$8,500亿</span></td><td><span class="val-num">$330亿</span></td><td><span class="val-num lo">7x</span><div class="pe-bar-wrap"><div class="pe-bar"><div class="pe-bar-fill low" style="width:13%"></div></div></div></td><td><span class="val-num">6x</span></td><td><span class="val-num up">~11.5x</span></td><td><span class="overall-badge badge-buy">买入</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="insight"><strong>存储特殊说明：</strong>存储股应重点参考PB（市净率）和EV/EBITDA。当前SK海力士PB约3.5x，美光约11.5x，由于 HBM 需求极其旺盛导致估值大幅拉升，溢价率体现了 AI 带来的行业长效红利。</div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2 class="section-title">跨环节估值总结</h2>
+    <span class="section-sub">投资机会矩阵</span>
+  </div>
+  <div class="sum-grid">
+    <div class="sum-card buy"><div class="sum-card-title">价值锚点（值得关注）</div><div class="sum-card-desc">台积电（TSM）—— 尽管市值达 $1.9万亿，但凭借其在先进制程及 CoWoS 封装的绝对垄断，22x 的 Forward PE 在大算力板块中仍具备极高的估值性价比与防御属性。</div></div>
+    <div class="sum-card hold"><div class="sum-card-title">景气兑现（建议持有）</div><div class="sum-card-desc">NVIDIA（NVDA）、博通（AVGO）、美光（MU）、SK海力士 —— NVDA 与 AVGO Forward PE 与成长增速高度匹配；存储双雄个位数 Forward PE（6x/7x）表明 HBM 带来的超额利润进入实质性兑现期，建议长线持有。</div></div>
+    <div class="sum-card caution"><div class="sum-card-title">估值偏高（谨慎观望）</div><div class="sum-card-desc">KLAC、LRCX、AMAT、ASML —— 受设备订单及高壁垒溢价推动，半导体设备 TTM PE 冲上 40-50x+，Forward PE 升至 36x 上下，处于历史估值上沿，需提防短期晶圆厂 CapEx 波动带来的回调风险。</div></div>
+    <div class="sum-card cycle"><div class="sum-card-title">周期高位（特殊关注）</div><div class="sum-card-desc">美光（MU）与 SK海力士 —— 市净率（PB）已分别拉升至 11.5x 和 3.5x，已非“周期底部”，而是处于高景气收获期。短期业绩弹性巨大，但需跟踪 2026-2027 年 HBM 产能过剩节点的到来。</div></div>
+  </div>
+  <p class="note" style="margin-top:16px">注：以上数据为2026年5月公开信息，实时数据请访问Yahoo Finance或Bloomberg核实。</p>
+</section>
+
+<!-- 投资要点卡片 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">投资要点</h2>
+      <span class="section-sub">本章核心投资逻辑 · 仅供参考</span>
+    </div>
+    <div class="inv-card" id="inv-card" style="margin-top:0">
+      <div class="inv-card-body">
+    <div class="inv-row">
+      <div class="inv-col">
+        <div class="inv-col-label">核心驱动因素</div>
+        <div class="inv-col-val">晶圆代工与芯片龙头 Forward PE 与成长匹配，存储板块进入高景气兑现期，设备股享受高壁垒溢价</div>
+      </div>
+      <div class="inv-col">
+        <div class="inv-col-label">关键风险</div>
+        <div class="inv-col-val">纳斯达克高溢价个股波动率放大；若行业CapEx降温将迎来估值戴维斯双杀</div>
+      </div>
+    </div>
+    <div class="inv-row">
+      <div class="inv-col">
+        <div class="inv-col-label">受益方向</div>
+        <div class="inv-tickers"><span>TSM（核心价值锚点）</span><span>NVDA（高成长兑现）</span><span>MU（HBM高弹性）</span></div>
+      </div>
+      <div class="inv-col">
+        <div class="inv-col-label">风险暴露</div>
+        <div class="inv-col-val">MRVL等高溢价定制芯片厂商面临回调风险；ASML在手订单不达预期的估值杀</div>
+      </div>
+    </div>
+    <div class="inv-catalyst">
+      <div class="inv-col-label">近期催化剂</div>
+      <div class="inv-col-val">美联储利率决议及宏观流动性变化；NVIDIA拆股及财报后的估值重塑</div>
+    </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="section">
+    <div class="section-header"><span class="section-num">07</span><h2 class="section-title">章节导航</h2></div>
+    <div class="prev-next-nav">
+      <a class="pn-btn pn-prev" href="ch14-risk.html"><span class="pn-label">&larr; 上一章</span><span class="pn-title">风险因素</span></a>
+      <a class="pn-btn pn-next" href="ch16-catalysts.html"><span class="pn-label">下一章 &rarr;</span><span class="pn-title">催化剂日历</span></a>
+    </div>
+    <div class="insight" style="margin-bottom:8px;"><strong>章节导航：</strong>共17章完整产业链 · <a href="index.html">返回总览</a></div>
+  </section>
+
+  <div class="footer">
+    <div class="footer-text">数据来源（实时搜索，2026年5月）：Yahoo Finance · MacroTrends · StockAnalysis · Multiples.vc · 各公司财报及公告<br><br>⚠ 本报告数据基于公开信息整理，不构成投资建议。所有投资标的请自行判断风险。数据可能有误差，欢迎反馈指正。</div>
+  </div>
+</div>
+<script src="theme-toggle.js"></script>
+<script src="nav.js"></script>
+
+</body>
+</html>

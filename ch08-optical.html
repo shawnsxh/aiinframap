@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIinfra Map · CH08 · 光模块与互联</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.chapter-tag{background:var(--accent-green)}
+.hero-title em{color:var(--accent-green)}
+.flow-node:hover{border-color:var(--accent-green)}
+.insight{background:var(--accent-green-light);border:1px solid rgba(0,0,0,.15)}
+.insight strong{color:var(--accent-green)}
+</style>
+</head>
+<body class="dark">
+<div class="wrap">
+<header class="site-header">
+    <div class="logo">AIinfra <span>/</span> Map</div>
+        <nav class="header-nav" id="mainNav"></nav>
+    <div class="header-right">
+      <div class="header-meta"><span><span class="dot"></span>数据截至 2026.05 · 共17章</span></div>
+      <div class="theme-switcher" id="themeSwitcher">
+        <button class="theme-btn" data-theme="light" title="浅色主题"><span class="dot-inner light"></span><span>浅色</span></button>
+        <button class="theme-btn" data-theme="dark" title="深色主题"><span class="dot-inner dark"></span><span>深色</span></button>
+      </div>
+      <button class="nav-collapse-btn" id="navCollapseBtn" title="收起导航" aria-label="收起导航"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 8L6 4L10 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="mobile-hamburger" id="mobileHamburger" aria-label="打开菜单"><svg width="18" height="14" viewBox="0 0 18 14" fill="none"><rect y="1" width="18" height="2" rx="1" fill="currentColor"/><rect y="6" width="18" height="2" rx="1" fill="currentColor"/><rect y="11" width="18" height="2" rx="1" fill="currentColor"/></svg></button>
+    </div>
+  </header>
+<!-- Mobile Nav -->
+  <div id="mobileNavMount"></div>
+<section class="hero">
+    <div class="hero-eyebrow"><span class="chapter-tag">CH08 · 光模块与互联</span></div>
+    <h1 class="hero-title">光模块与网络互联<br><em>800G/1.6T/硅光/碳化硅全解析</em></h1>
+    <p class="hero-subtitle">数据中心互联的核心器件 · 中际旭创全球领先 · InfiniBand vs RoCE</p>
+    <div class="hero-metrics">
+      <div class="metric"><span class="metric-value green">$13.4B</span><span class="metric-label">光模块市场2025</span></div>
+      <div class="metric"><span class="metric-value gold">13.5%</span><span class="metric-label">市场CAGR</span></div>
+      <div class="metric"><span class="metric-value">42%</span><span class="metric-label">中际旭创800G全球市占</span></div>
+      <div class="metric"><span class="metric-value purple">55-60%</span><span class="metric-label">中际旭创1.6T全球市占</span></div>
+      <div class="metric"><span class="metric-value teal">50-60%</span><span class="metric-label">Lumentum EML全球份额</span></div>
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">光模块与网络互联供应链路径</h2>
+      <span class="section-sub">从激光器芯片到AI训练集群的完整链路</span>
+    </div>
+    <div class="flow-diagram">
+      <div class="flow-node">
+        <div class="flow-node-icon">🔦</div>
+        <div class="flow-node-title">EML激光器</div>
+        <div class="flow-node-sub">Lumentum/博通</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🔬</div>
+        <div class="flow-node-title">硅光子芯片</div>
+        <div class="flow-node-sub">Intel/Coherent</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">📡</div>
+        <div class="flow-node-title">光收发模块</div>
+        <div class="flow-node-sub">800G/1.6T</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">⚡</div>
+        <div class="flow-node-title">交换机/路由器</div>
+        <div class="flow-node-sub">InfiniBand/RoCE</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🗄️</div>
+        <div class="flow-node-title">数据中心互联</div>
+        <div class="flow-node-sub">AI训练集群</div>
+    </div>
+  </div>
+  </section>
+
+  <section class="section" id="sec-800g">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">800G/1.6T光模块格局 — 中际旭创全球领先</h2>
+      <span class="section-sub">800G主流 · 1.6T量产爬坡 · EML是最稀缺组件</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-green-light);">📡</div>
+        <div class="sector-title-group">
+          <div class="sector-title">800G/1.6T光收发模块 — 中际旭创 / Coherent / 新易盛</div>
+          <div class="sector-desc">光模块将电信号转为光信号，通过光纤传输，是数据中心互联的核心器件，AI集群扩张直接拉动需求。</div>
+        </div>
+        <span class="sector-badge badge-green">互联</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text">光模块将电信号转为光信号，通过光纤传输，是数据中心互联的核心器件。AI训练集群需要数千到数万个光模块连接GPU服务器，网络带宽成为算力的重要瓶颈。</p>
+            <p class="concept-text"><strong>800G光模块</strong>是2024-2025年主流，1.6T正在量产爬坡（2025年全球约2.7M只），3.2T在标准制定中（预计2027-2028年）。中际旭创（Innolight/ HG Genuine）是中国光模块龙头，全球800G市占约42%（行业第一），1.6T市占约55-60%。</p>
+            <p class="concept-text"><strong>EML（电吸收调制激光器）</strong>是最稀缺组件，Lumentum占全球EML产能50-60%，是光模块供应链中最关键的瓶颈。800G光模块单价约$400-600，1.6T约$1200-1800，随规模效应逐步下降。</p>
+            <p class="concept-text"><strong>Coherent（II-VI合并）</strong>是美国光模块龙头，拥有硅光+LUMENTUM EML双线布局，技术实力强。新易盛（300502.SZ）1.6T已规模出货，华为海思国内800G自供。</p>
+            <div class="sources">800G光模块单模块功耗8-12W；中际旭创2024年净利润同比增长超200%；1.6T单模块功耗约15-20W</div>
+          </div>
+          <div class="col">
+            <h4>关键数据</h4>
+            <div class="stats-grid">
+              <div class="cstat"><div class="cstat-lbl">光模块市场 2025</div><div class="cstat-val green">$13.4B</div></div>
+              <div class="cstat"><div class="cstat-lbl">市场CAGR</div><div class="cstat-val up">13.5%</div></div>
+              <div class="cstat"><div class="cstat-lbl">1.6T光模块 2025年出货</div><div class="cstat-val up">~2.7M只</div></div>
+              <div class="cstat"><div class="cstat-lbl">中际旭创800G全球市占</div><div class="cstat-val green">~42%</div></div>
+              <div class="cstat"><div class="cstat-lbl">中际旭创1.6T全球市占</div><div class="cstat-val green">55-60%</div></div>
+              <div class="cstat"><div class="cstat-lbl">Lumentum EML全球份额</div><div class="cstat-val teal">50-60%</div></div>
+              <div class="cstat"><div class="cstat-lbl">800G单模块功耗</div><div class="cstat-val">8-12W</div>
+    </div>
+  </div>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">300308.SZ</span>
+              <span class="stock-name">中际旭创</span>
+              <span class="stock-exch exch-cn">A股</span>
+              <span class="stock-note">全球800G/1.6T龙头</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">300502.SZ</span>
+              <span class="stock-name">新易盛</span>
+              <span class="stock-exch exch-cn">A股</span>
+              <span class="stock-note">1.6T规模出货</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">COHR</span>
+              <span class="stock-name">Coherent</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">硅光+EML双线</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">LITE</span>
+              <span class="stock-name">Lumentum</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">EML垄断50-60%</span>
+            </div>
+    </div>
+  </div>
+        <div class="risks-box">
+          <div class="risks-title">风险提示</div>
+          <div class="risk-item">EML激光器供应瓶颈持续（Lumentum一家独大）</div>
+          <div class="risk-item">CPO（共封装光学）可能颠覆可插拔光模块（长期颠覆风险）</div>
+          <div class="risk-item">华为海思本土竞争加剧</div>
+          <div class="risk-item">光模块价格竞争激烈，利润率存在压力</div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <section class="section" id="sec-silicon-photonics">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">硅光技术与CPO — 光互联的下一站</h2>
+      <span class="section-sub">Intel/Coherent · 硅光子芯片 · 共封装光学演进</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-teal-light);">🔬</div>
+        <div class="sector-title-group">
+          <div class="sector-title">硅光子技术 — Intel / Coherent / Cisco(Acacia)</div>
+          <div class="sector-desc">硅光将光学元件集成在硅芯片上，大幅降低成本和功耗，是800G/1.6T时代的主流技术路线。</div>
+        </div>
+        <span class="sector-badge badge-teal">互联</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text"><strong>硅光（Silicon Photonics）</strong>将光波导、调制器、探测器等光学元件集成在硅芯片上，替代传统III-V族材料（InP GaAs）光器件，大幅降低成本和功耗。</p>
+            <p class="concept-text"><strong>Intel</strong>是硅光领域最领先者，拥有成熟的硅光调制器和集成工艺，在CPO（共封装光学）领域布局领先。硅光模块在800G出货中预计占约2/3（2025年），是主流技术路线。</p>
+            <p class="concept-text">相比传统光模块，硅光优势：<strong>集成度高</strong>（减少封装体积）、<strong>功耗低</strong>（<6W vs 8-12W）、<strong>成本低</strong>（硅工艺规模化）、适合CPO集成。劣势：损耗较高、长距离传输性能略弱于EML。</p>
+            <p class="concept-text"><strong>CPO（Co-Packaged Optics，共封装光学）</strong>将光引擎与交换芯片封装在一起，大幅降低功耗和体积，是1.6T/3.2T时代的演进方向。Cisco（Acacia）和Intel在CPO标准制定中扮演重要角色。</p>
+          </div>
+          <div class="col">
+            <h4>关键数据</h4>
+            <div class="stats-grid">
+              <div class="cstat"><div class="cstat-lbl">硅光800G出货占比 2025</div><div class="cstat-val up">约2/3</div></div>
+              <div class="cstat"><div class="cstat-lbl">硅光 vs EML功耗</div><div class="cstat-val teal"><6W / 8-12W</div></div>
+              <div class="cstat"><div class="cstat-lbl">Intel硅光市场份额</div><div class="cstat-val">全球领先</div></div>
+              <div class="cstat"><div class="cstat-lbl">CPO商用时间</div><div class="cstat-val">1.6T/3.2T时代</div>
+    </div>
+  </div>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">INTC</span>
+              <span class="stock-name">Intel</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">硅光技术领先+CPO布局</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">CSCO</span>
+              <span class="stock-name">Cisco</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">Acacia相干光模块</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">COHR</span>
+              <span class="stock-name">Coherent</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">硅光+相干技术</span>
+            </div>
+    </div>
+  </div>
+        <div class="risks-box">
+          <div class="risks-title">风险提示</div>
+          <div class="risk-item">硅光技术大规模量产良率仍在提升</div>
+          <div class="risk-item">CPO标准尚未统一，存在技术路线分歧</div>
+          <div class="risk-item">Intel制造竞争力下滑可能影响硅光代工</div>
+          <div class="risk-item">CPO可能颠覆可插拔光模块，对现有厂商构成长期威胁</div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <section class="section" id="sec-sic-power">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">碳化硅（SiC）— AI数据中心的电力电子革命</h2>
+      <span class="section-sub">Wolfspeed/onsemi/Infineon · 电力转换效率提升</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-gold-light);">⚡</div>
+        <div class="sector-title-group">
+          <div class="sector-title">碳化硅功率器件 — Wolfspeed / onsemi / Infineon / 天岳先进</div>
+          <div class="sector-desc">SiC功率器件在AI数据中心的电力转换系统中降低损耗、减小体积，是电力基础设施升级的核心器件。</div>
+        </div>
+        <span class="sector-badge badge-gold">电力电子</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text"><strong>SiC（碳化硅）</strong>功率器件在AI数据中心的电力转换系统中发挥关键作用。数据中心电力转换链路长（AC→DC→负载），每次转换都有损耗。SiC MOSFET相比传统Si IGBT：<strong>开关损耗降低50-70%</strong>、<strong>工作频率提升10倍</strong>、<strong>功率密度提高3倍</strong>。</p>
+            <p class="concept-text">在AI服务器PSU（电源）中，SiC二极管已广泛使用，SiC MOSFET正在导入。在UPS中，SiC提升效率的同时减小设备体积。在48V总线配电架构中，SiC价值尤其高（高电压=低电流=低损耗）。</p>
+            <p class="concept-text"><strong>Wolfspeed</strong>是全球SiC衬底龙头（市占约45%），但2025年申请破产保护重组，行业格局可能重塑。<strong>onsemi</strong>和<strong>Infineon</strong>在SiC器件上快速扩张。中国厂商（天岳先进688234.SH、露笑科技、三安光电）在SiC衬底上加速追赶。</p>
+          </div>
+          <div class="col">
+            <h4>关键数据</h4>
+            <div class="stats-grid">
+              <div class="cstat"><div class="cstat-lbl">SiC vs Si IGBT开关损耗</div><div class="cstat-val up">降低50-70%</div></div>
+              <div class="cstat"><div class="cstat-lbl">SiC电力转换效率</div><div class="cstat-val up">>98% vs ~95-96%</div></div>
+              <div class="cstat"><div class="cstat-lbl">SiC衬底成本</div><div class="cstat-val">硅的3-5倍</div></div>
+              <div class="cstat"><div class="cstat-lbl">Wolfspeed SiC市占</div><div class="cstat-val gold">~45%（财务承压）</div>
+    </div>
+  </div>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">ON</span>
+              <span class="stock-name">onsemi（安森美）</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">SiC器件快速扩张</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">IFNNY</span>
+              <span class="stock-name">Infineon（英飞凌）</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">SiC功率器件欧洲龙头</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">STM</span>
+              <span class="stock-name">STMicroelectronics</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">SiC IDM全产业链</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">688234.SH</span>
+              <span class="stock-name">天岳先进</span>
+              <span class="stock-exch exch-cn">A股</span>
+              <span class="stock-note">SiC衬底中国龙头</span>
+            </div>
+    </div>
+  </div>
+        <div class="risks-box">
+          <div class="risks-title">风险提示</div>
+          <div class="risk-item">Wolfspeed破产重组带来SiC供应链不确定性</div>
+          <div class="risk-item">SiC成本仍是硅基的3-5倍，渗透速度取决于成本下降节奏</div>
+          <div class="risk-item">中国厂商追赶加速，但高端SiC衬底仍有差距</div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <section class="section" id="sec-ib-roce">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">InfiniBand vs RoCE — AI集群网络拓扑对决</h2>
+      <span class="section-sub">NVLink/InfiniBand/RoCE · AI HPC网络格局</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-purple-light);">🌐</div>
+        <div class="sector-title-group">
+          <div class="sector-title">AI集群网络拓扑 — InfiniBand vs Ethernet RoCE</div>
+          <div class="sector-desc">AI训练集群需要高速网络互联，InfiniBand和RoCE是两大路线，NVLink是GPU间互联的关键。</div>
+        </div>
+        <span class="sector-badge badge-purple">互联</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text">AI训练集群需要高速网络互联将数千颗GPU连接在一起。网络拓扑分为三层：<strong>GPU间互联</strong>（NVLink，900GB/s双向）、<strong>Rack间互联</strong>（InfiniBand/NVLink Switch）、<strong>Pod间互联</strong>（InfiniBand/RoCE）。</p>
+            <p class="concept-text"><strong>InfiniBand</strong>（NVIDIA收购Mellanox后拥有）是AI HPC集群的主流网络，Quantum系列（NDR 400G）市占约70-80%。InfiniBand的特点：专用网络、无拥塞、延迟极低（~1μs）、<strong>SHARP（网络内计算）</strong>技术可在网络内做部分数据聚合，进一步提升训练效率。</p>
+            <p class="concept-text"><strong>RoCEv2</strong>（RDMA over Converged Ethernet v2）是基于以太网的RDMA方案，可在现有以太网基础设施上运行，成本更低、与云环境兼容。Marvell和Broadcom的以太网交换芯片（Tomahawk 5、Broadcom Thor3）支持RoCEv2。</p>
+            <p class="concept-text"><strong>NVIDIA NVLink</strong>是GPU间点对点互联（900GB/s双向带宽，H100上12个NVLink端口），NVIDIA独家。NVLink Switch则将NVLink扩展到多GPU集群。</p>
+          </div>
+          <div class="col">
+            <h4>网络拓扑对比</h4>
+            <table class="compare-table">
+              <thead>
+                <tr><th>网络类型</th><th>代表技术</th><th>带宽</th><th>延迟</th><th>AI集群市占</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>GPU间互联</strong></td><td>NVLink</td><td>900GB/s</td><td>~1μs<span class="tag tag-green">最快</span></td><td>NVIDIA独有</td></tr>
+                <tr><td><strong>InfiniBand</strong></td><td>NVIDIA Quantum</td><td>400G/端口</td><td>~1μs<span class="tag tag-green">低</span></td><td>~70-80% AI HPC</td></tr>
+                <tr><td><strong>RoCEv2</strong></td><td>以太网+RDMA</td><td>200-400G</td><td>~2-5μs<span class="tag tag-gold">中等</span></td><td>~20-30%</td></tr>
+                <tr><td><strong>以太网（传统）</strong></td><td>标准以太网</td><td>100-400G</td><td>>10μs<span class="tag tag-red">高</span></td><td>通用云</td></tr>
+              </tbody>
+            </table>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">NVDA</span>
+              <span class="stock-name">NVIDIA</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">InfiniBand+NVLink生态</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">MRVL</span>
+              <span class="stock-name">Marvell</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">以太网交换芯片</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">AVGO</span>
+              <span class="stock-name">Broadcom</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">Thor交换芯片</span>
+            </div>
+          </div>
+        </div>
+        <div class="risks-box">
+          <div class="risks-title">风险提示</div>
+          <div class="risk-item">InfiniBand专用网络高成本，且受到NVIDIA供货周期的限制</div>
+          <div class="risk-item">RoCEv2在大规模集群（超1万个节点）时，仍面临更严重的拥塞与抖动挑战</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sector" style="margin-top:18px;">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-purple-light);">🕸️</div>
+        <div class="sector-title-group">
+          <div class="sector-title">以太网联盟（UEC）挑战 InfiniBand 垄断</div>
+          <div class="sector-desc">随着 AI 训练集群规模迈向十万卡甚至百万卡，由 AMD、Broadcom、Intel、Meta 等巨头主导的以太网联盟（Ultra Ethernet Consortium）正加速挑战 NVIDIA InfiniBand 的主导地位。</div>
+        </div>
+        <span class="sector-badge badge-purple">UEC</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>技术与产业格局</h4>
+            <p class="concept-text"><strong>以太网联盟（UEC，Ultra Ethernet Consortium）</strong>成立于2023年，由 AMD、Broadcom、Cisco、HPE、Intel、Meta、Microsoft 等全球科技巨头联合发起，旨在从物理层、链路层、传输层到软件层对传统以太网进行重构，以满足 AI 级大规模高吞吐、低延迟、无损的网络需求，直接叫板 NVIDIA 独占的 InfiniBand 方案。</p>
+            <p class="concept-text"><strong>核心痛点与改良点：</strong>传统以太网在大规模集群下存在较严重的“拥塞”和“丢包”问题。UEC 推出全新传输协议（UET），引入了“非按序递交”（Out-of-Order Delivery）、“多路径路由”（Multi-pathing）以及极其精细的拥塞控制机制，突破了传统以太网和 RoCEv2 的性能上限，将大规模训练集群下的尾部延迟（Tail Latency）降低了数倍。</p>
+            <p class="concept-text"><strong>博通与以太网生态的受益逻辑：</strong>博通（Broadcom）是 UEC 最大的芯片受益者，其最新的 Tomahawk 5 和 Thor3 交换芯片为 UEC 以太网标准提供强力的物理基石。Meta 和 Microsoft 也极力推进 UEC 标准的落地，以降低对 NVIDIA 闭环生态的依赖，提升供应链自主权与议价能力。</p>
+            <div class="sources">UEC 1.0 标准在 2024 年底至 2025 年正式发布并进入商用验证；Broadcom 预测 2026 年以太网在 AI 集群网络中占比将升至 50% 以上。</div>
+          </div>
+          <div class="col">
+            <h4>关键数据与对比</h4>
+            <div class="stats-grid">
+              <div class="cstat"><div class="cstat-lbl">UEC 成员厂商</div><div class="cstat-val up">80+ 家</div></div>
+              <div class="cstat"><div class="cstat-lbl">UEC 1.0 标准发布</div><div class="cstat-val gold">2024-2025</div></div>
+              <div class="cstat"><div class="cstat-lbl">以太网 AI 份额 (2026E)</div><div class="cstat-val up">>50%</div></div>
+              <div class="cstat"><div class="cstat-lbl">UEC 目标单端口速率</div><div class="cstat-val green">800G / 1.6T</div></div>
+            </div>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">AVGO</span>
+              <span class="stock-name">Broadcom（博通）</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">UEC核心芯片主导者</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">AMD</span>
+              <span class="stock-name">AMD</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">主导UEC网络网卡设计</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">MSFT</span>
+              <span class="stock-name">Microsoft</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">云端以太网部署先驱</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">META</span>
+              <span class="stock-name">Meta</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">推进以太网十万卡集群落地</span>
+            </div>
+          </div>
+        </div>
+        <div class="risks-box">
+          <div class="risks-title">风险提示</div>
+          <div class="risk-item">NVIDIA InfiniBand Quantum-3 NDR/XDR 路线图推进极快，依然保有生态和性能先发优势</div>
+          <div class="risk-item">UEC 标准的大规模商业落地 and 系统兼容性测试仍需时间（2025-2026年是关键期）</div>
+          <div class="risk-item">多厂商利益博弈可能导致标准推进速度慢于预期</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sector" style="margin-top:18px;">
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>投资逻辑</h4>
+            <p class="concept-text"><strong>1. 中际旭创1.6T全球领先（55-60%市占）：</strong>800G+1.6T双轮驱动，量价齐升，2024年净利润同比增长超200%。</p>
+            <p class="concept-text"><strong>2. 硅光渗透率提升（800G出货约2/3是硅光）：</strong>推动技术迭代，Intel/Coherent受益。</p>
+            <p class="concept-text"><strong>3. CPO是1.6T/3.2T时代的演进方向：</strong>Cisco/Intel领先，长期可能颠覆可插拔光模块。</p>
+            <p class="concept-text"><strong>4. SiC在数据中心电力电子中加速渗透：</strong>onsemi/Infineon快速扩张，Wolfspeed重组带来格局重塑机会。</p>
+            <p class="concept-text"><strong>5. 网络互联（InfiniBand vs RoCE/UEC）决定AI集群效率：</strong>NVIDIA生态闭环优势明显，但以太网联盟（UEC）正通过重构以太网协议栈加速追赶，Broadcom与以太网生态大厂将深度受益。</p>
+          </div>
+          <div class="col">
+            <h4>关键风险</h4>
+            <p class="concept-text"><strong>1. EML激光器供应瓶颈持续：</strong>Lumentum一家独大，是光模块供应链最薄弱环节。</p>
+            <p class="concept-text"><strong>2. CPO颠覆风险：</strong>长期来看，CPO可能颠覆可插拔光模块，对现有厂商构成威胁。</p>
+            <p class="concept-text"><strong>3. 光模块价格竞争激烈：</strong>中国厂商（华为海思、中际旭创、新易盛）价格竞争，利润率存在压力。</p>
+            <p class="concept-text"><strong>4. AI CapEx周期性风险：</strong>若云厂商削减CapEx，光模块需求可能受影响。</p>
+          </div>
+    </div>
+  </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">投资要点</h2>
+      <span class="section-sub">本章核心投资逻辑 · 仅供参考</span>
+    </div>
+    <div class="inv-card" id="inv-card" style="margin-top:0">
+      <div class="inv-card-body">
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">核心驱动因素</div>
+            <div class="inv-col-val">AI大集群内部通信带宽暴增，800G/1.6T光模块需求爆发；LPO与CPO技术演进；铜缆互连在短距离的应用</div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">关键风险</div>
+            <div class="inv-col-val">上游EML激光器芯片及光电芯片供应链瓶颈；技术升级换代快；大厂价格竞争激烈</div>
+          </div>
+        </div>
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">受益方向</div>
+            <div class="inv-tickers"><span>中际旭创（封装龙头）</span><span>Coherent（激光器核心）</span><span>AVGO（光电芯片）</span></div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">风险暴露</div>
+            <div class="inv-col-val">客户结构单一，易受头部云厂商CapEx调整影响；硅光子对传统III-V族激光器的替代风险；地缘政治摩擦</div>
+          </div>
+        </div>
+        <div class="inv-catalyst">
+          <div class="inv-col-label">近期催化剂</div>
+          <div class="inv-col-val">1.6T光模块在Blackwell集群中的大批量部署；海外大厂采购光模块月度动向</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2 class="section-title">章节导航</h2>
+    </div>
+    <div class="prev-next-nav">
+      <a class="pn-btn pn-prev" href="ch07-packaging.html">
+        <span class="pn-label">&larr; 上一章</span>
+        <span class="pn-title">先进封装</span>
+      </a>
+      <a class="pn-btn pn-next" href="ch09-servers.html">
+        <span class="pn-label">下一章 &rarr;</span>
+        <span class="pn-title">算力与服务器</span>
+      </a>
+    </div>
+    <div class="insight" style="margin-bottom:8px;"><strong>章节导航：</strong>共17章完整产业链 · <a href="index.html">返回总览</a></div>
+  </section>
+
+  <div class="footer">
+    <div class="footer-text">数据来源（实时搜索，2026年5月）：NVIDIA官方 &middot; AMD官方 &middot; Intel官方 &middot; Goldman Sachs Research &middot; Counterpoint Research &middot; TrendForce &middot; SemiAnalysis &middot; 各公司财报及公告<br><br>⚠ 本报告数据基于公开信息整理，不构成投资建议。所有投资标的请自行判断风险。数据可能有误差，欢迎反馈指正。</div>
+  </div>
+
+</div>
+
+<script src="theme-toggle.js"></script>
+<script src="nav.js"></script>
+
+</body>
+</html>

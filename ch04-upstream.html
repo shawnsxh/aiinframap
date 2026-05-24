@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIinfra Map · CH04 · 上游材料</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.chapter-tag{background:var(--accent-gold)}
+.hero-title em{color:var(--accent-gold)}
+.flow-node:hover{border-color:var(--accent-gold)}
+.insight{background:var(--accent-gold-light);border:1px solid rgba(0,0,0,.15)}
+.insight strong{color:var(--accent-gold)}
+</style>
+</head>
+<body class="dark">
+<div class="wrap">
+<header class="site-header">
+    <div class="logo">AIinfra <span>/</span> Map</div>
+        <nav class="header-nav" id="mainNav"></nav>
+    <div class="header-right">
+      <div class="header-meta"><span><span class="dot"></span>数据截至 2026.05 · 共17章</span></div>
+      <div class="theme-switcher" id="themeSwitcher">
+        <button class="theme-btn" data-theme="light" title="浅色主题"><span class="dot-inner light"></span><span>浅色</span></button>
+        <button class="theme-btn" data-theme="dark" title="深色主题"><span class="dot-inner dark"></span><span>深色</span></button>
+      </div>
+      <button class="nav-collapse-btn" id="navCollapseBtn" title="收起导航" aria-label="收起导航"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 8L6 4L10 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="mobile-hamburger" id="mobileHamburger" aria-label="打开菜单"><svg width="18" height="14" viewBox="0 0 18 14" fill="none"><rect y="1" width="18" height="2" rx="1" fill="currentColor"/><rect y="6" width="18" height="2" rx="1" fill="currentColor"/><rect y="11" width="18" height="2" rx="1" fill="currentColor"/></svg></button>
+    </div>
+  </header>
+<div id="mobileNavMount"></div>
+<section class="hero">
+    <div class="hero-eyebrow">
+      <span class="chapter-tag">CH04 · 上游材料</span>
+    </div>
+    <h1 class="hero-title">AI基础设施<br><em>上游材料深度解析</em></h1>
+    <p class="hero-subtitle">从砂子到芯片的第一道关卡 · CCL覆铜板 · PCB印制电路板 · 电子布/玻纤芯材 · 铜箔</p>
+    <div class="hero-metrics">
+      <div class="metric"><span class="metric-value gold">$21.5B</span><span class="metric-label">CCL市场规模 2026</span></div>
+      <div class="metric"><span class="metric-value gold">+34%</span><span class="metric-label">AI驱动增速 YoY</span></div>
+      <div class="metric"><span class="metric-value green">3-5x</span><span class="metric-label">AI服务器PCB单价溢价</span></div>
+      <div class="metric"><span class="metric-value purple">48%</span><span class="metric-label">HVLP4铜箔需求增长 2025</span></div>
+      <div class="metric"><span class="metric-value">>40层</span><span class="metric-label">AI服务器PCB层数</span></div>
+    </div>
+  </section>
+
+
+  <!-- SUPPLY CHAIN FLOW -->
+  <section class="flow-section section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">上游材料供应链传导路径</h2>
+      <span class="section-sub">点击查看各环节详情</span>
+    </div>
+    <div class="flow-diagram">
+      <div class="flow-node" data-sector="ccl">
+        <div class="flow-node-icon">⚙️</div>
+        <div class="flow-node-title">铜箔</div>
+        <div class="flow-node-sub">电解铜箔 / HVLP超低轮廓</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node" data-sector="glass">
+        <div class="flow-node-icon">🧵</div>
+        <div class="flow-node-title">电子布</div>
+        <div class="flow-node-sub">E-glass / 超薄玻纤布</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node" data-sector="resin">
+        <div class="flow-node-icon">🔬</div>
+        <div class="flow-node-title">树脂</div>
+        <div class="flow-node-sub">环氧树脂 / PPE / PPO</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node" data-sector="ccl2">
+        <div class="flow-node-icon">📦</div>
+        <div class="flow-node-title">CCL覆铜板</div>
+        <div class="flow-node-sub">高速材料 / 无卤素 / 低损耗</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node" data-sector="pcb">
+        <div class="flow-node-icon">🔲</div>
+        <div class="flow-node-title">PCB印制电路板</div>
+        <div class="flow-node-sub">HDI / 任意层 / >40层</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node" data-sector="chip">
+        <div class="flow-node-icon">💻</div>
+        <div class="flow-node-title">AI芯片/服务器</div>
+        <div class="flow-node-sub">GPU / ASIC / ODM</div>
+    </div>
+  </div>
+  </section>
+
+  <!-- CCL SECTOR -->
+  <section class="section" id="sec-ccl">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">CCL 覆铜板 — PCB的直接原材料</h2>
+      <span class="section-sub">核心壁垒：高频高速材料认证</span>
+    </div>
+
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background: var(--accent-gold-light);">📦</div>
+        <div class="sector-title-group">
+          <div class="sector-title">CCL 覆铜板（Copper Clad Laminate）</div>
+          <div class="sector-desc">由铜箔、玻纤布、树脂经层压而成，是PCB的直接原材料。AI服务器对信号传输速度和质量要求极高，必须使用高端高频高速材料。</div>
+        </div>
+        <span class="sector-badge badge-gold">上游材料</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text">CCL是PCB（印制电路板）的直接前道材料，由铜箔（导电层）、玻纤布（增强层）、树脂（粘合剂）三层材料经高温高压层压而成。AI服务器PCB需要使用<strong>高速材料（M6级以上）</strong>，相比普通CCL，单价和利润率显著更高。</p>
+            <p class="concept-text"><strong>HVLP铜箔（超低轮廓铜箔）</strong>是AI服务器CCL的核心材料，轮廓高度Rz≤0.5μm，有效减少高频信号在PCB走线中的集肤效应损耗。日本供应商（古河电气/三井金属）占HVLP供应60%以上。</p>
+            <div class="sources">分类标准：STD（普通级）/ 无卤（HF）/ 低损耗（Mid Loss）/ 超低损耗（Ultra Low Loss / Very Low Loss）</div>
+          </div>
+          <div class="col">
+            <h4>关键数据</h4>
+            <div class="stats-grid">
+              <div class="cstat">
+                <div class="cstat-lbl">CCL市场规模 2025</div>
+                <div class="cstat-val">$18.76B</div>
+              </div>
+              <div class="cstat">
+                <div class="cstat-lbl">AI驱动增速</div>
+                <div class="cstat-val up">+34% YoY</div>
+              </div>
+              <div class="cstat">
+                <div class="cstat-lbl">HVLP4需求增长 2025</div>
+                <div class="cstat-val up">+48.1%</div>
+              </div>
+              <div class="cstat">
+                <div class="cstat-lbl">预计2026市场规模</div>
+                <div class="cstat-val acc">$21.5B</div>
+    </div>
+  </div>
+            <h4 style="margin-top: 14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">600183.SH</span>
+              <span class="stock-name">生益科技</span>
+              <span class="stock-exch exch-cn">A股</span>
+              <span class="stock-note">中国CCL龙头</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">3045.TW</span>
+              <span class="stock-name">台光电子</span>
+              <span class="stock-exch exch-tw">台股</span>
+              <span class="stock-note">全球前三·10.3%</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">01888.HK</span>
+              <span class="stock-name">建滔积层板</span>
+              <span class="stock-exch exch-hk">港股</span>
+              <span class="stock-note">覆铜板垂直整合</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">2313.TW</span>
+              <span class="stock-name">华通</span>
+              <span class="stock-exch exch-tw">台股</span>
+              <span class="stock-note">HDI+CCL</span>
+            </div>
+    </div>
+  </div>
+        <div class="risks-box">
+          <div class="risks-title">风险提示</div>
+          <div class="risk-item">原材料（铜/树脂）价格波动影响毛利</div>
+          <div class="risk-item">中国厂商扩产可能带来竞争压力</div>
+          <div class="risk-item">HVLP4高端铜箔产能瓶颈短期持续</div>
+          <div class="risk-item">高频高速材料认证周期长（12-18个月）</div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <!-- PCB SECTOR -->
+  <section class="section" id="sec-pcb">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">PCB 印制电路板 — 承载AI算力的骨架</h2>
+      <span class="section-sub">技术壁垒：激光微孔 / 任意层HDI</span>
+    </div>
+
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background: var(--accent-green-light);">🔲</div>
+        <div class="sector-title-group">
+          <div class="sector-title">PCB 印制电路板（Printed Circuit Board）</div>
+          <div class="sector-desc">承载所有电子元器件并提供电气互连的载体。AI服务器PCB层数超过40层（普通服务器约12-16层），单价约为普通服务器的3-5倍。</div>
+        </div>
+        <span class="sector-badge badge-gold">上游材料</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text">PCB是电子工业的基石，由绝缘基材和铜箔走线组成，为所有电子元器件提供机械支撑和电气互连。AI服务器大量使用<strong>任意层HDI（Any-layer HDI）</strong>板，层数超过40层，线宽线距小于80μm，需要激光微孔工艺（盲孔/埋孔直径<100μm）。</p>
+            <p class="concept-text">AI服务器PCB单价约为普通服务器的<strong>3-5倍</strong>，利润率更高。认证周期长达12-18个月，形成较高进入壁垒。鹏鼎控股是全球最大PCB制造商之一，深度绑定苹果、微软、谷歌等客户。</p>
+            <div class="sources">AI服务器单PCB面积约0.8-1.2㎡，层数40-60层，良品率要求>95%</div>
+          </div>
+          <div class="col">
+            <h4>关键数据</h4>
+            <div class="stats-grid">
+              <div class="cstat">
+                <div class="cstat-lbl">AI服务器PCB层数</div>
+                <div class="cstat-val">>40层</div>
+              </div>
+              <div class="cstat">
+                <div class="cstat-lbl">单价vs普通服务器</div>
+                <div class="cstat-val up">3-5倍</div>
+              </div>
+              <div class="cstat">
+                <div class="cstat-lbl">HDI认证周期</div>
+                <div class="cstat-val">12-18月</div>
+              </div>
+              <div class="cstat">
+                <div class="cstat-lbl">AI PCB增速</div>
+                <div class="cstat-val up">高速增长</div>
+    </div>
+  </div>
+            <h4 style="margin-top: 14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">002938.SZ</span>
+              <span class="stock-name">鹏鼎控股</span>
+              <span class="stock-exch exch-cn">A股</span>
+              <span class="stock-note">全球最大PCB厂</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">2313.TW</span>
+              <span class="stock-name">华通</span>
+              <span class="stock-exch exch-tw">台股</span>
+              <span class="stock-note">高端HDI龙头</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">3022.TW</span>
+              <span class="stock-name">景硕</span>
+              <span class="stock-exch exch-tw">台股</span>
+              <span class="stock-note">IC载板+HDI</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">603228.SH</span>
+              <span class="stock-name">景旺电子</span>
+              <span class="stock-exch exch-cn">A股</span>
+              <span class="stock-note">多元化PCB</span>
+            </div>
+    </div>
+  </div>
+        <div class="risks-box">
+          <div class="risks-title">风险提示</div>
+          <div class="risk-item">下游客户集中度高（依赖几家云厂商）</div>
+          <div class="risk-item">原材料成本压力大（铜价波动）</div>
+          <div class="risk-item">AI需求波动可能导致产能过剩</div>
+          <div class="risk-item">HDI产线资本开支大（每条产线>10亿元）</div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <!-- GLASS & COPPER SECTOR -->
+  <section class="section" id="sec-glass-copper">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">电子布 / 铜箔 — CCL的核心材料</h2>
+      <span class="section-sub">关键材料：HVLP超低轮廓铜箔 · E-glass电子布</span>
+    </div>
+
+    <div class="body-grid" style="gap: 18px;">
+      <!-- 铜箔 -->
+      <div class="sector">
+        <div class="sector-head">
+          <div class="sector-icon" style="background: var(--accent-gold-light);">🪙</div>
+          <div class="sector-title-group">
+            <div class="sector-title">电解铜箔 / HVLP超低轮廓铜箔</div>
+            <div class="sector-desc">PCB导电层材料，HVLP铜箔是AI服务器核心材料，日本供应商占全球供应60%以上。</div>
+          </div>
+          <span class="sector-badge badge-gold">原材料</span>
+        </div>
+        <div class="sector-body">
+          <p class="concept-text">电解铜箔是通过电镀工艺在钛辊上沉积的铜箔，是PCB的导电层。普通铜箔厚度约12-35μm，粗糙度Rz约3-5μm。高频高速PCB需要<strong>HVLP（High Velocity Low Profile）</strong>铜箔，轮廓高度Rz≤0.5μm，有效减少集肤效应损耗。</p>
+          <div class="stats-grid" style="margin-top: 12px;">
+            <div class="cstat">
+              <div class="cstat-lbl">HVLP4需求增长 2025</div>
+              <div class="cstat-val up">+48.1%</div>
+            </div>
+            <div class="cstat">
+              <div class="cstat-lbl">日本供应商份额</div>
+              <div class="cstat-val acc">>60%</div>
+    </div>
+  </div>
+          <h4 style="margin-top: 14px;">代表企业</h4>
+          <div class="stock-item">
+            <span class="stock-ticker">古河电气</span>
+            <span class="stock-name">日本HVLP龙头</span>
+            <span class="stock-note">未上市</span>
+          </div>
+          <div class="stock-item">
+            <span class="stock-ticker">5661.TWO</span>
+            <span class="stock-name">金居（台股）</span>
+            <span class="stock-exch exch-tw">台股</span>
+            <span class="stock-note">HVLP铜箔</span>
+          </div>
+          <div class="stock-item">
+            <span class="stock-ticker">加州联合铜业</span>
+            <span class="stock-name">美国HVLP</span>
+            <span class="stock-note">未上市</span>
+          </div>
+    </div>
+  </div>
+
+      <!-- 电子布 -->
+      <div class="sector">
+        <div class="sector-head">
+          <div class="sector-icon" style="background: var(--accent-teal-light);">🧵</div>
+          <div class="sector-title-group">
+            <div class="sector-title">电子级玻璃布 / 玻纤芯材</div>
+            <div class="sector-desc">CCL的增强骨架，提供机械强度和绝缘性能，超薄电子布是高端CCL的关键。</div>
+          </div>
+          <span class="sector-badge badge-teal">原材料</span>
+        </div>
+        <div class="sector-body">
+          <p class="concept-text">电子级玻璃布（E-glass）是CCL的核心增强层，提供机械强度、尺寸稳定性和绝缘性能。高阶AI服务器用CCL需要<strong>超薄电子布（1067/1080型）</strong>，厚度<50μm，对厚度均匀性和介电常数有严格要求。</p>
+          <p class="concept-text">电子布占CCL成本约15-20%，但对板材性能影响关键。台玻是台湾最大的玻璃纤维制造商。</p>
+          <div class="stats-grid" style="margin-top: 12px;">
+            <div class="cstat">
+              <div class="cstat-lbl">电子布占CCL成本</div>
+              <div class="cstat-val">15-20%</div>
+            </div>
+            <div class="cstat">
+              <div class="cstat-lbl">技术壁垒</div>
+              <div class="cstat-val">较高</div>
+    </div>
+  </div>
+          <h4 style="margin-top: 14px;">代表企业</h4>
+          <div class="stock-item">
+            <span class="stock-ticker">1802.TW</span>
+            <span class="stock-name">台玻</span>
+            <span class="stock-exch exch-tw">台股</span>
+            <span class="stock-note">台湾最大玻纤</span>
+          </div>
+          <div class="stock-item">
+            <span class="stock-ticker">PPG</span>
+            <span class="stock-name">PPG Industries</span>
+            <span class="stock-exch exch-us">美股</span>
+            <span class="stock-note">全球工业涂料+玻纤</span>
+          </div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <!-- INVESTMENT LOGIC -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">投资逻辑总结</h2>
+    </div>
+
+    <div class="sector">
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>🎯 核心投资逻辑</h4>
+            <p class="concept-text"><strong>1. AI驱动需求爆发：</strong>AI服务器对PCB层数和材料性能要求远超普通服务器，单价3-5倍溢价，头部厂商量价齐升。</p>
+            <p class="concept-text"><strong>2. 认证壁垒高：</strong>高速材料认证周期12-18个月，已通过认证的厂商享有先发优势，客户粘性强。</p>
+            <p class="concept-text"><strong>3. 产能扩张受益：</strong>CCL和PCB厂商积极扩产高端产线，2025-2026年是产能集中释放期。</p>
+            <p class="concept-text"><strong>4. 国产替代机会：</strong>中国厂商在CCL中低端市场已具规模，高端市场（HVLP/M6级）仍在追赶，成长空间大。</p>
+          </div>
+          <div class="col">
+            <h4>⚠️ 关键风险因素</h4>
+            <p class="concept-text"><strong>1. 原材料价格波动：</strong>铜价、树脂价格波动直接影响毛利，2024-2025年铜价处于高位。</p>
+            <p class="concept-text"><strong>2. 客户集中风险：</strong>AI服务器ODM集中度高，PCB厂商议价能力相对较弱。</p>
+            <p class="concept-text"><strong>3. 技术路线变化：</strong>SiP/AoP等封装技术演进可能改变对PCB需求，但中长期影响有限。</p>
+            <p class="concept-text"><strong>4. 地缘政治：</strong>台湾厂商占高端PCB主导，地缘风险需关注。</p>
+          </div>
+    </div>
+  </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">投资要点</h2>
+      <span class="section-sub">本章核心投资逻辑 · 仅供参考</span>
+    </div>
+    <div class="inv-card" id="inv-card" style="margin-top:0">
+      <div class="inv-card-body">
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">核心驱动因素</div>
+            <div class="inv-col-val">AI服务器PCB层数增至36层+及Any-layer HDI；M6/M7/M8级高速CCL用量与单价翻倍；低粗糙度铜箔与玻纤刚需</div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">关键风险</div>
+            <div class="inv-col-val">铜、环氧树脂等大宗商品原材料价格大幅波动；高端CCL材料长期被日台垄断，认证周期长</div>
+          </div>
+        </div>
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">受益方向</div>
+            <div class="inv-tickers"><span>台光电子（高速CCL）</span><span>生益科技（国产替代）</span><span>沪士电子（AI PCB）</span></div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">风险暴露</div>
+            <div class="inv-col-val">普通PCB产能过剩导致价格战；AI服务器出货量延迟拖累PCB交货；上游材料配方专利诉讼</div>
+          </div>
+        </div>
+        <div class="inv-catalyst">
+          <div class="inv-col-label">近期催化剂</div>
+          <div class="inv-col-val">英伟达Blackwell服务器量产PCB订单下放；高速CCL关键原材料国产替代认证节点</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2 class="section-title">章节导航</h2>
+    </div>
+    <div class="prev-next-nav">
+      <a class="pn-btn pn-prev" href="ch03-eda.html">
+        <span class="pn-label">&larr; 上一章</span>
+        <span class="pn-title">EDA与软件基础设施</span>
+      </a>
+      <a class="pn-btn pn-next" href="ch05-chips.html">
+        <span class="pn-label">下一章 &rarr;</span>
+        <span class="pn-title">AI芯片</span>
+      </a>
+    </div>
+    <div class="insight" style="margin-bottom:8px;"><strong>章节导航：</strong>共17章完整产业链 · <a href="index.html">返回总览</a></div>
+  </section>
+
+  <div class="footer">
+    <div class="footer-text">数据来源（实时搜索，2026年5月）：NVIDIA官方 &middot; AMD官方 &middot; Intel官方 &middot; Goldman Sachs Research &middot; Counterpoint Research &middot; TrendForce &middot; SemiAnalysis &middot; 各公司财报及公告<br><br>⚠ 本报告数据基于公开信息整理，不构成投资建议。所有投资标的请自行判断风险。数据可能有误差，欢迎反馈指正。</div>
+  </div>
+
+</div>
+
+<script src="theme-toggle.js"></script>
+<script src="nav.js"></script>
+
+</body>
+</html>

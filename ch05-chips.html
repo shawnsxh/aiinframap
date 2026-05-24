@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<!-- SEO Meta -->
+  <meta name="description" content="NVIDIA Blackwell/Rubin、AMD MI300X/MI350、谷歌TPU、亚马逊Trainium等AI芯片全面对比。CUDA生态壁垒、CoWoS封装依赖、出口管制影响。">
+  <meta property="og:title" content="CH05 · AI芯片 · GPU与ASIC">
+  <meta property="og:description" content="NVIDIA Blackwell/Rubin、AMD MI300X/MI350、谷歌TPU、亚马逊Trainium等AI芯片全面对比。CUDA生态壁垒、CoWoS封装依赖、出口管制影响。">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CH05 · AI芯片 · GPU与ASIC">
+  <meta name="twitter:description" content="NVIDIA Blackwell/Rubin、AMD MI300X/MI350、谷歌TPU、亚马逊Trainium等AI芯片全面对比。CUDA生态壁垒、CoWoS封装依赖、出口管制影响。">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗺️</text></svg>">
+<title>AIinfra Map · CH05 · AI芯片</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* Page-specific: light theme extras + accent overrides */
+:root,[data-theme="light"]{--shadow-panel:0 24px 64px rgba(0,0,0,0.18),0 0 0 1px rgba(0,0,0,0.06)}
+
+.chapter-tag{background:var(--accent-gold)}
+.hero-title em{color:var(--accent-gold)}
+.flow-node:hover{border-color:var(--accent-gold);transform:translateY(-2px)}
+.insight{background:var(--accent-gold-light);border:1px solid rgba(140,104,32,.2)}
+.insight strong{color:var(--accent-gold)}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="site-header">
+    <div class="logo">AIinfra <span>/</span> Map</div>
+        <nav class="header-nav" id="mainNav"></nav>
+    <div class="header-right">
+      <div class="header-meta"><span><span class="dot"></span>数据截至 2026.05 · 共17章</span></div>
+      <div class="theme-switcher" id="themeSwitcher">
+        <button class="theme-btn" data-theme="light" title="浅色主题"><span class="dot-inner light"></span><span>浅色</span></button>
+        <button class="theme-btn" data-theme="dark" title="深色主题"><span class="dot-inner dark"></span><span>深色</span></button>
+      </div>
+      <button class="nav-collapse-btn" id="navCollapseBtn" title="收起导航" aria-label="收起导航"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 8L6 4L10 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="mobile-hamburger" id="mobileHamburger" aria-label="打开菜单"><svg width="18" height="14" viewBox="0 0 18 14" fill="none"><rect y="1" width="18" height="2" rx="1" fill="currentColor"/><rect y="6" width="18" height="2" rx="1" fill="currentColor"/><rect y="11" width="18" height="2" rx="1" fill="currentColor"/></svg></button>
+    </div>
+  </header>
+
+<div id="mobileNavMount"></div>
+
+  <section class="hero">
+<div class="breadcrumb"><a href="index.html">AIinfra Map</a> / <span>CH05 · AI芯片格局全解析</span></div>
+    <div class="hero-eyebrow"><span class="chapter-tag">CH05 · AI芯片</span></div>
+    <h1 class="hero-title">AI芯片格局<br><em>GPU/ASIC/CPU全解析</em></h1>
+    <p class="hero-subtitle">NVIDIA垄断下的CUDA生态 · ASIC定制浪潮 · GPU vs ASIC技术路线对比</p>
+    <div class="hero-metrics">
+      <div class="metric"><span class="metric-value">~$5T+</span><span class="metric-label">NVIDIA市值</span></div>
+      <div class="metric"><span class="metric-value accent">>80%</span><span class="metric-label">AI GPU市占</span></div>
+      <div class="metric"><span class="metric-value gold">5M+</span><span class="metric-label">CUDA开发者</span></div>
+      <div class="metric"><span class="metric-value green">2080亿</span><span class="metric-label">B200晶体管</span></div>
+      <div class="metric"><span class="metric-value purple">720 PFLOPS</span><span class="metric-label">GB200 NVL72算力</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">AI芯片供应链传导路径</h2>
+      <span class="section-sub">从芯片设计到AI服务器</span>
+    </div>
+    <div class="flow-diagram">
+      <div class="flow-node">
+        <div class="flow-node-icon">🏛️</div>
+        <div class="flow-node-title">芯片设计</div>
+        <div class="flow-node-sub">NVIDIA/AMD/Broadcom</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">⚙️</div>
+        <div class="flow-node-title">晶圆制造</div>
+        <div class="flow-node-sub">TSMC N3/N4/N5制程</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🔬</div>
+        <div class="flow-node-title">CoWoS封装</div>
+        <div class="flow-node-sub">TSMC先进封装</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">💾</div>
+        <div class="flow-node-title">HBM内存</div>
+        <div class="flow-node-sub">SK hynix/Samsung</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🖥️</div>
+        <div class="flow-node-title">GPU模组</div>
+        <div class="flow-node-sub">SXM/PCIe模组</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🗄️</div>
+        <div class="flow-node-title">AI服务器</div>
+        <div class="flow-node-sub">NVL72/ODM组装</div>
+    </div>
+  </div>
+  </section>
+
+  <section class="section" id="sec-gpu">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">GPU加速器 — AI训练与推理的核心算力</h2>
+      <span class="section-sub">NVIDIA主导 · AMD差异化竞争 · Intel追赶</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-light);">🎮</div>
+        <div class="sector-title-group">
+          <div class="sector-title">GPU加速器 — NVIDIA / AMD / Intel</div>
+          <div class="sector-desc">GPU凭借大规模并行计算架构成为AI训练和推理的主流硬件，NVIDIA凭借CUDA生态占据绝对垄断地位。</div>
+        </div>
+        <span class="sector-badge badge-blue">AI芯片</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text">GPU（图形处理器）的大规模并行计算架构天然适合AI工作负载（矩阵乘法、卷积运算）。NVIDIA H100/H200使用Hopper架构，B200使用Blackwell架构（双芯片设计，2080亿晶体管，192GB HBM3e，8TB/s带宽）。</p>
+            <p class="concept-text"><strong>CUDA生态</strong>是NVIDIA的核心护城河：全球500万+开发者使用CUDA，NVIDIA官方预计未来可达5000万开发者。AMD ROCm生态远落后，Intel oneAPI几乎无人用。</p>
+            <p class="concept-text"><strong>GB200 NVL72</strong>是NVIDIA推荐的旗舰AI服务器配置：包含72颗B200 + 36颗Grace CPU + 72个NVLink Switch，FP8算力720 PFLOPS，单rack功耗约120kW，必须液冷。</p>
+            <p class="concept-text">AMD MI300X（192GB HBM3e，FP8约7 PFLOPS）提供差异化性价比，推理市场接受度提升。Intel Gaudi3定位对标H100性价比替代，但软件生态远弱于CUDA，实际市占极低。</p>
+            <div class="sources">Blackwell架构为双芯片封装，通过NVLink-C2C实现芯片间900GB/s互联；AMD MI300X为APU设计（CPU+GPU集成）</div>
+          </div>
+          <div class="col">
+            <h4>关键数据</h4>
+            <div class="stats-grid">
+              <div class="cstat"><div class="cstat-lbl">NVIDIA AI GPU市占</div><div class="cstat-val acc">>80%</div></div>
+              <div class="cstat"><div class="cstat-lbl">B200 HBM3e带宽</div><div class="cstat-val up">8 TB/s</div></div>
+              <div class="cstat"><div class="cstat-lbl">GB200 NVL72 FP8算力</div><div class="cstat-val up">720 PFLOPS</div></div>
+              <div class="cstat"><div class="cstat-lbl">B200 TDP</div><div class="cstat-val">1000W/颗</div></div>
+              <div class="cstat"><div class="cstat-lbl">NVIDIA Q4 FY2025数据中心</div><div class="cstat-val up">$35.6B</div></div>
+              <div class="cstat"><div class="cstat-lbl">CUDA开发者</div><div class="cstat-val up">5M+</div>
+    </div>
+  </div>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">NVDA</span>
+              <span class="stock-name">NVIDIA</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">垄断+CUDA生态</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">AMD</span>
+              <span class="stock-name">AMD</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">MI300X差异化</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">INTC</span>
+              <span class="stock-name">Intel</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">Gaudi3追赶中</span>
+            </div>
+    </div>
+  </div>
+        <div class="risks-box">
+          <div class="risks-title">风险提示</div>
+          <div class="risk-item">CUDA生态壁垒使竞争者软件支持严重落后，市场短期难以撼动</div>
+          <div class="risk-item">中国出口限制影响部分高端GPU市场</div>
+          <div class="risk-item">定制ASIC分流需求（长期影响）</div>
+          <div class="risk-item">CoWoS/HBM瓶颈制约NVIDIA GPU出货量</div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">02.5</span>
+      <h2 class="section-title">AI芯片核心参数对比</h2>
+      <span class="section-sub">Report 整合补充 · 来源：NVIDIA官方 · Jarvis Labs · 各公司官网 (2025)</span>
+    </div>
+
+    <div style="overflow-x:auto;margin-bottom:16px;">
+    <table class="compare-table" style="min-width:700px;">
+      <thead>
+        <tr>
+          <th>型号</th><th>架构</th><th>晶体管</th><th>内存</th><th>带宽</th>
+          <th>FP8算力</th><th>NVLink</th><th>TDP</th><th>制程</th><th>供应状态</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>H100 SXM</td><td>Hopper</td><td>80B</td><td>80GB HBM3</td><td>3.35 TB/s</td>
+          <td style="color:var(--accent);">4.7 PF</td><td>900 GB/s</td><td>700W</td><td>TSMC 4N</td><td style="color:var(--accent-green);">成熟供应</td>
+        </tr>
+        <tr>
+          <td>H200 SXM</td><td>Hopper</td><td>80B</td><td>141GB HBM3e</td><td style="color:var(--accent);">4.8 TB/s</td>
+          <td style="color:var(--accent);">4.7 PF</td><td>900 GB/s</td><td>700W</td><td>TSMC 4N</td><td style="color:var(--accent-green);">量产出货</td>
+        </tr>
+        <tr style="background:var(--surface-1);">
+          <td style="color:var(--accent);font-weight:700;">B200 SXM</td><td>Blackwell</td><td>208B</td><td>192GB HBM3e</td>
+          <td style="color:var(--accent-green);font-weight:700;">8 TB/s</td>
+          <td style="color:var(--accent-green);font-weight:700;">9 PF</td><td>1.8 TB/s</td>
+          <td style="color:var(--accent-gold);">1000W</td><td>TSMC 4NP</td><td style="color:var(--accent-gold);">限量2025</td>
+        </tr>
+        <tr>
+          <td>GB200 NVL72</td><td>Blackwell</td><td>—</td><td>13.4TB HBM3e/机架</td>
+          <td style="color:var(--accent-green);">576 TB/s</td>
+          <td style="color:var(--accent-green);font-weight:700;">720 PF</td>
+          <td>130 TB/s</td><td style="color:var(--accent-red);">~120kW/机架</td><td>TSMC</td>
+          <td style="color:var(--accent-gold);">2025末起量</td>
+        </tr>
+        <tr>
+          <td>AMD MI300X</td><td>CDNA 3</td><td>153B</td><td>192GB HBM3e</td><td>5.3 TB/s</td>
+          <td>~7 PF</td><td>—</td><td>700W</td><td>TSMC</td><td style="color:var(--accent-green);">已出货</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="insight">
+      <strong>关键洞察：</strong>HBM容量从H100的80GB到GB200 NVL72的13.4TB/机架，约6年增长约168倍。内存带宽从3.35 TB/s到8 TB/s（B200），NVLink从900 GB/s到1.8 TB/s——互联带宽的扩张速度是本轮AI基础设施最重要的技术趋势之一。
+    </div>
+  </section>
+
+  <section class="section" id="sec-asic">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">ASIC定制芯片 — 大厂自研与专业化趋势</h2>
+      <span class="section-sub">Broadcom/Marvell/Cerebras · 定制化能效优势</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-gold-light);">🔧</div>
+        <div class="sector-title-group">
+          <div class="sector-title">ASIC定制AI芯片 — Broadcom / Marvell / Cerebras / Groq</div>
+          <div class="sector-desc">ASIC针对特定AI任务定制优化，单位算力成本和功耗低于通用GPU，是大厂降本的核心路径。</div>
+        </div>
+        <span class="sector-badge badge-gold">AI芯片</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text"><strong>ASIC（专用集成电路）</strong>针对特定AI任务定制优化，单位算力成本和功耗低于通用GPU。Google TPU（自研至TPU v5pex）用于搜索排名、翻译等大规模推理；Amazon Trainium/Triton服务于AWS客户；Microsoft MT雅典娜自研芯片。</p>
+            <p class="concept-text"><strong>Broadcom</strong>是最大AI ASIC代工方：为Google定制Titanium系列TPU芯片、为Meta定制AI ASIC。FY2024 AI相关收入超过$40B，AI ASIC业务已超过传统网络芯片。Marvell通过$5.5B收购Celestial AI（2025年12月完成）押注光学互联将成为AI加速器标准配置。</p>
+            <p class="concept-text"><strong>Cerebras</strong>专注超大模型训练，Wafer Scale Engine在单个晶圆级芯片上集成85.9万个AI核心，内存带宽20PB/s，专为GPT-4级别超大模型设计。<strong>Groq</strong>专注推理，Tensor Streaming Processor（LPU架构）提供超低延迟推理。</p>
+            <div class="sources">ASIC开发周期18-36个月，前期投入巨大；Celestial AI收购强化Marvell光学互联能力</div>
+          </div>
+          <div class="col">
+            <h4>关键数据</h4>
+            <div class="stats-grid">
+              <div class="cstat"><div class="cstat-lbl">Broadcom AI ASIC定位</div><div class="cstat-val gold">大厂定制</div></div>
+              <div class="cstat"><div class="cstat-lbl">Marvell/Celestial AI收购</div><div class="cstat-val">$5.5B</div></div>
+              <div class="cstat"><div class="cstat-lbl">Google TPU v5训练性能</div><div class="cstat-val up">vs H100 ~1.7x</div></div>
+              <div class="cstat"><div class="cstat-lbl">Cerebras WSE核心数</div><div class="cstat-val">85.9万个</div></div>
+              <div class="cstat"><div class="cstat-lbl">ASIC开发周期</div><div class="cstat-val">18-36个月</div>
+    </div>
+  </div>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">AVGO</span>
+              <span class="stock-name">Broadcom</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">ASIC代工+网络</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">MRVL</span>
+              <span class="stock-name">Marvell</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">定制AI芯片+光学互联</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">GOOGL</span>
+              <span class="stock-name">Alphabet/Google</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">TPU自研</span>
+            </div>
+    </div>
+  </div>
+        <div class="risks-box">
+          <div class="risks-title">风险提示</div>
+          <div class="risk-item">ASIC开发周期长，前期投入巨大，需大客户支撑</div>
+          <div class="risk-item">CUDA生态壁垒使开发者难以迁移，应用生态不足</div>
+          <div class="risk-item">大厂自研可能减少对商业芯片依赖（长期影响NVIDIA）</div>
+          <div class="risk-item">Cerebras/Groq规模较小，盈利能力和持续性存疑</div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <section class="section" id="sec-compare">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">AI芯片格局全面对比</h2>
+      <span class="section-sub">GPU vs ASIC · 生态 vs 定制 · 短期 vs 长期</span>
+    </div>
+    <div class="sector">
+      <div class="sector-body">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>芯片类型</th>
+              <th>代表企业</th>
+              <th>架构特点</th>
+              <th>主要用途</th>
+              <th>生态壁垒</th>
+              <th>HBM支持</th>
+              <th>竞争优势</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>NVIDIA GPU</strong></td>
+              <td>NVDA</td>
+              <td>通用并行计算<span class="tag tag-blue">GPU</span></td>
+              <td>AI训练+推理</td>
+              <td><span class="tag tag-green">CUDA垄断</span></td>
+              <td>HBM3e 192GB</td>
+              <td>生态+性能双重护城河</td>
+            </tr>
+            <tr>
+              <td><strong>AMD GPU</strong></td>
+              <td>AMD</td>
+              <td>通用并行计算<span class="tag tag-blue">GPU</span></td>
+              <td>AI推理为主</td>
+              <td><span class="tag tag-red">ROCm弱</span></td>
+              <td>HBM3e 192GB</td>
+              <td>性价比差异化</td>
+            </tr>
+            <tr>
+              <td><strong>Intel Gaudi</strong></td>
+              <td>INTC</td>
+              <td>异构计算<span class="tag tag-blue">GPU</span></td>
+              <td>AI推理</td>
+              <td><span class="tag tag-red">oneAPI弱</span></td>
+              <td>HBM3e 128GB</td>
+              <td>Xeon CPU协同</td>
+            </tr>
+            <tr>
+              <td><strong>Google TPU</strong></td>
+              <td>GOOGL</td>
+              <td>定制ASIC<span class="tag tag-gold">ASIC</span></td>
+              <td>推理+训练</td>
+              <td><span class="tag tag-gold">TPU生态封闭</span></td>
+              <td>HBM3e 256GB</td>
+              <td>Google内部生态</td>
+            </tr>
+            <tr>
+              <td><strong>Amazon Trainium</strong></td>
+              <td>AMZN</td>
+              <td>定制ASIC<span class="tag tag-gold">ASIC</span></td>
+              <td>推理+训练</td>
+              <td><span class="tag tag-red">Neuron弱</span></td>
+              <td>HBM</td>
+              <td>AWS成本优势</td>
+            </tr>
+            <tr>
+              <td><strong>Broadcom AI ASIC</strong></td>
+              <td>AVGO</td>
+              <td>大厂定制ASIC<span class="tag tag-gold">ASIC</span></td>
+              <td>推理为主</td>
+              <td><span class="tag tag-gold">封闭</span></td>
+              <td>定制HBM</td>
+              <td>大客户定制优化</td>
+            </tr>
+            <tr>
+              <td><strong>Cerebras WSE</strong></td>
+              <td>CEREBRAS</td>
+              <td>晶圆级ASIC<span class="tag tag-purple">专用</span></td>
+              <td>超大模型训练</td>
+              <td><span class="tag tag-red">封闭</span></td>
+              <td>晶圆级带宽</td>
+              <td>超大模型训练唯一方案</td>
+            </tr>
+            <tr>
+              <td><strong>Groq LPU</strong></td>
+              <td>GROQ</td>
+              <td>推理专用ASIC<span class="tag tag-purple">专用</span></td>
+              <td>超低延迟推理</td>
+              <td><span class="tag tag-red">封闭</span></td>
+              <td>SRAM（无HBM）</td>
+              <td>推理延迟极低</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="sector" style="margin-top:20px;">
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>投资逻辑总结</h4>
+            <p class="concept-text"><strong>1. NVIDIA短期垄断难撼动：</strong>CUDA生态+CoWoS产能+品牌优势构成三重护城河，AI算力需求爆发直接受益。数据中心业务FY2025 Q4收入$35.6B，持续超预期。</p>
+            <p class="concept-text"><strong>2. AMD MI300X差异化空间：</strong>在推理市场有成本优势，ROCm生态逐步改善，但软件生态差距短期难以弥合。</p>
+            <p class="concept-text"><strong>3. 定制ASIC浪潮加速：</strong>Broadcom AI ASIC收入超$40B，Marvell通过Celestial AI收购强化光学互联，ASIC代工模式是长期趋势。</p>
+            <p class="concept-text"><strong>4. Cerebras/Groq细分市场：</strong>超大模型训练（GPT-5+）和超低延迟推理各有差异化空间，但规模较小。</p>
+          </div>
+          <div class="col">
+            <h4>关键风险</h4>
+            <p class="concept-text"><strong>1. 产能瓶颈：</strong>CoWoS封装和HBM内存是所有AI芯片扩张的共同瓶颈，TSMC产能扩张速度决定出货量天花板。</p>
+            <p class="concept-text"><strong>2. 技术路线风险：</strong>ASIC在推理市场渗透率提升，但训练市场仍以NVIDIA为主；3nm→2nm→1.6nm制程演进带来不确定性。</p>
+            <p class="concept-text"><strong>3. 地缘政治：</strong>美国对华芯片出口限制持续，影响NVIDIA高端GPU在中国市场的销售，同时推动中国自研芯片加速。</p>
+            <p class="concept-text"><strong>4. 估值风险：</strong>NVDA市值~$5T+，对应FY2026预期PE约30-40倍，估值较高。</p>
+          </div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <section class="section" id="sec-reasoning-models">
+    <div class="section-header">
+      <span class="section-num">04.5</span>
+      <h2 class="section-title">推理模型范式转移（Reasoning Models）对芯片格局的重塑</h2>
+      <span class="section-sub">新趋势分析 · 2026年最新技术范式</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-light);">&#x1F9E0;</div>
+        <div class="sector-title-group">
+          <div class="sector-title">推理时算力（Test-Time Compute）时代的芯片需求</div>
+          <div class="sector-desc">以 OpenAI o1/o3 及 DeepSeek V3/R1 为代表的“思考型”模型将算力重心向推理端偏移。</div>
+        </div>
+        <span class="sector-badge badge-blue">前沿趋势</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>技术范式转移</h4>
+            <p class="concept-text"><strong>从 Pre-training 转向 Test-Time Compute</strong>：传统 LLM 性能提升依赖于训练阶段（堆叠万卡 GPU 进行预训练）。而推理模型通过强化学习（RL）和思维链（CoT），在推理时进行多轮思考，使得<strong>推理阶段消耗的算力呈指数级增长</strong>。</p>
+            <p class="concept-text"><strong>对芯片需求的改变</strong>：推理侧算力的爆发对芯片提出了不同于训练的硬性要求：
+              <br>① <strong>极高的显存带宽与容量</strong>：推理模型由于多轮思考需要常驻海量上下文，对 HBM3e/HBM4 显存容量及带宽是绝对刚需。
+              <br>② <strong>ASIC 优势放大</strong>：在长序列、大批次的推理场景下，定制 ASIC（如 Google TPU、博通代工的自研 ASIC）拥有远低于通用 GPU 的运行能耗与 Token 成本，将加速其在推理端的替代率。
+            </p>
+          </div>
+          <div class="col">
+            <h4>投资启示</h4>
+            <p class="concept-text"><strong>1. 推理芯片放量</strong>：大模型应用落地（如 AI Agent）爆发导致推理 Token 需求呈指数增长，定制 ASIC 设计与代工大厂（Broadcom AVGO、Marvell MRVL）是直接受益方向。</p>
+            <p class="concept-text"><strong>2. 显存池化与高速互联</strong>：推理集群的扩展更需要高带宽的芯片间通信（NVLink、以太网 UEC），对光模块（1.6T）和先进封装（CoWoS/玻璃基板）的依赖不降反升。</p>
+            <p class="concept-text"><strong>3. 算力结构分化</strong>：英伟达在训练侧的绝对垄断在推理侧面临更多定制化 ASIC 的分流，但英伟达借由 TensorRT-LLM 软件栈和液冷整机柜（GB200）依然保持了强大的商业闭环能力。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 投资要点卡片 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">投资要点</h2>
+      <span class="section-sub">本章核心投资逻辑 · 仅供参考</span>
+    </div>
+    <div class="inv-card" id="inv-card" style="margin-top:0">
+      <div class="inv-card-body">
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">核心驱动因素</div>
+            <div class="inv-col-val">大模型训练与推理算力呈指数级增长；NVIDIA CUDA生态护城河极深；ASIC定制化芯片在特定领域兴起</div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">关键风险</div>
+            <div class="inv-col-val">CoWoS与HBM供应紧张制约出货；AMD及各大云厂商自研芯片（ASIC）的分流竞争；物理极限瓶颈</div>
+          </div>
+        </div>
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">受益方向</div>
+            <div class="inv-tickers"><span>NVDA（绝对主导）</span><span>AMD（次选弹性）</span><span>AVGO（ASIC龙头）</span></div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">风险暴露</div>
+            <div class="inv-col-val">高估值消化压力；单一芯片架构技术路径迭代过快风险；地缘限制导致高成长市场销售受阻</div>
+          </div>
+        </div>
+        <div class="inv-catalyst">
+          <div class="inv-col-label">近期催化剂</div>
+          <div class="inv-col-val">NVIDIA Blackwell芯片出货与业绩指引；AMD MI325X/MI350X量产进程</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">章节导航</h2>
+    </div>
+    <div class="prev-next-nav">
+      <a class="pn-btn pn-prev" href="ch04-upstream.html">
+        <span class="pn-label">&larr; 上一章</span>
+        <span class="pn-title">上游材料</span>
+      </a>
+      <a class="pn-btn pn-next" href="ch06-memory.html">
+        <span class="pn-label">下一章 &rarr;</span>
+        <span class="pn-title">存储芯片</span>
+      </a>
+    </div>
+    <div class="insight" style="margin-bottom:8px;">
+      <strong>章节导航：</strong>共17章完整产业链 · <a href="index.html">返回总览</a>
+    </div>
+  </section>
+
+  <div class="footer">
+    <div class="footer-text">数据来源（实时搜索，2026年5月）：NVIDIA官方 · AMD官方 · Intel官方 · Goldman Sachs Research · Counterpoint Research · TrendForce · SemiAnalysis · 各公司财报及公告<br><br>⚠ 本报告数据基于公开信息整理，不构成投资建议。所有投资标的请自行判断风险。数据可能有误差，欢迎反馈指正。</div>
+  </div>
+
+</div>
+
+<script src="theme-toggle.js"></script>
+<script src="nav.js"></script>
+
+</body>
+</html>

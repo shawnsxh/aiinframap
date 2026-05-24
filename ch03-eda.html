@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<!-- SEO Meta -->
+  <meta name="description" content="EDA工具（Synopsys/Cadence）、IP核（Arm）、AI框架（CUDA/PyTorch）、MLOps工具链、推理优化（TensorRT/vLLM）全面解析。">
+  <meta property="og:title" content="CH03 · EDA与软件基础设施">
+  <meta property="og:description" content="EDA工具（Synopsys/Cadence）、IP核（Arm）、AI框架（CUDA/PyTorch）、MLOps工具链、推理优化（TensorRT/vLLM）全面解析。">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CH03 · EDA与软件基础设施">
+  <meta name="twitter:description" content="EDA工具（Synopsys/Cadence）、IP核（Arm）、AI框架（CUDA/PyTorch）、MLOps工具链、推理优化（TensorRT/vLLM）全面解析。">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗺️</text></svg>">
+<title>CH03 · EDA与软件基础设施 · AIinfra Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* Page-specific: teal accent */
+:root,[data-theme="light"]{--shadow-panel:0 24px 64px rgba(0,0,0,0.18),0 0 0 1px rgba(0,0,0,0.06)}
+.chapter-tag{background:var(--accent-teal)}
+.hero-title em{color:var(--accent-teal)}
+.flow-node:hover{border-color:var(--accent-teal);transform:translateY(-2px)}
+.insight{background:var(--accent-teal-light);border:1px solid rgba(42,106,106,.2)}
+.insight strong{color:var(--accent-teal)}
+.insight-box{background:var(--accent-teal-light);border:1px solid rgba(42,106,106,.2);border-radius:5px;padding:14px 16px;margin-bottom:18px}
+.insight-box-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-teal);margin-bottom:5px}
+.insight-box p{font-size:12.5px;color:var(--text-2);line-height:1.8}
+.sector-badge.badge-teal{background:var(--accent-teal-light);color:var(--accent-teal)}
+.stock-ticker{color:var(--accent-teal)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="logo">AIinfra <span>/</span> Map</div>
+      <nav class="header-nav" id="mainNav"></nav>
+    <div class="header-right">
+      <div class="header-meta"><span><span class="dot"></span>数据截至 2026.05 · 共17章</span></div>
+      <div class="theme-switcher">
+        <button class="theme-btn" data-theme="light" title="浅色主题"><span class="dot-inner light"></span><span>浅色</span></button>
+        <button class="theme-btn" data-theme="dark" title="深色主题"><span class="dot-inner dark"></span><span>深色</span></button>
+      </div>
+      <button class="nav-collapse-btn" id="navCollapseBtn" title="收起导航" aria-label="收起导航"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 8L6 4L10 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="mobile-hamburger" id="mobileHamburger" aria-label="打开菜单"><svg width="18" height="14" viewBox="0 0 18 14" fill="none"><rect y="1" width="18" height="2" rx="1" fill="currentColor"/><rect y="6" width="18" height="2" rx="1" fill="currentColor"/><rect y="11" width="18" height="2" rx="1" fill="currentColor"/></svg></button>
+    </div>
+  </header>
+
+<div id="mobileNavMount"></div>
+
+  <section class="hero">
+    <div class="breadcrumb"><a href="index.html">AIinfra Map</a> / <span>CH03 · EDA与软件基础设施</span></div>
+    <div class="hero-eyebrow"><span class="chapter-tag">CH03 · EDA与软件基础设施</span></div>
+    <h1 class="hero-title">AI芯片设计之魂<br><em>EDA·IP核·框架·推理优化</em></h1>
+    <p class="hero-subtitle">没有EDA工具，5nm芯片设计无从谈起 · CUDA生态护城河深度 · 实时搜索数据截至 2026.05</p>
+    <div class="hero-metrics">
+      <div class="metric"><span class="metric-value teal">$17B</span><span class="metric-label">EDA市场规模 2025</span></div>
+      <div class="metric"><span class="metric-value green">8-10%</span><span class="metric-label">EDA市场CAGR</span></div>
+      <div class="metric"><span class="metric-value gold">500万+</span><span class="metric-label">CUDA开发者</span></div>
+      <div class="metric"><span class="metric-value">$1B+/款</span><span class="metric-label">3nm设计成本</span></div>
+      <div class="metric"><span class="metric-value accent">~99%</span><span class="metric-label">AI芯片IP授权Arm</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">EDA工具链：芯片设计的必备软件</h2>
+      <span class="section-sub">Synopsys · Cadence · Siemens EDA 三分天下</span>
+    </div>
+    <div class="insight-box">
+      <div class="insight-box-title">投资要点</div>
+      <p>EDA工具是IC设计的"命脉软件"，没有它就不可能设计5nm以下芯片。全球三大厂商Synopsys/Cadence/Siemens EDA合计占据约70%市场份额，AI芯片设计复杂度提升推动EDA license费用持续上涨。Synopsys已宣布与台积电合作，将AI辅助设计引入2nm及以下节点。</p>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-teal-light);">&#x1F527;</div>
+        <div class="sector-title-group">
+          <div class="sector-title">EDA三巨头格局</div>
+          <div class="sector-desc">EDA工具链覆盖从前端设计到后端物理实现的完整流程。</div>
+        </div>
+        <span class="sector-badge badge-teal">设计软件</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text"><strong>EDA（Electronic Design Automation）</strong>是芯片设计的必备软件工具。3nm芯片设计成本已超过10亿美元，EDA工具license费用随设计复杂度提升而大幅增长。</p>
+            <p class="concept-text"><strong>Synopsys（SNPS）</strong>是全球最大EDA厂商（约35-40%份额），核心产品包括Design Compiler、PrimeTime。在AI辅助设计领域领先。</p>
+            <p class="concept-text"><strong>Cadence（CDNS）</strong>是全球第二大EDA厂商（约30%份额），Virtuoso平台在模拟/混合信号设计领域近乎垄断。</p>
+            <p class="concept-text"><strong>Siemens EDA（Mentor Graphics）</strong>约占10-15%份额，聚焦系统级设计工具和车规芯片验证。</p>
+          </div>
+          <div class="col">
+            <h4>市场数据</h4>
+            <div class="stats-grid">
+              <div class="cstat"><div class="cstat-lbl">EDA市场规模 2025</div><div class="cstat-val teal">$17B</div></div>
+              <div class="cstat"><div class="cstat-lbl">市场CAGR</div><div class="cstat-val up">8-10%</div></div>
+              <div class="cstat"><div class="cstat-lbl">3nm设计成本/款</div><div class="cstat-val gold">$1B+</div></div>
+              <div class="cstat"><div class="cstat-lbl">Synopsys市占</div><div class="cstat-val">~35-40%</div></div>
+            </div>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item"><span class="stock-ticker">SNPS</span><span class="stock-name">Synopsys</span><span class="stock-exch exch-us">美股</span><span class="stock-note">全球最大EDA厂商</span></div>
+            <div class="stock-item"><span class="stock-ticker">CDNS</span><span class="stock-name">Cadence</span><span class="stock-exch exch-us">美股</span><span class="stock-note">第二大EDA</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flow-diagram">
+      <div class="flow-node"><div class="flow-node-icon">&#x1F4D0;</div><div class="flow-node-title">架构设计</div><div class="flow-node-sub">AI芯片微架构定义</div></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-node"><div class="flow-node-icon">&#x1F4BB;</div><div class="flow-node-title">RTL编写</div><div class="flow-node-sub">Verilog/VHDL代码</div></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-node"><div class="flow-node-icon">&#x2705;</div><div class="flow-node-title">仿真验证</div><div class="flow-node-sub">功能/时序验证</div></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-node"><div class="flow-node-icon">&#x1F5FA;</div><div class="flow-node-title">布局布线</div><div class="flow-node-sub">物理实现</div></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-node"><div class="flow-node-icon">&#x1F52C;</div><div class="flow-node-title">物理验证</div><div class="flow-node-sub">DRC/LVS/时序Sign-off</div></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-node"><div class="flow-node-icon">&#x1F4E6;</div><div class="flow-node-title">GDSII交付</div><div class="flow-node-sub">交付晶圆厂制造</div></div>
+    </div>
+    <div class="risks-box"><div class="risks-title">风险提示</div>
+      <div class="risk-item">美国出口管制限制中国芯片公司使用Synopsys/Cadence</div>
+      <div class="risk-item">EDA软件授权费高，芯片公司CapEx周期波动影响EDA厂商收入</div>
+      <div class="risk-item">AI辅助设计工具尚未成熟，部分设计流程仍需人工深度介入</div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">IP核授权：Arm生态的深度壁垒</h2>
+      <span class="section-sub">Arm · RISC-V · UCIe Chiplet互联标准</span>
+    </div>
+    <div class="insight-box">
+      <div class="insight-box-title">投资要点</div>
+      <p>Arm是全球最重要的IP核授权方，几乎所有AI芯片（Apple Neural Engine、高通AI Engine、NVIDIA Grace、AWS Graviton、Google TPU）均基于Arm架构。Arm授权模式的粘性极强，一次性授权费+每芯片特许权金模式提供稳定现金流，毛利率超90%。</p>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-purple-light);">&#x1F3DB;</div>
+        <div class="sector-title-group">
+          <div class="sector-title">Arm：几乎所有AI芯片的底层架构</div>
+          <div class="sector-desc">Arm授权处理器IP给芯片设计公司，是AI芯片的最底层基础设施。</div>
+        </div>
+        <span class="sector-badge badge-purple">IP授权</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text"><strong>Arm Holdings（ARM）</strong>不生产芯片，而是授权处理器IP核。Arm架构占据全球约99%的移动SoC市场，几乎所有AI加速器芯片均包含Arm核心。</p>
+            <p class="concept-text"><strong>Arm授权模式</strong>：一次性授权费（$10M-100M）+ 每芯片特许权金（约售价1-2%），毛利率超90%。</p>
+            <p class="concept-text"><strong>RISC-V</strong>是开源指令集架构，受美国出口管制推动在中国加速采用。阿里巴巴平头哥、华为海思均已推出RISC-V产品。</p>
+          </div>
+          <div class="col">
+            <h4>市场数据</h4>
+            <div class="stats-grid">
+              <div class="cstat"><div class="cstat-lbl">Arm架构移动SoC市占</div><div class="cstat-val">~99%</div></div>
+              <div class="cstat"><div class="cstat-lbl">RISC-V基金会成员</div><div class="cstat-val">400+家</div></div>
+            </div>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item"><span class="stock-ticker">ARM</span><span class="stock-name">Arm Holdings</span><span class="stock-exch exch-us">美股</span><span class="stock-note">全球最大IP授权公司</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="risks-box"><div class="risks-title">风险提示</div>
+      <div class="risk-item">RISC-V开源替代可能侵蚀Arm市场份额</div>
+      <div class="risk-item">出口管制加速中国转向RISC-V</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">AI框架生态：CUDA护城河与挑战者</h2>
+      <span class="section-sub">CUDA · PyTorch · JAX · TensorFlow</span>
+    </div>
+    <div class="insight-box">
+      <div class="insight-box-title">投资要点</div>
+      <p>NVIDIA的CUDA生态是AI软件栈最深护城河，500万+开发者，15年积累的库和工具生态。AMD ROCm尝试打破垄断但差距仍大。PyTorch逐渐成为事实上的训练框架标准，但与CUDA深度绑定。</p>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-light);">&#x1F9E0;</div>
+        <div class="sector-title-group">
+          <div class="sector-title">AI框架生态格局</div>
+          <div class="sector-desc">从底层硬件到上层应用，层层堆叠的AI软件栈</div>
+        </div>
+        <span class="sector-badge badge-blue">软件生态</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>CUDA护城河深度</h4>
+            <p class="concept-text"><strong>CUDA</strong>是NVIDIA在2006年推出的通用并行计算平台。15年的生态积累让CUDA成为AI训练的事实标准。包含cuDNN、TensorRT、cuBLAS、NCCL等核心库，开发者切换成本极高。</p>
+            <p class="concept-text"><strong>ROCm</strong>是AMD的开放计算平台，市场份额约5-10%。</p>
+          </div>
+          <div class="col">
+            <h4>框架战争现状</h4>
+            <div class="stats-grid">
+              <div class="cstat"><div class="cstat-lbl">CUDA开发者</div><div class="cstat-val">500万+</div></div>
+              <div class="cstat"><div class="cstat-lbl">PyTorch市占（研究）</div><div class="cstat-val up">>70%</div></div>
+            </div>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item"><span class="stock-ticker">NVDA</span><span class="stock-name">NVIDIA（CUDA生态）</span><span class="stock-exch exch-us">美股</span></div>
+            <div class="stock-item"><span class="stock-ticker">META</span><span class="stock-name">Meta（PyTorch主导）</span><span class="stock-exch exch-us">美股</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flow-diagram">
+      <div class="flow-node"><div class="flow-node-icon">&#x1F4DD;</div><div class="flow-node-title">Python代码</div><div class="flow-node-sub">PyTorch/TF/JAX</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node"><div class="flow-node-icon">⚡</div><div class="flow-node-title">编译器</div><div class="flow-node-sub">XLA/TorchScript</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node"><div class="flow-node-icon">&#x1F527;</div><div class="flow-node-title">CUDA/cuDNN</div><div class="flow-node-sub">GPU内核库</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node"><div class="flow-node-icon">&#x1F3AE;</div><div class="flow-node-title">NVIDIA GPU</div><div class="flow-node-sub">Tensor Core</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">MLOps与推理优化工具链</h2>
+      <span class="section-sub">Kubernetes · Ray · TensorRT-LLM · vLLM</span>
+    </div>
+    <div class="insight-box">
+      <div class="insight-box-title">投资要点</div>
+      <p>模型训练完成后，如何高效部署和推理是企业AI应用的核心痛点。TensorRT-LLM（NVIDIA）和vLLM（开源社区）主导推理优化市场，量化技术（INT8/FP8）将推理成本降低4-8倍。</p>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-gold-light);">⚙</div>
+        <div class="sector-title-group">
+          <div class="sector-title">MLOps工具链</div>
+          <div class="sector-desc">从模型训练到生产部署的完整工具链</div>
+        </div>
+        <span class="sector-badge badge-gold">MLOps</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>训练编排与MLOps</h4>
+            <p class="concept-text"><strong>Ray</strong>是伯克利RISE Lab开源的分布式计算框架，是大模型训练的核心编排工具。</p>
+            <p class="concept-text"><strong>Kubernetes（K8s）</strong>是AI推理服务的事实部署平台。</p>
+            <p class="concept-text"><strong>MLflow</strong>是Databricks开源的ML生命周期管理工具。</p>
+          </div>
+          <div class="col">
+            <h4>推理优化技术</h4>
+            <p class="concept-text"><strong>TensorRT-LLM</strong>在H100上提供比PyTorch快4-8倍的推理速度。</p>
+            <p class="concept-text"><strong>vLLM</strong>采用PagedAttention技术将GPU显存利用率提升至90%+。</p>
+            <p class="concept-text"><strong>Flash Attention</strong>将Transformer训练/推理速度提升2-4倍。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <table class="compare-table">
+      <thead><tr><th>工具</th><th>厂商</th><th>核心能力</th></tr></thead>
+      <tbody>
+        <tr><td><strong>TensorRT-LLM</strong></td><td>NVIDIA</td><td>INT8/FP8量化</td></tr>
+        <tr><td><strong>vLLM</strong></td><td>开源（Berkeley）</td><td>PagedAttention、高吞吐</td></tr>
+        <tr><td><strong>Flash Attention</strong></td><td>开源（Tri Dao）</td><td>注意力优化</td></tr>
+        <tr><td><strong>DeepSpeed</strong></td><td>Microsoft</td><td>ZeRO优化</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">投资逻辑与风险总结</h2>
+    </div>
+    <div class="sector">
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>核心投资逻辑</h4>
+            <p class="concept-text"><strong>1. EDA是半导体产业链最抗周期的软件</strong>：芯片设计公司无论景气高低均需持续投入EDA license。</p>
+            <p class="concept-text"><strong>2. Arm是AI芯片的"水电煤"</strong>：每颗AI芯片出货均需支付特许权金。</p>
+            <p class="concept-text"><strong>3. CUDA生态是NVIDIA软件护城河</strong>：即使AMD硬件追平，软件生态切换成本极高。</p>
+            <p class="concept-text"><strong>4. 推理优化是降低AI应用成本的关键</strong>：vLLM等开源工具降低企业部署门槛。</p>
+          </div>
+          <div class="col">
+            <h4>关键风险</h4>
+            <p class="concept-text"><strong>1. 出口管制风险</strong>：美国限制中国芯片公司使用Synopsys/Cadence。</p>
+            <p class="concept-text"><strong>2. 开源框架侵蚀NVIDIA软件利润</strong>：若ROCm成熟将侵蚀护城河。</p>
+            <p class="concept-text"><strong>3. RISC-V替代Arm的长期风险</strong>：中国政府强制推动RISC-V。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">投资要点</h2>
+      <span class="section-sub">本章核心投资逻辑 · 仅供参考</span>
+    </div>
+    <div class="inv-card" id="inv-card" style="margin-top:0">
+      <div class="inv-card-body">
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">核心驱动因素</div>
+            <div class="inv-col-val">芯片设计复杂度因大算力呈几何级增长；Chiplet与多物理场仿真需求爆发；AI工具融入设计流程提高效率</div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">关键风险</div>
+            <div class="inv-col-val">Synopsys/Cadence在特定地区的销售管制；高昂的IP授权费和研发支出压力；国产替代竞争</div>
+          </div>
+        </div>
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">受益方向</div>
+            <div class="inv-tickers"><span>SNPS（EDA龙头）</span><span>CDNS（仿真领先）</span><span>ARM（CPU架构IP）</span></div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">风险暴露</div>
+            <div class="inv-col-val">二线设计厂商流片失败风险；Arm授权费用提价遭客户抵制；开源指令集（RISC-V）逐步蚕食</div>
+          </div>
+        </div>
+        <div class="inv-catalyst">
+          <div class="inv-col-label">近期催化剂</div>
+          <div class="inv-col-val">Synopsys收购Ansys反垄断审批进展；主要EDA工具AI新版发布</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2 class="section-title">章节导航</h2>
+    </div>
+    <div class="prev-next-nav">
+      <a class="pn-btn pn-prev" href="ch02-semiconductor.html"><span class="pn-label">&larr; 上一章</span><span class="pn-title">半导体制造与设备</span></a>
+      <a class="pn-btn pn-next" href="ch04-upstream.html"><span class="pn-label">下一章 &rarr;</span><span class="pn-title">上游材料</span></a>
+    </div>
+    <div class="insight" style="margin-bottom:8px;"><strong>章节导航：</strong>共17章完整产业链 · <a href="index.html">返回总览</a></div>
+  </section>
+
+  <div class="footer">
+    <div class="footer-text">数据来源（实时搜索，2026年5月）：Synopsys/Cadence财报 &middot; Arm IPO文件 &middot; NVIDIA GTC &middot; MLCommons &middot; 各公司公告<br><br>⚠ 本报告数据基于公开信息整理，不构成投资建议。</div>
+  </div>
+
+</div>
+
+<script src="theme-toggle.js"></script>
+<script src="nav.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIinfra Map · CH13 · AI应用层</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.chapter-tag{background:var(--accent-green)}
+.hero-title em{color:var(--accent-green)}
+.flow-node:hover{border-color:var(--accent-green)}
+.insight{background:var(--accent-green-light);border:1px solid rgba(0,0,0,.15)}
+.insight strong{color:var(--accent-green)}
+</style>
+</head>
+<body class="dark">
+<div class="wrap">
+<header class="site-header">
+    <div class="logo">AIinfra <span>/</span> Map</div>
+        <nav class="header-nav" id="mainNav"></nav>
+    <div class="header-right">
+      <div class="header-meta"><span><span class="dot"></span>数据截至 2026.05 · 共17章</span></div>
+      <div class="theme-switcher" id="themeSwitcher">
+        <button class="theme-btn" data-theme="light" title="浅色主题"><span class="dot-inner light"></span><span>浅色</span></button>
+        <button class="theme-btn" data-theme="dark" title="深色主题"><span class="dot-inner dark"></span><span>深色</span></button>
+      </div>
+      <button class="nav-collapse-btn" id="navCollapseBtn" title="收起导航" aria-label="收起导航"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 8L6 4L10 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="mobile-hamburger" id="mobileHamburger" aria-label="打开菜单"><svg width="18" height="14" viewBox="0 0 18 14" fill="none"><rect y="1" width="18" height="2" rx="1" fill="currentColor"/><rect y="6" width="18" height="2" rx="1" fill="currentColor"/><rect y="11" width="18" height="2" rx="1" fill="currentColor"/></svg></button>
+    </div>
+  </header>
+<!-- Mobile Nav -->
+  <div id="mobileNavMount"></div>
+<section class="hero">
+    <div class="hero-eyebrow"><span class="chapter-tag">CH13 · AI应用层</span></div>
+    <h1 class="hero-title">AI应用层<br><em>云厂商CapEx与应用投资逻辑</em></h1>
+    <p class="hero-subtitle">五大云厂商$750-800B CapEx · 应用层投资框架 · 终局思考</p>
+    <div class="hero-metrics">
+      <div class="metric"><span class="metric-value green">$750-800B</span><span class="metric-label">五大云厂商CapEx 2026</span></div>
+      <div class="metric"><span class="metric-value gold">+36%</span><span class="metric-label">CapEx同比增长</span></div>
+      <div class="metric"><span class="metric-value accent">~75%</span><span class="metric-label">直接用于AI基础设施</span></div>
+      <div class="metric"><span class="metric-value">$560-600B</span><span class="metric-label">AI基础设施投资</span></div>
+      <div class="metric"><span class="metric-value purple">45-57%</span><span class="metric-label">部分公司资本密集度</span></div>
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">AI基础设施投资终局 — 全产业链价值分布</h2>
+      <span class="section-sub">谁是最大赢家 · 短期中期长期机会</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-green-light);">🌍</div>
+        <div class="sector-title-group">
+          <div class="sector-title">AI基础设施产业链全景终局图</div>
+          <div class="sector-desc">从砂子到AI应用的完整产业链，分析各环节的价值分布与投资机会。</div>
+        </div>
+        <span class="sector-badge badge-green">需求端</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>各阶段价值分布</h4>
+            <p class="concept-text"><strong>短期（2024-2026年）最大赢家：</strong>算力层（GPU/封装/存储）。NVIDIA数据中心业务季度收入$35B+，CoWoS产能供不应求，SK hynix HBM3E售罄至2026年。</p>
+            <p class="concept-text"><strong>中期（2026-2028年）加速受益：</strong>基础设施层（电力/散热/网络）。Vertiv订单增长60% YoY，液冷市场$870M→$10.7B（CAGR 51.93%），中际旭创1.6T全球领先。</p>
+            <p class="concept-text"><strong>长期（2028+年）最大空间：</strong>应用层（Agent/大模型/垂直AI SaaS）。大模型能力提升→AI应用爆发→企业软件AI化→用户付费转化。</p>
+            <p class="concept-text"><strong>谁是最大赢家：</strong>综合来看，NVIDIA（算力垄断+CUDA生态）和台积电（先进制程+CoWoS）是AI基础设施时代最确定的赢家。SK hynix（HBM龙头）和Vertiv（基础设施层）是各自细分领域的绝对龙头。</p>
+          </div>
+          <div class="col">
+            <h4>投资时间轴</h4>
+            <table class="compare-table">
+              <thead>
+                <tr><th>时间阶段</th><th>核心受益者</th><th>投资逻辑</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>2024-2026年</strong></td><td>NVIDIA/台积电/SK hynix</td><td><span class="tag tag-green">算力爆发</span> 芯片短缺</td></tr>
+                <tr><td><strong>2026-2028年</strong></td><td>Vertiv/英维克/中际旭创</td><td><span class="tag tag-teal">基础设施</span> 扩张加速</td></tr>
+                <tr><td><strong>2028+年</strong></td><td>SaaS+AI/大模型公司</td><td><span class="tag tag-gold">应用落地</span> 变现加速</td></tr>
+                <tr><td><strong>持续（贯穿全周期）</strong></td><td>电力/能源公司</td><td><span class="tag tag-red">物理瓶颈</span> 电力约束</td></tr>
+              </tbody>
+            </table>
+            <h4 style="margin-top:14px;">周期风险提示</h4>
+            <p class="concept-text">AI基础设施有明显周期：2024-2025年是超级景气上行，2026年需观察CapEx是否持续扩张。若AI变现不及预期（模型能力提升放缓、用户付费意愿低），CapEx可能削减，周期反转。</p>
+          </div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <section class="section" id="sec-capex">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">五大云厂商资本开支 — AI基础设施需求引擎</h2>
+      <span class="section-sub">$750-800B CapEx · 同比增长36% · 约75%用于AI基础设施</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-gold-light);">☁️</div>
+        <div class="sector-title-group">
+          <div class="sector-title">五大云厂商2026年CapEx详解</div>
+          <div class="sector-desc">五大云/AI基础设施厂商合计资本开支约$750-$800B，同比增长约36%，是整个AI基础设施产业链的需求引擎。</div>
+        </div>
+        <span class="sector-badge badge-gold">需求端</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>板块概念解析</h4>
+            <p class="concept-text">五大云/AI基础设施厂商2026年合计资本开支约<strong>$750-$800B</strong>，同比增长约36%。约<strong>75%（$560-600B）</strong>直接用于AI基础设施（GPU服务器、数据中心建设、网络设备）。</p>
+            <p class="concept-text"><strong>Amazon（AWS）：</strong>2026年约$200B CapEx，主要投向Trainium自研芯片（新一代Trainium3）+ Graviton服务器 + 全球数据中心扩张（尤其AI专用数据中心）。AWS是全球最大云厂商，正在追赶Microsoft/Google的AI能力。</p>
+            <p class="concept-text"><strong>Alphabet（Google）：</strong>约$185B CapEx，TPU v5+AI超级计算机（TPU集群）+ 全球数据中心扩建。Google在AI搜索（AI Overview）和Gemini大模型上投入巨大。</p>
+            <p class="concept-text"><strong>Microsoft（Azure）：</strong>约$190B CapEx，NVIDIA GB200集群（全球最大GPU集群之一）+ AI基础设施（OpenAI深度合作，Stargate项目）+ 企业级AI服务。</p>
+            <p class="concept-text"><strong>Meta：</strong>约$135B CapEx，Llama大模型训练基础设施 + AI推荐系统升级（Reels/广告AI）+ Reality Labs（MR头显+AI）。</p>
+            <p class="concept-text"><strong>Oracle：</strong>约$50B CapEx，Stargate项目（AI数据中心，与OpenAI合作，100GW+目标），Oracle Cloud Infastructure (OCI)扩张。</p>
+          </div>
+          <div class="col">
+            <h4>关键数据</h4>
+            <div class="stats-grid">
+              <div class="cstat"><div class="cstat-lbl">五大云厂商CapEx 2026</div><div class="cstat-val green">$750-800B</div></div>
+              <div class="cstat"><div class="cstat-lbl">AI基础设施占比</div><div class="cstat-val up">~75%</div></div>
+              <div class="cstat"><div class="cstat-lbl">同比增长</div><div class="cstat-val up">+36% YoY</div></div>
+              <div class="cstat"><div class="cstat-lbl">部分公司资本密集度</div><div class="cstat-val gold">45-57%收入</div></div>
+              <div class="cstat"><div class="cstat-lbl">AWS 2026 CapEx</div><div class="cstat-val">约$200B</div></div>
+              <div class="cstat"><div class="cstat-lbl">Google 2026 CapEx</div><div class="cstat-val">约$185B</div></div>
+              <div class="cstat"><div class="cstat-lbl">Microsoft 2026 CapEx</div><div class="cstat-val">约$190B</div></div>
+              <div class="cstat"><div class="cstat-lbl">Meta 2026 CapEx</div><div class="cstat-val">约$135B</div>
+    </div>
+  </div>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">AMZN</span>
+              <span class="stock-name">Amazon</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">AWS $200B CapEx</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">GOOGL</span>
+              <span class="stock-name">Alphabet/Google</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">GCP $185B CapEx</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">MSFT</span>
+              <span class="stock-name">Microsoft</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">Azure $190B CapEx</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">META</span>
+              <span class="stock-name">Meta</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">Llama $135B CapEx</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">ORCL</span>
+              <span class="stock-name">Oracle</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">Stargate $50B CapEx</span>
+            </div>
+    </div>
+  </div>
+        <div class="risks-box">
+          <div class="risks-title">风险提示</div>
+          <div class="risk-item">CapEx规模引发市场对ROI担忧（部分投资者担心AI泡沫）</div>
+          <div class="risk-item">若AI变现不及预期（模型能力提升放缓、用户付费意愿低），CapEx可能削减</div>
+          <div class="risk-item">自研芯片（Nvidia以外的TPU/Trainium/Maia）降低对NVIDIA依赖（长期）</div>
+          <div class="risk-item">电力/土地/许可等物理约束限制数据中心产能</div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <section class="section" id="sec-applications">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">AI应用层投资逻辑 — SaaS+AI与原生AI应用</h2>
+      <span class="section-sub">PMF验证 · 货币化能力 · 数据护城河</span>
+    </div>
+    <div class="sector">
+      <div class="sector-head">
+        <div class="sector-icon" style="background:var(--accent-purple-light);">🚀</div>
+        <div class="sector-title-group">
+          <div class="sector-title">AI应用层 — SaaS+AI与原生AI应用</div>
+          <div class="sector-desc">AI应用层是大模型能力向最终用户和企业的落地，是整个AI价值链的最终变现环节。</div>
+        </div>
+        <span class="sector-badge badge-purple">应用层</span>
+      </div>
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>直接受益层 — SaaS+AI</h4>
+            <p class="concept-text"><strong>Salesforce（CRM）：</strong>Einstein AI平台，AI CRM，Agentforce代理平台（2024年10月发布），AI助手可自动处理客服、销售预测等任务。Salesforce AI收入增长迅速，Agentforce是下一代CRM核心方向。</p>
+            <p class="concept-text"><strong>ServiceNow（NOW）：</strong>Now Assist AI助手，IT服务自动化，流程挖掘+AI自动化，将IT服务处理时间缩短50%+。</p>
+            <p class="concept-text"><strong>Snowflake（SNOW）：</strong>Cortex AI数据智能，大模型训练数据管理， Mosaic AI训练平台，数据是企业AI的护城河。</p>
+            <p class="concept-text"><strong>Palantir（PLTR）：</strong>AIP（AI Platform）政府+企业AI决策，GOTHAM（政府情报分析）+FOUNDRY（企业数据平台），2024年收入增长约20%。</p>
+            <p class="concept-text"><strong>Atlassian（WORK）：</strong>Rovo AI助手（2024年推出），AI+协作工具，Jira/Confluence AI集成。</p>
+          </div>
+          <div class="col">
+            <h4>原生AI应用</h4>
+            <p class="concept-text"><strong>OpenAI：</strong>ChatGPT（2亿+月活用户），GPT-4o（多模态实时交互），GPT Store生态，API收入增长迅速（开发者生态）。</p>
+            <p class="concept-text"><strong>Anthropic：</strong>Claude企业版（2024年推出），Constitutional AI安全路线，企业用户增长迅速。</p>
+            <p class="concept-text"><strong>xAI：</strong>Grok大模型，X平台集成，马斯克旗下AI公司，目标训练最大AI模型。</p>
+            <p class="concept-text"><strong>垂直AI应用：</strong>Abridge（医疗记录AI，语音转结构化医疗记录）， Harvey AI（法律AI），Runway（AI视频生成），Midjourney（AI图像生成）。</p>
+            <p class="concept-text"><strong>推理模型与智能体（Reasoning & Agents）：</strong>以 OpenAI o1/o3 及 DeepSeek R1 为代表的推理模型在推理端堆叠算力（Test-Time Compute），通过强化学习在后台进行“思考”。这一范式转移极大提升了 AI 处理复杂数学、物理、代码逻辑的精度，推动了企业级 AI 从简单的“Copilot（副驾驶）”向能够完全自主工作的“Agent（智能体）”阶段跨越。</p>
+            <h4 style="margin-top:14px;">投资标的</h4>
+            <div class="stock-item">
+              <span class="stock-ticker">CRM</span>
+              <span class="stock-name">Salesforce</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">AI CRM+Agentforce</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">NOW</span>
+              <span class="stock-name">ServiceNow</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">AI IT服务自动化</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">SNOW</span>
+              <span class="stock-name">Snowflake</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">AI数据平台</span>
+            </div>
+            <div class="stock-item">
+              <span class="stock-ticker">PLTR</span>
+              <span class="stock-name">Palantir</span>
+              <span class="stock-exch exch-us">美股</span>
+              <span class="stock-note">政府+企业AI决策</span>
+            </div>
+    </div>
+  </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="sec-logic-final">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">完整投资逻辑总结 — AI基础设施全景</h2>
+      <span class="section-sub">10章完整产业链 · 核心标的 · 风险 · 终局</span>
+    </div>
+    <div class="sector">
+      <div class="sector-body">
+        <div class="body-grid">
+          <div class="col">
+            <h4>全产业链核心标的</h4>
+            <p class="concept-text"><strong>第一章 · 全景图：</strong>理解整个AI基础设施的价值链传导关系。</p>
+            <p class="concept-text"><strong>第二章 · 上游材料（CCL/PCB/铜箔）：</strong>鹏鼎控股(002938.SZ)、生益科技(600183.SH)、台光电子(3045.TW)。AI驱动PCB层数从12层→40层+，单价3-5倍溢价。</p>
+            <p class="concept-text"><strong>第三章 · AI芯片：</strong>NVIDIA（NVDA）、AMD（AMD）、Broadcom（AVGO）。NVIDIA CUDA生态护城河，ASIC定制浪潮。</p>
+            <p class="concept-text"><strong>第四章 · 存储（HBM/NAND/DDR5）：</strong>SK hynix（000660.KRX）、Micron（MU）、Samsung（005930.KRX）。HBM是GPU必需品，SK hynix 62%市占领先。</p>
+            <p class="concept-text"><strong>第五章 · 先进封装：</strong>TSMC（TSM）、ASE（ASX）、长电科技(600584.SH)。CoWoS产能是AI算力扩张瓶颈。</p>
+            <p class="concept-text"><strong>第六章 · 光模块/互联：</strong>中际旭创(300308.SZ)、Coherent（COHR）、Lumentum（LITE）。1.6T全球领先。</p>
+            <p class="concept-text"><strong>第七章 · 服务器：</strong>鸿海(2319.TW)、广达(2382.TW)、Dell（DELL）。ODM 40%份额，品牌厂商服务溢价。</p>
+            <p class="concept-text"><strong>第八章 · 电力：</strong>Vertiv（VRT）、Eaton（ETN）、onsemi（ON）。电力是物理瓶颈，Vertiv订单+60%。</p>
+            <p class="concept-text"><strong>第九章 · 液冷：</strong>Vertiv（VRT）、Asetek（ASETEK）、英维克(002837.SZ)。液冷$870M→$10.7B，12倍超级成长。</p>
+            <p class="concept-text"><strong>第十章 · 应用层：</strong>Salesforce（CRM）、ServiceNow（NOW）、Snowflake（SNOW）。变现环节，长期最大空间。</p>
+          </div>
+          <div class="col">
+            <h4>终局思考与关键风险</h4>
+            <p class="concept-text"><strong>谁是最大赢家：</strong>NVIDIA（短期垄断+CUDA护城河）和SK hynix（HBM龙头）是AI时代最确定的赢家。Vertiv（基础设施层）和中际旭创（光模块）是各自细分领域的绝对龙头。</p>
+            <p class="concept-text"><strong>周期风险：</strong>AI基础设施有明显周期，2024-2025年是超级景气上行，2026年需观察CapEx是否持续扩张。若AI变现不及预期，CapEx可能削减。</p>
+            <p class="concept-text"><strong>地缘政治：</strong>台湾（半导体）、韩国（存储）、美国（芯片设计）各自面临地缘风险，多元化供应链是关键。</p>
+            <p class="concept-text"><strong>技术路线风险：</strong>液冷vs风冷、CoWoS vs Chiplet、InfiniBand vs RoCE——押注错误技术路线可能导致投资损失。</p>
+            <p class="concept-text"><strong>估值风险：</strong>NVDA市值$400B+，对应FY2026预期PE 30-40倍，估值较高。成长股在利率上升周期中面临估值压力。</p>
+            <p class="concept-text"><strong>最终结论：</strong>AI基础设施是一个5-10年的超级周期，NVIDIA是核心受益者，SK hynix是存储层首选，Vertiv是基础设施层首选，中国厂商在PCB/CCL/光模块/液冷领域有成本优势和市场机会。</p>
+          </div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+  <!-- 投资要点卡片 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">投资要点</h2>
+      <span class="section-sub">本章核心投资逻辑 · 仅供参考</span>
+    </div>
+    <div class="inv-card" id="inv-card" style="margin-top:0">
+      <div class="inv-card-body">
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">核心驱动因素</div>
+            <div class="inv-col-val">云厂商超级CapEx支出保障算力底座；企业SaaS与AI Agent落地加速；产品变现（Copilot等）初具成效</div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">关键风险</div>
+            <div class="inv-col-val">AI投资回报率（ROI）验证周期长；变现不及预期将导致CapEx下调；开源大模型对闭源商业模式的挤压</div>
+          </div>
+        </div>
+        <div class="inv-row">
+          <div class="inv-col">
+            <div class="inv-col-label">受益方向</div>
+            <div class="inv-tickers"><span>MSFT（商业化先锋）</span><span>CRM（AI智能体生态）</span><span>NOW（工作流AI）</span></div>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-label">风险暴露</div>
+            <div class="inv-col-val">传统软件授权模式遭AI智能体蚕食；大算力研发成本持续高企挤压利润空间</div>
+          </div>
+        </div>
+        <div class="inv-catalyst">
+          <div class="inv-col-label">近期催化剂</div>
+          <div class="inv-col-val">Salesforce Agentforce活跃用户与订阅收入公布；微软Copilot最新付费渗透率数据</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">章节导航</h2>
+    </div>
+    <div class="prev-next-nav">
+      <a class="pn-btn pn-prev" href="ch12-datacenter.html">
+        <span class="pn-label">&larr; 上一章</span>
+        <span class="pn-title">数据中心基础设施</span>
+      </a>
+      <a class="pn-btn pn-next" href="ch14-risk.html">
+        <span class="pn-label">下一章 &rarr;</span>
+        <span class="pn-title">风险因素</span>
+      </a>
+    </div>
+    <div class="insight" style="margin-bottom:8px;"><strong>章节导航：</strong>共17章完整产业链 · <a href="index.html">返回总览</a></div>
+  </section>
+
+  
+<div class="footer">
+    <div class="footer-text">数据来源（实时搜索，2026年5月）：NVIDIA官方 &middot; AMD官方 &middot; Intel官方 &middot; Goldman Sachs Research &middot; Counterpoint Research &middot; TrendForce &middot; SemiAnalysis &middot; 各公司财报及公告<br><br>⚠ 本报告数据基于公开信息整理，不构成投资建议。所有投资标的请自行判断风险。数据可能有误差，欢迎反馈指正。</div>
+</div>
+
+<script src="theme-toggle.js"></script>
+<script src="nav.js"></script>
+
+
+
+
+</div>
+</div>
+</body>
+</html>
