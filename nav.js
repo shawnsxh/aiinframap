@@ -51,10 +51,11 @@
     selectorLabel = 'CH' + chNum + ' · ' + currentLink.label;
   }
 
-  // ── 1. Inject Desktop Header Selector ──────────────────────────────
+  // ── 1. Inject Header Selector + Dropdown ────────────────────────
   var mainNav = document.getElementById('mainNav');
   if (mainNav) {
     var html = '';
+    html += '<div class="nav-dropdown-wrap">';
     // prev arrow
     html += '<a class="nav-arrow nav-prev-arrow" href="' + prevLink.href + '" title="上一章: ' + prevLink.label + '">' +
             '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 11L4 7L9 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
@@ -68,10 +69,26 @@
     html += '<a class="nav-arrow nav-next-arrow" href="' + nextLink.href + '" title="下一章: ' + nextLink.label + '">' +
             '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 11L10 7L5 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
             '</a>';
+    // dropdown
+    html += '<div class="nav-dropdown" id="navDropdown">' +
+      '<div class="nav-dropdown-header">' +
+        '<span class="nav-dropdown-title">章节导航 · 共17章</span>' +
+        '<button class="nav-dropdown-close" id="navDropdownClose" aria-label="关闭">' +
+          '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1L11 11M11 1L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>' +
+        '</button>' +
+      '</div>' +
+      '<div class="nav-dropdown-list">';
+    for (var i = 0; i < NAV_LINKS.length; i++) {
+      var link = NAV_LINKS[i];
+      var isActive = link.href === current;
+      var chPrefix = i > 0 ? '<span class="dd-num">CH' + (i < 10 ? '0' + i : i) + '</span>' : '<span class="dd-num">INDEX</span>';
+      html += '<a href="' + link.href + '" class="nav-dd-item' + (isActive ? ' active' : '') + '">' + chPrefix + '<span class="dd-label">' + link.label + '</span></a>';
+    }
+    html += '</div></div></div>';
     mainNav.innerHTML = html;
   }
 
-  // ── Make Logo Clickable ──────────────────────────────────────────
+  // ── 2. Make Logo Clickable ──────────────────────────────────────────
   var logo = document.querySelector('.logo');
   if (logo) {
     logo.style.cursor = 'pointer';
@@ -80,79 +97,41 @@
     });
   }
 
-  // ── 2. Inject Grid Overlay ──────────────────────────────────────
-  var overlay = document.getElementById('globalNavGridOverlay');
-  if (!overlay) {
-    overlay = document.createElement('div');
-    overlay.id = 'globalNavGridOverlay';
-    overlay.className = 'global-nav-grid-overlay';
-    document.body.appendChild(overlay);
-  }
+  // ── 3. Dropdown Toggle ─────────────────────────────────────────────
+  function initDropdown() {
+    var pill = document.getElementById('navSelectorPill');
+    var dd = document.getElementById('navDropdown');
+    var close = document.getElementById('navDropdownClose');
+    if (!pill || !dd) return;
 
-  overlay.innerHTML = 
-    '<div class="global-nav-grid-card">' +
-      '<div class="global-nav-grid-header">' +
-        '<span class="global-nav-grid-title">章节总览</span>' +
-        '<button class="global-nav-grid-close" id="globalNavGridClose" aria-label="关闭">' +
-          '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1L11 11M11 1L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>' +
-        '</button>' +
-      '</div>' +
-      '<div class="global-nav-grid-list">' +
-        NAV_LINKS.map(function(link, index) {
-          var isActive = link.href === current;
-          var chPrefix = '';
-          if (index > 0) {
-            var chNum = index < 10 ? '0' + index : index;
-            chPrefix = '<span class="grid-item-num">CH' + chNum + '</span>';
-          } else {
-            chPrefix = '<span class="grid-item-num">INDEX</span>';
-          }
-          return '<a href="' + link.href + '" class="grid-item-card' + (isActive ? ' active' : '') + '">' +
-                   chPrefix +
-                   '<span class="grid-item-label">' + link.label + '</span>' +
-                 '</a>';
-        }).join('') +
-      '</div>' +
-    '</div>';
+    function closeDropdown() { dd.classList.remove('open'); }
 
-  // ── 3. Toggle Logic ─────────────────────────────────────────────
-  function initOverlayEvents() {
-    var pill  = document.getElementById('navSelectorPill');
-    var close = document.getElementById('globalNavGridClose');
+    pill.addEventListener('click', function(e) {
+      e.stopPropagation();
+      dd.classList.toggle('open');
+    });
 
-    if (!pill || !overlay) return;
+    if (close) close.addEventListener('click', function(e) {
+      e.stopPropagation();
+      closeDropdown();
+    });
 
-    function openOverlay() {
-      overlay.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeOverlay() {
-      overlay.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-
-    pill.addEventListener('click', openOverlay);
-    if (close) close.addEventListener('click', closeOverlay);
-
-    overlay.addEventListener('click', function(e) {
-      if (e.target === overlay) {
-        closeOverlay();
+    document.addEventListener('click', function(e) {
+      var wrap = document.querySelector('.nav-dropdown-wrap');
+      if (wrap && !wrap.contains(e.target)) {
+        closeDropdown();
       }
     });
 
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && overlay.classList.contains('open')) {
-        closeOverlay();
-      }
+      if (e.key === 'Escape') closeDropdown();
     });
   }
 
-  // ── Init after DOM ready ─────────────────────────────────────────
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initOverlayEvents);
+    document.addEventListener('DOMContentLoaded', initDropdown);
   } else {
-    initOverlayEvents();
+    initDropdown();
   }
 
 })();
