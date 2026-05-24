@@ -383,7 +383,6 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 .site-header {
   padding: 8px 40px;
 }
-}
 
 @media(max-width: 860px) {
   .site-header {
@@ -393,6 +392,34 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
   .theme-switcher {
     display: flex !important;
   }
+  .nav-adjacent-pill, .nav-sep {
+    display: none;
+  }
+}
+
+@media(min-width: 861px) {
+  .header-right {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0;
+    padding: 4px 0;
+  }
+  .theme-switcher {
+    order: 1;
+  }
+}
+
+.header-meta {
+  display: none;
+}
+
+/* ─── Page meta (injected by nav.js into footer) ─── */
+.page-meta-inline {
+  float: right;
+  margin-left: 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--text-4);
 }
 
 @media(max-width: 600px) {
@@ -433,6 +460,8 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
   max-height: none !important;
   overflow: visible !important;
   opacity: 1 !important;
+  flex: 1;
+  justify-content: center;
 }
 
 .nav-arrow {
@@ -486,6 +515,50 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 
 .nav-selector-pill:hover .nav-selector-arrow {
   stroke: #fff;
+}
+
+/* ─── Nav pills row ─── */
+.nav-pills-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-adjacent-pill {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-3);
+  text-decoration: none;
+  font-family: 'DM Sans', sans-serif;
+  transition: all .12s;
+  white-space: nowrap;
+}
+
+.nav-adjacent-pill:hover {
+  background: var(--surface-1);
+  color: var(--text-1);
+}
+
+.nav-adjacent-pill .adj-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--text-4);
+  margin-right: 3px;
+}
+
+.nav-adjacent-pill:hover .adj-num {
+  color: var(--text-2);
+}
+
+.nav-sep {
+  color: var(--text-4);
+  font-size: 11px;
+  flex-shrink: 0;
+  user-select: none;
 }
 
 /* ================================================================

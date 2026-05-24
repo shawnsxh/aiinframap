@@ -1,6 +1,6 @@
 // ================================================================
-// NAV.JS — Shared Navigation Selector + Grid Overlay + Theme Sync
-// AIinfra Map · Replaces old navigation bar with unified header selector
+// NAV.JS — Shared Navigation Selector + Dropdown
+// AIinfra Map · Injects header pill + adjacent chapters + dropdown nav
 // ================================================================
 
 (function () {
@@ -28,22 +28,17 @@
   ];
 
   var current = location.pathname.split('/').pop() || 'index.html';
-  
-  // Find current index
+
   var currentIndex = NAV_LINKS.findIndex(function(link) {
     return link.href === current;
   });
-  if (currentIndex === -1) {
-    currentIndex = 0;
-  }
+  if (currentIndex === -1) currentIndex = 0;
 
-  // Pre/Next navigation targets
   var prevIndex = (currentIndex - 1 + NAV_LINKS.length) % NAV_LINKS.length;
   var prevLink = NAV_LINKS[prevIndex];
   var nextIndex = (currentIndex + 1) % NAV_LINKS.length;
   var nextLink = NAV_LINKS[nextIndex];
 
-  // Current formatted label
   var currentLink = NAV_LINKS[currentIndex];
   var selectorLabel = currentLink.label;
   if (currentIndex > 0) {
@@ -56,27 +51,30 @@
   if (mainNav) {
     var html = '';
     html += '<div class="nav-dropdown-wrap">';
-    // prev arrow
     html += '<a class="nav-arrow nav-prev-arrow" href="' + prevLink.href + '" title="上一章: ' + prevLink.label + '">' +
-            '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 11L4 7L9 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-            '</a>';
-    // selector pill
+            '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 11L4 7L9 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>';
+
+    var adjLabel = function(idx) {
+      if (idx === 0) return '<span class="adj-num">INDEX</span>全部章节';
+      var n = idx < 10 ? '0' + idx : idx;
+      return '<span class="adj-num">CH' + n + '</span>' + NAV_LINKS[idx].label;
+    };
+    html += '<div class="nav-pills-row">';
+    html += '<a class="nav-adjacent-pill" href="' + prevLink.href + '" title="上一章: ' + prevLink.label + '">' + adjLabel(prevIndex) + '</a>';
+    html += '<span class="nav-sep">·</span>';
     html += '<button class="nav-selector-pill" id="navSelectorPill">' +
             '<span class="nav-selector-label">' + selectorLabel + '</span>' +
-            '<svg class="nav-selector-arrow" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-            '</button>';
-    // next arrow
+            '<svg class="nav-selector-arrow" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
+    html += '<span class="nav-sep">·</span>';
+    html += '<a class="nav-adjacent-pill" href="' + nextLink.href + '" title="下一章: ' + nextLink.label + '">' + adjLabel(nextIndex) + '</a>';
+    html += '</div>';
     html += '<a class="nav-arrow nav-next-arrow" href="' + nextLink.href + '" title="下一章: ' + nextLink.label + '">' +
-            '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 11L10 7L5 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-            '</a>';
-    // dropdown
+            '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 11L10 7L5 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>';
     html += '<div class="nav-dropdown" id="navDropdown">' +
       '<div class="nav-dropdown-header">' +
         '<span class="nav-dropdown-title">章节导航 · 共17章</span>' +
         '<button class="nav-dropdown-close" id="navDropdownClose" aria-label="关闭">' +
-          '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1L11 11M11 1L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>' +
-        '</button>' +
-      '</div>' +
+          '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1L11 11M11 1L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>' +
       '<div class="nav-dropdown-list">';
     for (var i = 0; i < NAV_LINKS.length; i++) {
       var link = NAV_LINKS[i];
@@ -95,6 +93,15 @@
     logo.addEventListener('click', function () {
       window.location.href = 'index.html';
     });
+  }
+
+  // ── Inject page meta into footer ─────────────────────────────
+  var footerText = document.querySelector('.footer-text');
+  if (footerText) {
+    var pageMeta = document.createElement('span');
+    pageMeta.className = 'page-meta-inline';
+    pageMeta.textContent = '数据截至 2026.05';
+    footerText.appendChild(pageMeta);
   }
 
   // ── 3. Dropdown Toggle ─────────────────────────────────────────────
