@@ -46,7 +46,6 @@
     selectorLabel = 'CH' + chNum + ' · ' + currentLink.label;
   }
 
-  // ── 1. Inject Header Selector + Dropdown ────────────────────────
   var mainNav = document.getElementById('mainNav');
   if (mainNav) {
     var html = '';
@@ -86,7 +85,6 @@
     mainNav.innerHTML = html;
   }
 
-  // ── 2. Make Logo Clickable ──────────────────────────────────────────
   var logo = document.querySelector('.logo');
   if (logo) {
     logo.style.cursor = 'pointer';
@@ -95,7 +93,6 @@
     });
   }
 
-  // ── Inject page meta into footer ─────────────────────────────
   var footerText = document.querySelector('.footer-text');
   if (footerText) {
     var pageMeta = document.createElement('span');
@@ -104,7 +101,6 @@
     footerText.appendChild(pageMeta);
   }
 
-  // ── 3. Dropdown Toggle ─────────────────────────────────────────────
   function initDropdown() {
     var pill = document.getElementById('navSelectorPill');
     var dd = document.getElementById('navDropdown');
@@ -132,6 +128,14 @@
 
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') closeDropdown();
+      if (e.key === 'ArrowLeft') {
+        var pa = document.querySelector('.nav-prev-arrow');
+        if (pa && pa.href) window.location.href = pa.href;
+      }
+      if (e.key === 'ArrowRight') {
+        var na = document.querySelector('.nav-next-arrow');
+        if (na && na.href) window.location.href = na.href;
+      }
     });
   }
 

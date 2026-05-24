@@ -303,12 +303,6 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
   .header-nav{overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;max-height:none}
   .header-nav::-webkit-scrollbar{display:none}
   .compare-table{font-size:11px}
-  /* Mobile chapter list: compact footer nav */
-  .mobile-toc{display:flex;flex-wrap:wrap;gap:8px;padding:16px 0;border-top:1px solid var(--border-light);margin-top:8px}
-  .mobile-toc-label{width:100%;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-4);margin-bottom:4px}
-  .mobile-toc-item{font-family:'DM Mono',monospace;font-size:10px;padding:4px 10px;background:var(--surface-1);border:1px solid var(--border-light);border-radius:14px;color:var(--text-3);text-decoration:none;transition:all .15s}
-  .mobile-toc-item:hover{background:var(--accent-light);color:var(--accent);border-color:var(--accent)}
-  .mobile-toc-item span{font-size:8px;opacity:.7}
 }
 
 /* ================================================================
@@ -324,8 +318,6 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 .pn-next .pn-label{text-align:right}
 .pn-end{flex:1;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;color:var(--text-4);background:var(--surface-1);border:1px solid var(--border-light);border-radius:10px;padding:16px 20px}
 
-/* Desktop: hide mobile TOC */
-@media(min-width:601px){.mobile-toc{display:none}}
 @media(max-width:600px){.prev-next-nav{gap:10px}.pn-btn{padding:12px 14px}.pn-title{font-size:13px}}
 
 /* ================================================================
@@ -359,17 +351,6 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
   .card-grid{grid-template-columns:1fr}
   .company-stat{grid-template-columns:1fr 1fr}
 }
-
-/* ================================================================
-   Search
-   ================================================================ */
-.search-wrap{display:flex;align-items:center;gap:10px;margin-bottom:20px}
-.search-input{flex:1;max-width:480px;padding:9px 16px;border:1px solid var(--border);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text-1);background:var(--card-bg);outline:none;transition:border-color .2s}
-.search-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-light)}
-.search-input::placeholder{color:var(--text-4)}
-.search-clear{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);cursor:pointer;border:none;background:none;padding:4px 8px;display:none}
-.search-clear.visible{display:inline}
-.chapter-card.hidden{display:none}
 
 /* ================================================================
    Unified Header Nav Pill & Grid Overlay
